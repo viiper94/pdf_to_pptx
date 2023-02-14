@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 import collections.abc
 from pptx import Presentation
 from pptx.util import Inches
@@ -7,6 +8,10 @@ from pdf2image import convert_from_path
 from io import BytesIO
 
 def pdf_to_pptx(pdf_file):
+
+    # Saving start timestamp
+    start = time.time()
+
     # Get the file name without the extension
     file_name = os.path.splitext(pdf_file)[0]
     
@@ -44,10 +49,16 @@ def pdf_to_pptx(pdf_file):
     # Save the PowerPoint presentation
     prs.save(file_name + '.pptx')
 
+    # Saving end timestamp
+    end = time.time()
+
     print("Конвертування завершено!")
+    print(f"Витрачено часу: {end - start:.2f}с")
     
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: pdf_to_pptx.exe <pdf_file>")
+        time.sleep(3)
     else:
         pdf_to_pptx(sys.argv[1])
+        time.sleep(3)
