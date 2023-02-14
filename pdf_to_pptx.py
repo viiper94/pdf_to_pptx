@@ -5,6 +5,7 @@ import collections.abc
 from pptx import Presentation
 from pptx.util import Inches
 from pdf2image import convert_from_path
+from pdf2image import pdfinfo_from_path
 from io import BytesIO
 
 def pdf_to_pptx(pdf_file):
@@ -15,6 +16,17 @@ def pdf_to_pptx(pdf_file):
 
     # Gathering some data
     start = time.time()
+    cpu_count = os.cpu_count()
+    pdf = pdfinfo_from_path(pdf_file, poppler_path=path_prefix+'/poppler')
+    pages = pdf['Pages']
+    size = pdf['File size']
+
+    print("____________________________________")
+    print(f"Конвертуємо файл {pdf_file}")
+    print("Розмір файлу {:.2f} MB".format(int(size.split()[0]) / 10 ** 6))
+    print(f"Всього слайдів: {pages}")
+    print("Треба трохи зачекати, йде обробка файлу...")
+    print("Це може зайняти певний час, не закривайте це вікно...")
 
     # Get the file name without the extension
     file_name = os.path.splitext(pdf_file)[0]
@@ -55,6 +67,7 @@ def pdf_to_pptx(pdf_file):
     # Saving end timestamp
     end = time.time()
 
+    print("____________________________________")
     print("Конвертування завершено!")
     print(f"Витрачено часу: {end - start:.2f}с")
     
