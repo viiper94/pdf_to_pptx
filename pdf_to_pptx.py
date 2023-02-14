@@ -23,8 +23,8 @@ def pdf_to_pptx(pdf_file):
     os.mkdir(path_prefix+'/tmp')
 
     # Convert PDF to images
-    images = convert_from_path(pdf_file, 300, poppler_path=sys._MEIPASS+'/poppler')
-    
+    images = convert_from_path(pdf_file, 300, poppler_path=path_prefix+'/poppler', output_folder=path_prefix+'/tmp', thread_count=cpu_count)
+
     num_slides = len(images)
 
     print(f"Всього слайдів: {num_slides}")
