@@ -9,16 +9,19 @@ from io import BytesIO
 
 def pdf_to_pptx(pdf_file):
 
-    # Saving start timestamp
+    # Change path prefix for .exe
+    path_prefix = sys._MEIPASS
+    # path_prefix = '.'
+
+    # Gathering some data
     start = time.time()
 
     # Get the file name without the extension
     file_name = os.path.splitext(pdf_file)[0]
-    
-    print(f"Конвертуємо файл {pdf_file}...")
-    print("Треба трохи зачекати, йде обробка файлу...")
-    print("Це може зайняти певний час, не закривайте це вікно...")
-    
+
+    # creating dir for processed pdf slides
+    os.mkdir(path_prefix+'/tmp')
+
     # Convert PDF to images
     images = convert_from_path(pdf_file, 300, poppler_path=sys._MEIPASS+'/poppler')
     
@@ -28,7 +31,7 @@ def pdf_to_pptx(pdf_file):
     print("____________________________________")
 
     # Create a new PowerPoint presentation
-    prs = Presentation(sys._MEIPASS+"/template/default.pptx")
+    prs = Presentation(path_prefix+"/template/default.pptx")
     prs.slide_width = Inches(16)
     prs.slide_height = Inches(9)
 
