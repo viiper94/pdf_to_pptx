@@ -39,7 +39,6 @@ def pdf_to_pptx(pdf_file):
 
     num_slides = len(images)
 
-    print(f"Всього слайдів: {num_slides}")
     print("____________________________________")
 
     # Create a new PowerPoint presentation
@@ -56,10 +55,10 @@ def pdf_to_pptx(pdf_file):
         aspect_ratio = float(image.width) / float(image.height)
         if aspect_ratio > (16/9):
             height = int(Inches(16) / aspect_ratio)
-            picture = slide.shapes.add_picture(image_binary, 0, int((Inches(9) - height) / 2), height=height, width=Inches(16))
+            slide.shapes.add_picture(image_binary, 0, int((Inches(9) - height) / 2), height=height, width=Inches(16))
         else:
             width = int(Inches(9) * aspect_ratio)
-            picture = slide.shapes.add_picture(image_binary, int((Inches(16) - width) / 2), 0, height=Inches(9), width=width)
+            slide.shapes.add_picture(image_binary, int((Inches(16) - width) / 2), 0, height=Inches(9), width=width)
 
     # Save the PowerPoint presentation
     prs.save(file_name + '.pptx')
