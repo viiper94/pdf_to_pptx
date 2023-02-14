@@ -1,0 +1,6 @@
+/dist/*.pdf
+/dist/*.pptx
+/*.pdf
+/*.pptx
+/tmp
+/.idea/*
