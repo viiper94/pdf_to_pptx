@@ -82,7 +82,6 @@ def pdf_to_pptx(pdf_file):
     # Saving end timestamp
     end = time.time()
 
-    # print("____________________________________")
     sys.stdout.flush()
     print(Fore.GREEN + f"Конвертування файлу {pdf_file} завершено!")
     print(Fore.WHITE + f"Витрачено часу: {end - start:.2f}с")
