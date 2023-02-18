@@ -10,7 +10,7 @@ from pdf2image import pdfinfo_from_path
 from io import BytesIO
 
 def get_height_multiplier(pdf):
-    matches = re.findall(r'(\d+\.\d+)', pdf['Page size'])
+    matches = re.findall(r'(\d+\.?\d+)', pdf['Page size'])
     width = float(matches[0])
     height = float(matches[1])
     aspect = width/height
