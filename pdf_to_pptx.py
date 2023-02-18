@@ -35,7 +35,7 @@ def pdf_to_pptx(pdf_file):
     pages = pdf['Pages']
     size = pdf['File size']
 
-    print("____________________________________")
+    print(Fore.RESET + "____________________________________")
     print(f"Конвертуємо файл {pdf_file}")
     print(Fore.WHITE + "Розмір файлу {:.2f} MB".format(int(size.split()[0]) / 10 ** 6))
     print(Fore.WHITE + f"Всього слайдів: {pages}")
@@ -46,7 +46,8 @@ def pdf_to_pptx(pdf_file):
     file_name = os.path.splitext(pdf_file)[0]
 
     # creating dir for processed pdf slides
-    os.mkdir(path_prefix+'/tmp')
+    if not os.path.exists(path_prefix+'/tmp'):
+        os.mkdir(path_prefix+'/tmp')
 
     # Convert PDF to images
     images = convert_from_path(pdf_file, 300, poppler_path=path_prefix+'/poppler', output_folder=path_prefix+'/tmp', thread_count=cpu_count)
@@ -83,7 +84,7 @@ def pdf_to_pptx(pdf_file):
 
     # print("____________________________________")
     sys.stdout.flush()
-    print(Fore.GREEN + "Конвертування завершено!")
+    print(Fore.GREEN + f"Конвертування файлу {pdf_file} завершено!")
     print(Fore.WHITE + f"Витрачено часу: {end - start:.2f}с")
     
 if __name__ == "__main__":
