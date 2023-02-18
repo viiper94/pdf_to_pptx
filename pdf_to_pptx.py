@@ -18,6 +18,10 @@ def get_height_multiplier(pdf):
     aspect = width/height
     return 16/aspect
 
+def is_pdf_file(file_path):
+    _, extension = os.path.splitext(file_path)
+    return extension.lower() == ".pdf"
+
 def pdf_to_pptx(pdf_file):
 
     # Change path prefix for .exe
