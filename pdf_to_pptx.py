@@ -91,5 +91,16 @@ if __name__ == "__main__":
         print("Usage: pdf_to_pptx.exe <pdf_file>")
         time.sleep(3)
     else:
-        pdf_to_pptx(sys.argv[1])
+        for argv in sys.argv:
+
+            # Skipping first argument
+            if argv == sys.argv[0]:
+                continue
+
+            # Check if file is .pdf
+            if not is_pdf_file(argv):
+                print(Fore.RED + f"Файл {argv} не PDF документ. Пропускаємо!")
+            else:
+                pdf_to_pptx(argv)
+
         time.sleep(3)
