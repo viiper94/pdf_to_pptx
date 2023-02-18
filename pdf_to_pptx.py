@@ -89,7 +89,9 @@ def pdf_to_pptx(pdf_file):
     
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: pdf_to_pptx.exe <pdf_file>")
+        print("Щоб використовувати введіть в консолі:")
+        print(Fore.YELLOW + "pdf_to_pptx.exe <pdf_file> [, <pdf_file>]")
+        print(Fore.RESET + "Або перетягніть документ(и) на іконку програми")
         time.sleep(3)
     else:
         for argv in sys.argv:
