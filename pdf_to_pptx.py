@@ -8,6 +8,8 @@ from pptx.util import Inches
 from pdf2image import convert_from_path
 from pdf2image import pdfinfo_from_path
 from io import BytesIO
+from colorama import init, Fore
+init()
 
 def get_height_multiplier(pdf):
     matches = re.findall(r'(\d+\.?\d+)', pdf['Page size'])
@@ -31,10 +33,10 @@ def pdf_to_pptx(pdf_file):
 
     print("____________________________________")
     print(f"Конвертуємо файл {pdf_file}")
-    print("Розмір файлу {:.2f} MB".format(int(size.split()[0]) / 10 ** 6))
-    print(f"Всього слайдів: {pages}")
-    print("Треба трохи зачекати, йде обробка файлу...")
-    print("Це може зайняти певний час, не закривайте це вікно...")
+    print(Fore.WHITE + "Розмір файлу {:.2f} MB".format(int(size.split()[0]) / 10 ** 6))
+    print(Fore.WHITE + f"Всього слайдів: {pages}")
+    print(Fore.YELLOW + "Треба трохи зачекати, йде обробка файлу...")
+    print(Fore.YELLOW + "Це може зайняти певний час, не закривайте це вікно...")
 
     # Get the file name without the extension
     file_name = os.path.splitext(pdf_file)[0]
@@ -47,7 +49,7 @@ def pdf_to_pptx(pdf_file):
 
     num_slides = len(images)
 
-    print("____________________________________")
+    print(Fore.RESET + "____________________________________")
 
     # Create a new PowerPoint presentation
     prs = Presentation(path_prefix+"/template/default.pptx")
@@ -57,7 +59,7 @@ def pdf_to_pptx(pdf_file):
 
     # Add slides
     for i, image in enumerate(images):
-        print(f"Конвертуємо слайд {i+1} з {num_slides}")
+        print(Fore.RED + f"Конвертуємо слайд {i+1} з {num_slides}", end="\r")
         slide = prs.slides.add_slide(prs.slide_layouts[0])
         image_binary = BytesIO()
         image.save(image_binary, 'PNG')
@@ -75,9 +77,10 @@ def pdf_to_pptx(pdf_file):
     # Saving end timestamp
     end = time.time()
 
-    print("____________________________________")
-    print("Конвертування завершено!")
-    print(f"Витрачено часу: {end - start:.2f}с")
+    # print("____________________________________")
+    sys.stdout.flush()
+    print(Fore.GREEN + "Конвертування завершено!")
+    print(Fore.WHITE + f"Витрачено часу: {end - start:.2f}с")
     
 if __name__ == "__main__":
     if len(sys.argv) < 2:
