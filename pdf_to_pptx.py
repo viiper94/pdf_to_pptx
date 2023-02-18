@@ -8,6 +8,14 @@ from pdf2image import convert_from_path
 from pdf2image import pdfinfo_from_path
 from io import BytesIO
 
+def get_height_multiplier(pdf):
+    size_str = pdf['Page size'].replace('Page size: ', '').replace(' pts', '')
+    size = size_str.split(" x ")
+    width = int(size[0])
+    height = int(size[1])
+    aspect = width/height
+    return 16/aspect
+
 def pdf_to_pptx(pdf_file):
 
     # Change path prefix for .exe
@@ -43,8 +51,9 @@ def pdf_to_pptx(pdf_file):
 
     # Create a new PowerPoint presentation
     prs = Presentation(path_prefix+"/template/default.pptx")
+    height = get_height_multiplier(pdf)
     prs.slide_width = Inches(16)
-    prs.slide_height = Inches(9)
+    prs.slide_height = Inches(height)
 
     # Add slides
     for i, image in enumerate(images):
@@ -55,10 +64,10 @@ def pdf_to_pptx(pdf_file):
         aspect_ratio = float(image.width) / float(image.height)
         if aspect_ratio > (16/9):
             height = int(Inches(16) / aspect_ratio)
-            slide.shapes.add_picture(image_binary, 0, int((Inches(9) - height) / 2), height=height, width=Inches(16))
+            slide.shapes.add_picture(image_binary, 0, int((Inches(height) - height) / 2), height=height, width=Inches(16))
         else:
-            width = int(Inches(9) * aspect_ratio)
-            slide.shapes.add_picture(image_binary, int((Inches(16) - width) / 2), 0, height=Inches(9), width=width)
+            width = int(Inches(height) * aspect_ratio)
+            slide.shapes.add_picture(image_binary, int((Inches(16) - width) / 2), 0, height=Inches(height), width=width)
 
     # Save the PowerPoint presentation
     prs.save(file_name + '.pptx')
