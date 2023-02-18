@@ -147,26 +147,8 @@
    'D:\\GoogleDrive\\Stuff\\Programming '
    'stuff\\pdf_to_pptx\\build\\pdf_to_pptx\\base_library.zip',
    'DATA'),
-  ('lxml\\isoschematron\\resources\\xsl\\RNG2Schtrn.xsl',
-   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\RNG2Schtrn.xsl',
-   'DATA'),
-  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_schematron_message.xsl',
-   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_schematron_message.xsl',
-   'DATA'),
   ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_schematron_skeleton_for_xslt1.xsl',
    'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_schematron_skeleton_for_xslt1.xsl',
-   'DATA'),
-  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_dsdl_include.xsl',
-   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_dsdl_include.xsl',
-   'DATA'),
-  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_abstract_expand.xsl',
-   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_abstract_expand.xsl',
-   'DATA'),
-  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\readme.txt',
-   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\readme.txt',
-   'DATA'),
-  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_svrl_for_xslt1.xsl',
-   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_svrl_for_xslt1.xsl',
    'DATA'),
   ('lxml\\isoschematron\\resources\\rng\\iso-schematron.rng',
    'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\rng\\iso-schematron.rng',
@@ -174,85 +156,31 @@
   ('lxml\\isoschematron\\resources\\xsl\\XSD2Schtrn.xsl',
    'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\XSD2Schtrn.xsl',
    'DATA'),
-  ('poppler\\poppler-cpp.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\poppler-cpp.dll',
+  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_schematron_message.xsl',
+   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_schematron_message.xsl',
    'DATA'),
-  ('poppler\\tiff.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\tiff.dll',
+  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_svrl_for_xslt1.xsl',
+   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_svrl_for_xslt1.xsl',
    'DATA'),
-  ('poppler\\pdftocairo.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftocairo.exe',
+  ('lxml\\isoschematron\\resources\\xsl\\RNG2Schtrn.xsl',
+   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\RNG2Schtrn.xsl',
    'DATA'),
-  ('poppler\\zstd.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\zstd.exe',
+  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\readme.txt',
+   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\readme.txt',
    'DATA'),
-  ('poppler\\Lerc.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\Lerc.dll',
+  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_abstract_expand.xsl',
+   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_abstract_expand.xsl',
    'DATA'),
-  ('poppler\\iconv.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\iconv.dll',
-   'DATA'),
-  ('poppler\\pdftoppm.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftoppm.exe',
-   'DATA'),
-  ('poppler\\openjp2.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\openjp2.dll',
-   'DATA'),
-  ('poppler\\libpng16.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\libpng16.dll',
-   'DATA'),
-  ('poppler\\fontconfig-1.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\fontconfig-1.dll',
-   'DATA'),
-  ('poppler\\pdfinfo.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfinfo.exe',
-   'DATA'),
-  ('poppler\\pdfattach.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfattach.exe',
-   'DATA'),
-  ('poppler\\pdfseparate.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfseparate.exe',
-   'DATA'),
-  ('poppler\\pdftotext.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftotext.exe',
-   'DATA'),
-  ('poppler\\zlib.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\zlib.dll',
-   'DATA'),
-  ('poppler\\liblzma.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\liblzma.dll',
-   'DATA'),
-  ('poppler\\libssh2.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\libssh2.dll',
-   'DATA'),
-  ('poppler\\lcms2.dll',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\lcms2.dll',
+  ('lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_dsdl_include.xsl',
+   'C:\\Users\\viipe\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\lxml\\isoschematron\\resources\\xsl\\iso-schematron-xslt1\\iso_dsdl_include.xsl',
    'DATA'),
   ('poppler\\libexpat.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
    'stuff\\pdf_to_pptx\\poppler\\bin\\libexpat.dll',
    'DATA'),
-  ('poppler\\charset.dll',
+  ('poppler\\fontconfig-1.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\charset.dll',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\fontconfig-1.dll',
    'DATA'),
   ('poppler\\freetype.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
@@ -262,9 +190,37 @@
    'D:\\GoogleDrive\\Stuff\\Programming '
    'stuff\\pdf_to_pptx\\poppler\\bin\\poppler.dll',
    'DATA'),
-  ('poppler\\poppler-glib.dll',
+  ('poppler\\deflate.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\poppler-glib.dll',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\deflate.dll',
+   'DATA'),
+  ('poppler\\tiff.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\tiff.dll',
+   'DATA'),
+  ('poppler\\iconv.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\iconv.dll',
+   'DATA'),
+  ('poppler\\lcms2.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\lcms2.dll',
+   'DATA'),
+  ('poppler\\poppler-cpp.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\poppler-cpp.dll',
+   'DATA'),
+  ('poppler\\pdfattach.exe',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfattach.exe',
+   'DATA'),
+  ('poppler\\zlib.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\zlib.dll',
+   'DATA'),
+  ('poppler\\pdftocairo.exe',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftocairo.exe',
    'DATA'),
   ('poppler\\libtiff.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
@@ -274,53 +230,97 @@
    'D:\\GoogleDrive\\Stuff\\Programming '
    'stuff\\pdf_to_pptx\\poppler\\bin\\pdfdetach.exe',
    'DATA'),
-  ('poppler\\pdfunite.exe',
+  ('poppler\\pdftoppm.exe',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfunite.exe',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftoppm.exe',
    'DATA'),
-  ('poppler\\zstd.dll',
+  ('poppler\\pdftotext.exe',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\zstd.dll',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftotext.exe',
    'DATA'),
-  ('poppler\\libcurl.dll',
+  ('poppler\\zstd.exe',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\libcurl.dll',
-   'DATA'),
-  ('poppler\\pdfimages.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfimages.exe',
-   'DATA'),
-  ('poppler\\pdftops.exe',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftops.exe',
-   'DATA'),
-  ('template\\default.pptx',
-   'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\template\\default.pptx',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\zstd.exe',
    'DATA'),
   ('poppler\\cairo.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
    'stuff\\pdf_to_pptx\\poppler\\bin\\cairo.dll',
    'DATA'),
-  ('poppler\\libzstd.dll',
+  ('poppler\\pdftops.exe',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\libzstd.dll',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdftops.exe',
    'DATA'),
-  ('poppler\\deflate.dll',
+  ('poppler\\poppler-glib.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\deflate.dll',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\poppler-glib.dll',
+   'DATA'),
+  ('poppler\\libssh2.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\libssh2.dll',
    'DATA'),
   ('poppler\\pdftohtml.exe',
    'D:\\GoogleDrive\\Stuff\\Programming '
    'stuff\\pdf_to_pptx\\poppler\\bin\\pdftohtml.exe',
    'DATA'),
-  ('poppler\\pdffonts.exe',
+  ('poppler\\pdfseparate.exe',
    'D:\\GoogleDrive\\Stuff\\Programming '
-   'stuff\\pdf_to_pptx\\poppler\\bin\\pdffonts.exe',
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfseparate.exe',
    'DATA'),
   ('poppler\\libcrypto-3-x64.dll',
    'D:\\GoogleDrive\\Stuff\\Programming '
    'stuff\\pdf_to_pptx\\poppler\\bin\\libcrypto-3-x64.dll',
+   'DATA'),
+  ('poppler\\pdfunite.exe',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfunite.exe',
+   'DATA'),
+  ('poppler\\Lerc.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\Lerc.dll',
+   'DATA'),
+  ('poppler\\libcurl.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\libcurl.dll',
+   'DATA'),
+  ('poppler\\zstd.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\zstd.dll',
+   'DATA'),
+  ('poppler\\openjp2.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\openjp2.dll',
+   'DATA'),
+  ('poppler\\pdfimages.exe',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfimages.exe',
+   'DATA'),
+  ('poppler\\libpng16.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\libpng16.dll',
+   'DATA'),
+  ('template\\default.pptx',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\template\\default.pptx',
+   'DATA'),
+  ('poppler\\pdfinfo.exe',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdfinfo.exe',
+   'DATA'),
+  ('poppler\\libzstd.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\libzstd.dll',
+   'DATA'),
+  ('poppler\\pdffonts.exe',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\pdffonts.exe',
+   'DATA'),
+  ('poppler\\charset.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\charset.dll',
+   'DATA'),
+  ('poppler\\liblzma.dll',
+   'D:\\GoogleDrive\\Stuff\\Programming '
+   'stuff\\pdf_to_pptx\\poppler\\bin\\liblzma.dll',
    'DATA')],
  False,
  False,
