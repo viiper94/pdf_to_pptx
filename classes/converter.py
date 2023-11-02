@@ -73,7 +73,7 @@ class Converter:
         # Saving end timestamp
         end = time.time()
 
-        sys.stdout.flush()
+        # sys.stdout.flush()
         print(Fore.GREEN + f"Конвертування файлу {self.file} завершено!")
         print(Fore.WHITE + f"Витрачено часу: {end - start:.2f}с")
 
