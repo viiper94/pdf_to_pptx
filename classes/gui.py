@@ -64,10 +64,12 @@ class Gui:
         self.label_file.pack()
         self.label_info.pack()
         self.label_status.pack()
+        self.label_progress.config(text='')
         self.label_progress.pack()
         self.unbind_events()
 
     def update_gui_on_end(self):
+        self.label_progress.pack_forget()
         self.label.pack(expand=True)
         self.bind_events()
 
