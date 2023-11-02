@@ -106,9 +106,12 @@ class Converter:
     def create_pptx_from_images(self, images):
         # Create a new PowerPoint presentation
         prs = Presentation(self.template_path)
-        height = self.get_height_multiplier()
-        prs.slide_width = Inches(16)
-        prs.slide_height = Inches(height)
+        page_height = self.get_height_multiplier()
+        slide_width = Inches(16)
+        slide_height = Inches(page_height)
+        slide_aspect = slide_width / slide_height
+        prs.slide_width = slide_width
+        prs.slide_height = slide_height
 
         # Add slides
         for i, image in enumerate(images):
@@ -119,27 +122,29 @@ class Converter:
             image_binary = BytesIO()
             image.save(image_binary, 'PNG')
             aspect_ratio = float(image.width) / float(image.height)
-            if aspect_ratio > (16/9):
-                height = int(Inches(16) / aspect_ratio)
+            if aspect_ratio >= slide_aspect:
+                height = int(slide_width / aspect_ratio)
                 slide.shapes.add_picture(
                     image_binary,
-                    left=0,
-                    top=int((Inches(height) - height) / 2),
+                    left=int(0),
+                    top=int((slide_height - height) / 2),
                     height=height,
-                    width=Inches(16)
+                    width=slide_width
                 )
+
             else:
-                width = int(Inches(height) * aspect_ratio)
+                width = int(Inches(page_height) * aspect_ratio)
                 slide.shapes.add_picture(
                     image_binary,
-                    left=int((Inches(16) - width) / 2),
-                    top=0,
-                    height=Inches(height),
+                    left=int((slide_width - width) / 2),
+                    top=int(0),
+                    height=slide_height,
                     width=width
                 )
 
         # Save the PowerPoint presentation
         prs.save(self.file_name_without_ext + '.pptx')
+        return True
 
     def get_height_multiplier(self):
         matches = re.findall(r'(\d+\.?\d+)', self.page_size)
