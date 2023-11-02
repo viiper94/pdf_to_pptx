@@ -22,7 +22,7 @@ class Gui:
         self.label = tk.Label(self.root, text="Перетягніть файл(и) сюди", font=('Open Sans', 15), background='#2a2a2a', foreground='#eee')
         self.label.pack(expand=True)
 
-        self.label_file = tk.Label(self.root, text="", font=('Open Sans', 12), background='#2a2a2a', foreground='#eee')
+        self.label_file = tk.Label(self.root, text="", font=('Open Sans', 12), background='#2a2a2a', foreground='#eee', pady=15)
         self.label_info = tk.Label(self.root, text="", font=('Open Sans', 9), background='#2a2a2a', foreground='#5d5d5d')
         self.label_status = tk.Label(self.root, text="", font=('Open Sans', 10), background='#2a2a2a', foreground='#eee')
         self.label_progress = tk.Label(self.root, text="", font=('Open Sans', 11), pady=10, foreground='red', background='#2a2a2a')
