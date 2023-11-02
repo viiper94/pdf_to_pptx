@@ -1,9 +1,7 @@
-import sys
 import os
 import re
 import time
 from io import BytesIO
-import tkinter as tk
 from pdf2image import convert_from_path
 from pdf2image import pdfinfo_from_path
 from pptx import Presentation
@@ -46,7 +44,6 @@ class Converter:
         # Saving start timestamp
         start = time.time()
 
-        print(Fore.RESET + "____________________________________")
         print(f"Конвертуємо файл {self.file}")
         print(Fore.WHITE + "Розмір файлу {:.2f} MB".format(int(self.size.split()[0]) / 10 ** 6))
         print(Fore.WHITE + f"Всього слайдів: {self.pages}")
