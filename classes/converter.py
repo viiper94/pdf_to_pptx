@@ -7,7 +7,7 @@ from pdf2image import convert_from_path
 from pdf2image import pdfinfo_from_path
 from pptx import Presentation
 from pptx.util import Inches
-from colorama import Fore
+from PIL import Image
 
 
 class Converter:
@@ -16,15 +16,16 @@ class Converter:
     path_prefix = sys._MEIPASS
     # path_prefix = '.'
 
-    def __init__(self, file, gui):
+    def __init__(self, index, file, gui):
         self.file = file
+        self.index = index
         self.gui = gui
 
-        self.gui.update_gui_on_start()
         self.poppler_path = self.path_prefix + '/lib/poppler/bin'
         self.tmp_path = self.path_prefix + '/tmp'
         self.template_path = self.path_prefix + '/template/default.pptx'
 
+        Image.MAX_IMAGE_PIXELS = 1000000000
         self.file_name_without_ext = self.get_file_name_without_extension()
         self.cpu_threads = self.get_threads()
 
@@ -33,29 +34,16 @@ class Converter:
         self.size = pdf_data['File size']
         self.page_size = pdf_data['Page size']
 
-        self.create_tmp_dir()
+        self.gui.update_gui_on_file_process(index, file_size=self.size, file_pages=self.pages)
 
+        self.create_tmp_dir()
         self.convert()
-        self.gui.update_gui_on_end()
 
     def convert(self):
-        self.gui.label.pack_forget()
-        # self.gui.text_flush()
-
         # Saving start timestamp
         start = time.time()
 
-        print(f"Конвертуємо файл {self.file}")
-        print(Fore.WHITE + "Розмір файлу {:.2f} MB".format(int(self.size.split()[0]) / 10 ** 6))
-        print(Fore.WHITE + f"Всього слайдів: {self.pages}")
-        print(Fore.YELLOW + "Треба трохи зачекати, триває обробка файлу...")
-        print(Fore.YELLOW + "Це може зайняти певний час, не закривайте це вікно...")
-
-        self.gui.label_file.config(text=self.gui.get_file_name(self.file))
-        self.gui.label_info.config(text="Розмір файлу {:.2f} MB".format(int(self.size.split()[0]) / 10 ** 6) + f", Всього слайдів: {self.pages}")
-        self.gui.label_status.config(text="Триває обробка файлу...", foreground='yellow')
-
-        #     # Convert PDF to images
+        # Convert PDF to images
         images = convert_from_path(
             self.file,
             dpi=300,
@@ -66,20 +54,14 @@ class Converter:
             size=(None, 1440)
         )
 
-        print(Fore.RESET + "____________________________________")
-
         self.create_pptx_from_images(images)
 
         # Saving end timestamp
         end = time.time()
+        time_spent = end - start
 
-        # sys.stdout.flush()
-        print(Fore.GREEN + f"Конвертування файлу {self.file} завершено!")
-        print(Fore.WHITE + f"Витрачено часу: {end - start:.2f}с")
+        self.gui.update_gui_on_end(self.index, time_spent=time_spent)
 
-        self.gui.label_status.config(text="Завершено", foreground='green')
-
-        self.gui.label.pack(expand=True)
         return True
 
     def get_pdf_metadata(self, pdf_file):
@@ -115,9 +97,7 @@ class Converter:
 
         # Add slides
         for i, image in enumerate(images):
-            print(Fore.RED + f"Конвертуємо слайд {i + 1} з {self.pages}")
-            self.gui.label_status.config(text="Конвертуємо слайди")
-            self.gui.label_progress.config(text=f"{i + 1} / {self.pages}")
+            self.gui.update_gui_on_convertion(self.index, i + 1, self.pages)
             slide = prs.slides.add_slide(prs.slide_layouts[6])
             image_binary = BytesIO()
             image.save(image_binary, 'PNG')
