@@ -1,10 +1,10 @@
 class Settings:
 
+    resolution = 1080
+    dpi = 300
+
     def __init__(self):
         super().__init__()
-
-        self.resolution = 1080
-        self.dpi = 300
 
     def change_resolution(self, res):
         if res == '&FullHD (1080px)':
