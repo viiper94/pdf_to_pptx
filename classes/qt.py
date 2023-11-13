@@ -1,4 +1,6 @@
 import os
+import sys
+
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtWidgets import QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout, QVBoxLayout, QScrollArea, QMainWindow
 from PySide6.QtCore import Qt, Signal
@@ -207,4 +209,4 @@ class QtApp(QMainWindow):
 
     def quit(self):
         self.destroy()
-
+        return sys.exit()
