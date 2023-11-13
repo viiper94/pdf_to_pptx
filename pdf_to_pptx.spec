@@ -5,7 +5,7 @@ a = Analysis(
     ['pdf_to_pptx.py'],
     pathex=[],
     binaries=[],
-    datas=[('lib/poppler', 'lib/poppler'), ('template', 'template'), ('lib/tkinterdnd2', 'tkinterdnd2')],
+    datas=[('lib/poppler', 'lib/poppler'), ('template', 'template')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
