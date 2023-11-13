@@ -4,6 +4,7 @@ class Settings:
         super().__init__()
 
         self.resolution = 1080
+        self.dpi = 300
 
     def change_resolution(self, res):
         if res == '&FullHD':
@@ -12,4 +13,11 @@ class Settings:
             self.resolution = 1440
         if res == '&4K':
             self.resolution = 2160
-        print(self.resolution)
+
+    def change_dpi(self, dpi):
+        if dpi == '&100 DPI':
+            self.dpi = 100
+        if dpi == '&200 DPI':
+            self.dpi = 200
+        if dpi == '&300 DPI':
+            self.dpi = 300

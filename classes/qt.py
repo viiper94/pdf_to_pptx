@@ -199,6 +199,31 @@ class QtApp(QMainWindow):
         uhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(uhd_action)
 
+        self.settings_menu.addSeparator()
+
+        # settings - dpi text menu item
+        dpi_action = QAction('&Оберіть DPI', self, disabled=True)
+        self.settings_menu.addAction(dpi_action)
+
+        dpi_group = QActionGroup(self)
+        # settings - 100 dpi menu item
+        dpi_action_100 = QAction('&100 DPI', self, checkable=True)
+        dpi_action_100.setActionGroup(dpi_group)
+        dpi_action_100.triggered.connect(self.on_dpi_changed)
+        self.settings_menu.addAction(dpi_action_100)
+
+        # settings - 200 dpi menu item
+        dpi_action_200 = QAction('&200 DPI', self, checkable=True)
+        dpi_action_200.setActionGroup(dpi_group)
+        dpi_action_200.triggered.connect(self.on_dpi_changed)
+        self.settings_menu.addAction(dpi_action_200)
+
+        # settings - 300 dpi menu item
+        dpi_action_300 = QAction('&300 DPI', self, checkable=True, checked=True)
+        dpi_action_300.setActionGroup(dpi_group)
+        dpi_action_300.triggered.connect(self.on_dpi_changed)
+        self.settings_menu.addAction(dpi_action_300)
+
         self.settings_changed.connect(self.thread[0].update_settings)
 
     def on_resolution_changed(self):
@@ -206,6 +231,13 @@ class QtApp(QMainWindow):
         if action.isChecked():
             text = action.text()
             self.settings.change_resolution(self.settings, text)
+            self.settings_changed.emit(self.settings)
+
+    def on_dpi_changed(self):
+        action = self.sender()
+        if action.isChecked():
+            text = action.text()
+            self.settings.change_dpi(self.settings, text)
             self.settings_changed.emit(self.settings)
 
     def quit(self):

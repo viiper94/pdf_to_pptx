@@ -45,7 +45,7 @@ class Convertor:
         # Convert PDF to images
         images = convert_from_path(
             self.file,
-            dpi=300,
+            dpi=self.settings.dpi,
             fmt='jpeg',
             poppler_path=self.poppler_path,
             output_folder=self.tmp_path,
