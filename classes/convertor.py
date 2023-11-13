@@ -16,10 +16,12 @@ class Convertor:
     path_prefix = sys._MEIPASS
     # path_prefix = '.'
 
-    def __init__(self, index, file, gui):
     poppler_path = path_prefix + '/lib/poppler/bin'
     tmp_path = path_prefix + '/tmp'
     template_path = path_prefix + '/template/default.pptx'
+
+    def __init__(self, index, file, thread):
+        self.thread = thread
         self.file = file
         self.index = index
 
@@ -32,7 +34,7 @@ class Convertor:
         self.size = pdf_data['File size']
         self.page_size = pdf_data['Page size']
 
-        self.gui.update_gui_on_file_process(index, file_size=self.size, file_pages=self.pages)
+        self.thread.file_process_start.emit(index)
 
         self.create_tmp_dir()
         self.convert()
@@ -58,7 +60,7 @@ class Convertor:
         end = time.time()
         time_spent = end - start
 
-        self.gui.update_gui_on_end(self.index, time_spent=time_spent)
+        self.thread.file_process_end.emit(self.index, time_spent)
 
         return True
 
@@ -95,7 +97,7 @@ class Convertor:
 
         # Add slides
         for i, image in enumerate(images):
-            self.gui.update_gui_on_convertion(self.index, i + 1, self.pages)
+            self.thread.file_process_progress.emit(self.index, i + 1, self.pages)
             slide = prs.slides.add_slide(prs.slide_layouts[6])
             image_binary = BytesIO()
             image.save(image_binary, 'PNG')
