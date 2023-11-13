@@ -39,7 +39,7 @@ class QtApp(QMainWindow):
         self.setCentralWidget(self.scroll)
 
         self.setWindowTitle('PDF to PPTX Converter')
-        self.setWindowIcon(QIcon('./assets/icon.png'))
+        self.setWindowIcon(QIcon(Settings.path_prefix + '/assets/icon.png'))
         self.widget.setStyleSheet('background-color: #2a2a2a')
 
         # Menu bar
