@@ -1,8 +1,11 @@
 import sys
+from PySide6 import QtWidgets
+from classes.qt import QtApp
 
-from classes.gui import Gui
 
 if __name__ == "__main__":
 
-    gui = Gui(sys.argv)
-    gui.root.mainloop()
+    app = QtWidgets.QApplication(sys.argv)
+    widget = QtApp(sys.argv)
+
+    sys.exit(app.exec())
