@@ -1,1 +1,1 @@
-pyinstaller --add-data="lib/poppler;lib/poppler" --add-data="template;template" --add-data="assets;assets" --onefile --icon="assets/icon.png" -w pdf_to_pptx.py
+pyinstaller --add-data="lib/poppler;lib/poppler" --add-data="template;template" --add-data="assets;assets" --onefile --icon="assets/app.ico" -w pdf_to_pptx.py
