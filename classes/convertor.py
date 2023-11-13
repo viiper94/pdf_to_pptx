@@ -10,7 +10,7 @@ from pptx.util import Inches
 from PIL import Image
 
 
-class Converter:
+class Convertor:
 
     # Change path prefix for .exe
     path_prefix = sys._MEIPASS
