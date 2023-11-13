@@ -36,7 +36,6 @@ class Convertor:
         self.thread.file_process_start.emit(index)
 
         self.create_tmp_dir()
-        self.convert()
 
     def convert(self):
         # Saving start timestamp
