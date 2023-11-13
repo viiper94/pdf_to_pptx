@@ -17,13 +17,11 @@ class Convertor:
     # path_prefix = '.'
 
     def __init__(self, index, file, gui):
+    poppler_path = path_prefix + '/lib/poppler/bin'
+    tmp_path = path_prefix + '/tmp'
+    template_path = path_prefix + '/template/default.pptx'
         self.file = file
         self.index = index
-        self.gui = gui
-
-        self.poppler_path = self.path_prefix + '/lib/poppler/bin'
-        self.tmp_path = self.path_prefix + '/tmp'
-        self.template_path = self.path_prefix + '/template/default.pptx'
 
         Image.MAX_IMAGE_PIXELS = 1000000000
         self.file_name_without_ext = self.get_file_name_without_extension()
