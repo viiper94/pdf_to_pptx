@@ -7,11 +7,11 @@ class Settings:
         self.dpi = 300
 
     def change_resolution(self, res):
-        if res == '&FullHD':
+        if res == '&FullHD (1080px)':
             self.resolution = 1080
-        if res == '&2K':
+        if res == '&2K (1440px)':
             self.resolution = 1440
-        if res == '&4K':
+        if res == '&4K (2160px)':
             self.resolution = 2160
 
     def change_dpi(self, dpi):

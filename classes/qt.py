@@ -180,21 +180,25 @@ class QtApp(QMainWindow):
         exit_action.triggered.connect(self.quit)
         self.file_menu.addAction(exit_action)
 
+        # settings - dpi text menu item
+        res_action = QAction('&Роздільна здатність', self, disabled=True)
+        self.settings_menu.addAction(res_action)
+
         resolution_group = QActionGroup(self)
         # settings - fhd resolution menu item
-        fhd_action = QAction('&FullHD', self, checkable=True, checked=True)
+        fhd_action = QAction('&FullHD (1080px)', self, checkable=True, checked=True)
         fhd_action.setActionGroup(resolution_group)
         fhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(fhd_action)
 
-        # settings - fhd resolution menu item
-        qhd_action = QAction('&2K', self, checkable=True)
+        # settings - qhd resolution menu item
+        qhd_action = QAction('&2K (1440px)', self, checkable=True)
         qhd_action.setActionGroup(resolution_group)
         qhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(qhd_action)
 
-        # settings - fhd resolution menu item
-        uhd_action = QAction('&4K', self, checkable=True)
+        # settings - uhd resolution menu item
+        uhd_action = QAction('&4K (2160px)', self, checkable=True)
         uhd_action.setActionGroup(resolution_group)
         uhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(uhd_action)
