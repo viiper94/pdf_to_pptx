@@ -31,7 +31,6 @@ class Convertor:
 
         pdf_data = self.get_pdf_metadata(file)
         self.pages = pdf_data['Pages']
-        self.size = pdf_data['File size']
         self.page_size = pdf_data['Page size']
 
         self.thread.file_process_start.emit(index)
