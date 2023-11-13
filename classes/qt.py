@@ -130,6 +130,8 @@ class QtApp(QMainWindow):
             self.labels[index]['status'] = QLabel('В черзі')
             self.labels[index]['status'].setStyleSheet('color: #89898b; border: none')
 
+            self.labels[index]['done'] = False
+
             self.progress[index] = QProgressBar(self)
             self.progress[index].setStyleSheet('background-color: #363636; '
                                                'border: none; '
@@ -144,7 +146,6 @@ class QtApp(QMainWindow):
             self.layouts[index].addWidget(self.labels[index]['slides'], 2, 0, alignment=Qt.AlignmentFlag.AlignLeft)
             self.layouts[index].addWidget(self.labels[index]['status'], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
 
-            self.text.setText('')
             self.layout.insertWidget(self.layout.count() - 1, self.frames[index])
             self.layout.setStretchFactor(self.frames[index], 0)
 
@@ -162,6 +163,7 @@ class QtApp(QMainWindow):
     def update_gui_on_file_process_end(self, index, time_spent):
         self.labels[index]['status'].setText(f"Завершено ({time_spent}с)")
         self.labels[index]['status'].setStyleSheet('color: green; border: none')
+        self.labels[index]['done'] = True
 
     def get_file_name(self, path):
         result = os.path.basename(path)
@@ -173,6 +175,13 @@ class QtApp(QMainWindow):
         open_action.triggered.connect(self.open_file)
         open_action.setShortcut('Ctrl+O')
         self.file_menu.addAction(open_action)
+
+        # file - clear menu item
+        clear_action = QAction(QIcon('./assets/clear.png'), '&Очистити список', self)
+        clear_action.triggered.connect(self.clear_file_list)
+        self.file_menu.addAction(clear_action)
+
+        self.file_menu.addSeparator()
 
         # file - exit menu item
         exit_action = QAction(QIcon('./assets/exit.png'), '&Вийти', self)
@@ -243,6 +252,11 @@ class QtApp(QMainWindow):
             text = action.text()
             self.settings.change_dpi(self.settings, text)
             self.settings_changed.emit(self.settings)
+
+    def clear_file_list(self):
+        for i, item in enumerate(self.labels):
+            if self.labels[i]['done']:
+                self.frames[i].hide()
 
     def quit(self):
         self.destroy()
