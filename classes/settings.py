@@ -18,11 +18,11 @@ class Settings:
         super().__init__()
 
     def change_resolution(self, res):
-        if res == '&FullHD (1080px)':
+        if res == '&Full HD (1080px)':
             self.resolution = 1080
-        if res == '&2K (1440px)':
+        if res == '&Quad HD (1440px)':
             self.resolution = 1440
-        if res == '&4K (2160px)':
+        if res == '&Ultra HD (2160px)':
             self.resolution = 2160
 
     def change_dpi(self, dpi):

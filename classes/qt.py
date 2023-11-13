@@ -195,19 +195,19 @@ class QtApp(QMainWindow):
 
         resolution_group = QActionGroup(self)
         # settings - fhd resolution menu item
-        fhd_action = QAction('&FullHD (1080px)', self, checkable=True, checked=True)
+        fhd_action = QAction('&Full HD (1080px)', self, checkable=True, checked=True)
         fhd_action.setActionGroup(resolution_group)
         fhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(fhd_action)
 
         # settings - qhd resolution menu item
-        qhd_action = QAction('&2K (1440px)', self, checkable=True)
+        qhd_action = QAction('&Quad HD (1440px)', self, checkable=True)
         qhd_action.setActionGroup(resolution_group)
         qhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(qhd_action)
 
         # settings - uhd resolution menu item
-        uhd_action = QAction('&4K (2160px)', self, checkable=True)
+        uhd_action = QAction('&Ultra HD (2160px)', self, checkable=True)
         uhd_action.setActionGroup(resolution_group)
         uhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(uhd_action)
