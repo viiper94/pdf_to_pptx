@@ -5,7 +5,7 @@ a = Analysis(
     ['pdf_to_pptx.py'],
     pathex=[],
     binaries=[],
-    datas=[('lib/poppler', 'lib/poppler'), ('template', 'template')],
+    datas=[('lib/poppler', 'lib/poppler'), ('template', 'template'), ('assets', 'assets')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -34,5 +34,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['icon.ico'],
+    icon=['assets\\app.ico'],
 )
