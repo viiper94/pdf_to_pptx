@@ -20,10 +20,11 @@ class Convertor:
     tmp_path = path_prefix + '/tmp'
     template_path = path_prefix + '/template/default.pptx'
 
-    def __init__(self, index, file, thread):
+    def __init__(self, index, file, thread, settings):
         self.thread = thread
         self.file = file
         self.index = index
+        self.settings = settings
 
         Image.MAX_IMAGE_PIXELS = 1000000000
         self.file_name_without_ext = self.get_file_name_without_extension()
@@ -49,7 +50,7 @@ class Convertor:
             poppler_path=self.poppler_path,
             output_folder=self.tmp_path,
             thread_count=self.cpu_threads,
-            size=(None, 1440)
+            size=(None, self.settings.resolution)
         )
 
         self.create_pptx_from_images(images)

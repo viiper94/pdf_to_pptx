@@ -2,6 +2,7 @@ import time
 
 from PySide6.QtCore import Signal, QThread
 from classes.convertor import Convertor
+from classes.settings import Settings
 
 
 class WorkerThread(QThread):
@@ -13,13 +14,14 @@ class WorkerThread(QThread):
     def __init__(self):
         super().__init__()
         self.files = {}
+        self.settings = Settings()
 
     def run(self):
         index = 0
         while index < len(self.files):
             item = self.files[index]
             if not item['done']:
-                convertor = Convertor(index, item['path'], self)
+                convertor = Convertor(index, item['path'], self, settings=self.settings)
                 convertor.convert()
                 self.files[index]['done'] = True
             index += 1
@@ -30,3 +32,6 @@ class WorkerThread(QThread):
             self.files[index] = {}
             self.files[index]['path'] = file
             self.files[index]['done'] = False
+
+    def update_settings(self, settings):
+        self.settings = settings

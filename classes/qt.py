@@ -12,6 +12,7 @@ from classes.settings import Settings
 class QtApp(QMainWindow):
 
     file_added = Signal(list)
+    settings_changed = Signal(Settings)
 
     def __init__(self, args):
         super().__init__()
@@ -195,11 +196,14 @@ class QtApp(QMainWindow):
         uhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(uhd_action)
 
+        self.settings_changed.connect(self.thread[0].update_settings)
+
     def on_resolution_changed(self):
         action = self.sender()
         if action.isChecked():
             text = action.text()
             self.settings.change_resolution(self.settings, text)
+            self.settings_changed.emit(self.settings)
 
     def quit(self):
         self.destroy()
