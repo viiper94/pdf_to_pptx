@@ -1,4 +1,15 @@
+import sys
+
+
 class Settings:
+
+    # Change path prefix for .exe
+    # path_prefix = sys._MEIPASS
+    path_prefix = '.'
+
+    poppler_path = path_prefix + '/lib/poppler/bin'
+    tmp_path = path_prefix + '/tmp'
+    template_path = path_prefix + '/template/default.pptx'
 
     resolution = 1080
     dpi = 300
