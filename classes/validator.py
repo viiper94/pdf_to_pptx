@@ -8,9 +8,7 @@ class Validator:
     def validate(files):
         validated_files = list()
         for file in files:
-            if not Validator.is_pdf_file(file):
-                print(Fore.RED + f"Файл {file} не PDF документ. Пропускаємо!")
-            else:
+            if Validator.is_pdf_file(file):
                 validated_files.append(file)
         return tuple(validated_files)
 
