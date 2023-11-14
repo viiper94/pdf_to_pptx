@@ -38,8 +38,8 @@ class Convertor:
             self.file,
             dpi=self.settings.dpi,
             fmt='jpeg',
-            poppler_path=self.settings.poppler_path,
-            output_folder=self.settings.tmp_path,
+            poppler_path=self.settings.get_poppler_path(),
+            output_folder=self.settings.get_tmp_folder_path(),
             thread_count=self.cpu_threads,
             size=(None, self.settings.resolution)
         )
@@ -57,7 +57,7 @@ class Convertor:
     def get_pdf_metadata(self, pdf_file):
         return pdfinfo_from_path(
             pdf_file,
-            poppler_path=self.settings.poppler_path
+            poppler_path=self.settings.get_poppler_path()
         )
 
     def get_threads(self):
@@ -72,12 +72,12 @@ class Convertor:
 
     def create_tmp_dir(self):
         # creating dir for processed pdf slides
-        if not os.path.exists(self.settings.tmp_path):
-            os.mkdir(self.settings.tmp_path)
+        if not os.path.exists(self.settings.get_tmp_folder_path()):
+            os.mkdir(self.settings.get_tmp_folder_path())
 
     def create_pptx_from_images(self, images):
         # Create a new PowerPoint presentation
-        prs = Presentation(self.settings.template_path)
+        prs = Presentation(self.settings.get_template_path())
         page_height = self.get_height_multiplier()
         slide_width = Inches(16)
         slide_height = Inches(page_height)

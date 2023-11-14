@@ -1,15 +1,17 @@
 import sys
+import os
 
 
 class Settings:
 
     # Change path prefix for .exe
-    # path_prefix = sys._MEIPASS
-    path_prefix = '.'
+    # path_prefix = sys._MEIPASS        # path for Windows
+    path_prefix = os.path.dirname(os.path.abspath(__file__))        # path for Mac OS
+    # path_prefix = '.'                 # path for development
 
-    poppler_path = path_prefix + '/lib/poppler/bin'
-    tmp_path = path_prefix + '/tmp'
-    template_path = path_prefix + '/template/default.pptx'
+    poppler_path = 'lib/poppler-osx/bin'
+    tmp_path = 'tmp'
+    template_path = 'template/default.pptx'
 
     resolution = 1080
     dpi = 300
@@ -32,3 +34,19 @@ class Settings:
             self.dpi = 200
         if dpi == '&300 DPI':
             self.dpi = 300
+
+    @staticmethod
+    def get_poppler_path():
+        prefix = Settings.path_prefix.replace('/classes', '')
+        return os.path.join(prefix, Settings.poppler_path)
+
+    @staticmethod
+    def get_template_path():
+        prefix = Settings.path_prefix.replace('/classes', '')
+        return os.path.join(prefix, Settings.template_path)
+
+    @staticmethod
+    def get_tmp_folder_path():
+        prefix = Settings.path_prefix.replace('/classes', '')
+        return os.path.join(prefix, Settings.tmp_path)
+

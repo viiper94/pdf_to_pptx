@@ -6,4 +6,4 @@ class InfoHandler:
 
     @staticmethod
     def get_pdf_metadata(file):
-        return pdfinfo_from_path(file, poppler_path=Settings.poppler_path)
+        return pdfinfo_from_path(file, poppler_path=Settings.get_poppler_path())
