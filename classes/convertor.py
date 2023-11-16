@@ -6,7 +6,6 @@ from pdf2image import convert_from_path
 from pdf2image import pdfinfo_from_path
 from pptx import Presentation
 from pptx.util import Inches
-from PIL import Image
 
 
 class Convertor:
@@ -17,7 +16,6 @@ class Convertor:
         self.index = index
         self.settings = settings
 
-        Image.MAX_IMAGE_PIXELS = 1000000000
         self.file_name_without_ext = self.get_file_name_without_extension()
         self.cpu_threads = self.get_threads()
 
