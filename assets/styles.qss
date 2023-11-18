@@ -4,6 +4,8 @@ QWidget{
 #fileFrame{
 	background-color: transparent; 
 	border-bottom: 1px solid #363636;
+	margin: 0;
+	padding: 0;
 }
 QLabel{
 	color: #eee;
@@ -28,11 +30,15 @@ QLabel{
 #fileStatusProcessing{
 	color: #e9a222;
 }
-#fileStatusConverting{
+QLabel#fileStatusConverting{
 	color: #da1039;
 }
 #fileStatusFinished{
-	color: green; 
+	border: none;
+	color: #00bb00;
+}
+#fileStatusFinished:hover{
+	color: #008800;
 }
 QProgressBar{
 	background-color: #363636;

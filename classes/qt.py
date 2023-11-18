@@ -153,12 +153,18 @@ class QtApp(QMainWindow):
     def update_gui_on_file_process(self, index):
         self.labels[index]['status'].setText("Триває обробка файлу...")
         self.labels[index]['status'].setObjectName('fileStatusProcessing')
+        self.labels[index]['status'].style().unpolish(self.labels[index]['status'])
+        self.labels[index]['status'].style().polish(self.labels[index]['status'])
+        self.labels[index]['status'].update()
 
     def update_gui_on_convertion(self, index, current, total):
         self.progress[index].setMaximum(total)
         self.progress[index].setFormat('%v/%m')
         self.progress[index].setValue(current)
         self.labels[index]['status'].setObjectName('fileStatusConverting')
+        self.labels[index]['status'].style().unpolish(self.labels[index]['status'])
+        self.labels[index]['status'].style().polish(self.labels[index]['status'])
+        self.labels[index]['status'].update()
         self.labels[index]['status'].setText("Конвертуємо слайди")
 
     def update_gui_on_file_process_end(self, index, time_spent, path):
