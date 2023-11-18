@@ -1,0 +1,50 @@
+QWidget{
+	background-color: #2a2a2a;
+}
+#fileFrame{
+	background-color: transparent; 
+	border-bottom: 1px solid #363636;
+}
+QLabel{
+	color: #eee;
+	border-bottom: none;
+}
+#mainLabel{
+	font-size: 15px;
+	font-family: "Sergoe, sans-serif";
+}
+#fileName{
+	font-size: 16px;
+}
+#fileSize{
+	color: #5d5d5d;
+}
+#fileSlides{
+	color: #5d5d5d; 
+}
+#fileStatus{
+	color: #89898b;
+}
+#fileStatusProcessing{
+	color: #e9a222;
+}
+#fileStatusConverting{
+	color: #da1039;
+}
+#fileStatusFinished{
+	color: green; 
+}
+QProgressBar{
+	background-color: #363636;
+	border-bottom: none;
+	max-width: 200px; 
+	min-width: 150px; 
+	text-align: center;
+	color: #eee;
+	border-radius: 5px;
+	height: 25px;
+}
+QProgressBar::chunk{
+	background-color: green;
+	border-radius: 5px;
+}

@@ -40,7 +40,6 @@ class QtApp(QMainWindow):
 
         self.setWindowTitle('PDF to PPTX Converter')
         self.setWindowIcon(QIcon(Settings.path_prefix + '/assets/icon.png'))
-        self.widget.setStyleSheet('background-color: #2a2a2a')
 
         # Menu bar
         self.menu_bar = self.menuBar()
@@ -48,9 +47,15 @@ class QtApp(QMainWindow):
         self.settings_menu = self.menu_bar.addMenu('&Налаштування')
         self.init_menu()
 
+        # Load external style sheet
+        style_sheet_path = "assets/styles.qss"
+        with open(style_sheet_path, "r") as f:
+            style_sheet = f.read()
+            self.widget.setStyleSheet(style_sheet)
+
         self.text = QtWidgets.QLabel("Перетягніть файл(и) сюди\nабо натисніть щоб обрати")
         self.text.setAlignment(Qt.AlignCenter)
-        self.text.setStyleSheet('font-size: 15px; font-family: "Sergoe"; color: #eee')
+        self.text.setObjectName('mainLabel')
         self.layout.addWidget(self.text)
         self.layout.setStretchFactor(self.text, 1)
 
@@ -111,7 +116,7 @@ class QtApp(QMainWindow):
         for file_path in files:
             index = len(self.frames)
             self.frames[index] = QWidget(self)
-            self.frames[index].setStyleSheet('background-color: transparent; border-bottom: 1px solid #363636')
+            self.frames[index].setObjectName('fileFrame')
             self.layouts[index] = QGridLayout(self.frames[index])
             self.frames[index].setLayout(self.layouts[index])
 
@@ -119,26 +124,20 @@ class QtApp(QMainWindow):
 
             pdf = InfoHandler.get_pdf_metadata(file_path)
             self.labels[index]['name'] = QLabel(self.get_file_name(file_path))
-            self.labels[index]['name'].setStyleSheet('color: #eee; border: none; font-size: 16px')
+            self.labels[index]['name'].setObjectName('fileName')
 
             self.labels[index]['size'] = QLabel("Розмір файлу {:.2f} MB".format(int(pdf['File size'].split()[0]) / 10 ** 6))
-            self.labels[index]['size'].setStyleSheet('color: #5d5d5d; border: none')
+            self.labels[index]['size'].setObjectName('fileSize')
 
             self.labels[index]['slides'] = QLabel(f"Слайдів: {pdf['Pages']}")
-            self.labels[index]['slides'].setStyleSheet('color: #5d5d5d; border: none')
+            self.labels[index]['slides'].setObjectName('fileSlides')
 
             self.labels[index]['status'] = QLabel('В черзі')
-            self.labels[index]['status'].setStyleSheet('color: #89898b; border: none')
+            self.labels[index]['status'].setObjectName('fileStatus')
 
             self.labels[index]['done'] = False
 
             self.progress[index] = QProgressBar(self)
-            self.progress[index].setStyleSheet('background-color: #363636; '
-                                               'border: none; '
-                                               'max-width: 200px; '
-                                               'min-width: 150px; '
-                                               'text-align: center;'
-                                               'color: #eee')
 
             self.layouts[index].addWidget(self.labels[index]['name'], 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
             self.layouts[index].addWidget(self.progress[index], 0, 1, 2, 1, alignment=Qt.AlignmentFlag.AlignVCenter)
@@ -151,18 +150,18 @@ class QtApp(QMainWindow):
 
     def update_gui_on_file_process(self, index):
         self.labels[index]['status'].setText("Триває обробка файлу...")
-        self.labels[index]['status'].setStyleSheet('color: #e9a222; border: none')
+        self.labels[index]['status'].setObjectName('fileStatusProcessing')
 
     def update_gui_on_convertion(self, index, current, total):
         self.progress[index].setMaximum(total)
         self.progress[index].setFormat('%v/%m')
         self.progress[index].setValue(current)
-        self.labels[index]['status'].setStyleSheet('color: #da1039; border: none')
+        self.labels[index]['status'].setObjectName('fileStatusConverting')
         self.labels[index]['status'].setText("Конвертуємо слайди")
 
     def update_gui_on_file_process_end(self, index, time_spent):
         self.labels[index]['status'].setText(f"Завершено ({time_spent}с)")
-        self.labels[index]['status'].setStyleSheet('color: green; border: none')
+        self.labels[index]['status'].setObjectName('fileStatusFinished')
         self.labels[index]['done'] = True
 
     def get_file_name(self, path):
