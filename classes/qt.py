@@ -128,7 +128,7 @@ class QtApp(QMainWindow):
             self.labels[index]['name'] = QLabel(self.get_file_name(file_path))
             self.labels[index]['name'].setObjectName('fileName')
 
-            self.labels[index]['size'] = QLabel("Розмір файлу {:.2f} MB".format(int(pdf['File size'].split()[0]) / 10 ** 6))
+            self.labels[index]['size'] = QLabel("Розмір файлу: {:.2f} MB".format(int(pdf['File size'].split()[0]) / 10 ** 6))
             self.labels[index]['size'].setObjectName('fileSize')
 
             self.labels[index]['slides'] = QLabel(f"Слайдів: {pdf['Pages']}")
