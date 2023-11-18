@@ -1,8 +1,10 @@
 import os
 import sys
+import subprocess
 
 from PySide6 import QtWidgets, QtCore
-from PySide6.QtWidgets import QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout, QVBoxLayout, QScrollArea, QMainWindow
+from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout,
+                               QVBoxLayout, QScrollArea, QMainWindow, QPushButton)
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon, QAction, QActionGroup
 from classes.worker import WorkerThread
@@ -23,6 +25,7 @@ class QtApp(QMainWindow):
         self.frames = {}
         self.layouts = {}
         self.labels = {}
+        self.buttons = {}
         self.progress = {}
         self.separators = {}
         self.thread = {}
@@ -158,14 +161,24 @@ class QtApp(QMainWindow):
         self.labels[index]['status'].setObjectName('fileStatusConverting')
         self.labels[index]['status'].setText("Конвертуємо слайди")
 
-    def update_gui_on_file_process_end(self, index, time_spent):
-        self.labels[index]['status'].setText(f"Завершено ({time_spent}с)")
-        self.labels[index]['status'].setObjectName('fileStatusFinished')
+    def update_gui_on_file_process_end(self, index, time_spent, path):
+        self.buttons[index] = QPushButton(QIcon('assets/folder-open-regular.png'), f"Завершено ({time_spent}с)")
+        self.buttons[index].setObjectName('fileStatusFinished')
+        self.buttons[index].clicked.connect(lambda: self.on_file_open_click(path))
+        self.layouts[index].addWidget(self.buttons[index], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.labels[index]['status'].hide()
         self.labels[index]['done'] = True
 
     def get_file_name(self, path):
         result = os.path.basename(path)
         return result
+
+    def on_file_open_click(self, path):
+        path = os.path.abspath(path)
+        if sys.platform.startswith('darwin'):  # macOS
+            subprocess.Popen(['open', '--reveal', path])
+        elif sys.platform.startswith('win'):  # Windows
+            subprocess.Popen(['explorer', '/select,', path])
 
     def init_menu(self):
         # file - open menu item
