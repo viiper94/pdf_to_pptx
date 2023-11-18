@@ -42,13 +42,13 @@ class Convertor:
             size=(None, self.settings.resolution)
         )
 
-        self.create_pptx_from_images(images)
+        file_path = self.create_pptx_from_images(images)
 
         # Saving end timestamp
         end = time.time()
         time_spent = end - start
 
-        self.thread.file_process_end.emit(self.index, time_spent)
+        self.thread.file_process_end.emit(self.index, time_spent, file_path)
 
         return True
 
@@ -111,8 +111,9 @@ class Convertor:
                 )
 
         # Save the PowerPoint presentation
-        prs.save(self.file_name_without_ext + '.pptx')
-        return True
+        file_path = self.file_name_without_ext + '.pptx'
+        prs.save(file_path)
+        return file_path
 
     def get_height_multiplier(self):
         matches = re.findall(r'(\d+\.?\d+)', self.page_size)

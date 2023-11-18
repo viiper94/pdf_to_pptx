@@ -111,7 +111,6 @@ class QtApp(QMainWindow):
         if not self.thread[0].isRunning():
             self.thread[0].start()
 
-
     def update_gui_on_start(self, files):
         for file_path in files:
             index = len(self.frames)
