@@ -170,20 +170,20 @@ class QtApp(QMainWindow):
 
     def init_menu(self):
         # file - open menu item
-        open_action = QAction(QIcon('./assets/open.png'), '&Додати файл(и)', self)
+        open_action = QAction(QIcon('./assets/file-pdf-regular.svg'), '&Додати файл(и)', self)
         open_action.triggered.connect(self.open_file)
         open_action.setShortcut('Ctrl+O')
         self.file_menu.addAction(open_action)
 
         # file - clear menu item
-        clear_action = QAction(QIcon('./assets/clear.png'), '&Очистити список', self)
+        clear_action = QAction(QIcon('./assets/minus-solid.svg'), '&Очистити список', self)
         clear_action.triggered.connect(self.clear_file_list)
         self.file_menu.addAction(clear_action)
 
         self.file_menu.addSeparator()
 
         # file - exit menu item
-        exit_action = QAction(QIcon('./assets/exit.png'), '&Вийти', self)
+        exit_action = QAction(QIcon('./assets/xmark-solid.svg'), '&Вийти', self)
         exit_action.setShortcut('Alt+F4')
         exit_action.triggered.connect(self.quit)
         self.file_menu.addAction(exit_action)
