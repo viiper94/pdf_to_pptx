@@ -45,3 +45,8 @@ class Settings:
     def get_tmp_folder_path():
         prefix = Settings.path_prefix.replace('classes', '')
         return os.path.join(prefix, Settings.tmp_path)
+
+    @staticmethod
+    def get_app_path():
+        prefix = Settings.path_prefix.replace('classes', '')
+        return prefix

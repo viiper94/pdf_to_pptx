@@ -42,7 +42,7 @@ class QtApp(QMainWindow):
         self.setCentralWidget(self.scroll)
 
         self.setWindowTitle('PDF to PPTX Converter')
-        self.setWindowIcon(QIcon(Settings.path_prefix + '/assets/icon.png'))
+        self.setWindowIcon(QIcon(Settings.get_app_path() + '/assets/icon.png'))
 
         # Menu bar
         self.menu_bar = self.menuBar()
@@ -51,7 +51,7 @@ class QtApp(QMainWindow):
         self.init_menu()
 
         # Load external style sheet
-        style_sheet_path = "assets/styles.qss"
+        style_sheet_path = Settings.get_app_path() + "/assets/styles.qss"
         with open(style_sheet_path, "r") as f:
             style_sheet = f.read()
             self.widget.setStyleSheet(style_sheet)
@@ -168,7 +168,7 @@ class QtApp(QMainWindow):
         self.labels[index]['status'].setText("Конвертуємо слайди")
 
     def update_gui_on_file_process_end(self, index, time_spent, path):
-        self.buttons[index] = QPushButton(QIcon('assets/folder-open-regular.png'), f"Завершено ({time_spent}с)")
+        self.buttons[index] = QPushButton(QIcon(Settings.get_app_path() + '/assets/folder-open-regular.png'), f"Завершено ({time_spent}с)")
         self.buttons[index].setObjectName('fileStatusFinished')
         self.buttons[index].clicked.connect(lambda: self.on_file_open_click(path))
         self.layouts[index].addWidget(self.buttons[index], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -188,20 +188,20 @@ class QtApp(QMainWindow):
 
     def init_menu(self):
         # file - open menu item
-        open_action = QAction(QIcon('./assets/file-pdf-regular.svg'), '&Додати файл(и)', self)
+        open_action = QAction(QIcon(Settings.get_app_path() + '/assets/file-pdf-regular.svg'), '&Додати файл(и)', self)
         open_action.triggered.connect(self.open_file)
         open_action.setShortcut('Ctrl+O')
         self.file_menu.addAction(open_action)
 
         # file - clear menu item
-        clear_action = QAction(QIcon('./assets/minus-solid.svg'), '&Очистити список', self)
+        clear_action = QAction(QIcon(Settings.get_app_path() + '/assets/minus-solid.svg'), '&Очистити список', self)
         clear_action.triggered.connect(self.clear_file_list)
         self.file_menu.addAction(clear_action)
 
         self.file_menu.addSeparator()
 
         # file - exit menu item
-        exit_action = QAction(QIcon('./assets/xmark-solid.svg'), '&Вийти', self)
+        exit_action = QAction(QIcon(Settings.get_app_path() + '/assets/xmark-solid.svg'), '&Вийти', self)
         exit_action.setShortcut('Alt+F4')
         exit_action.triggered.connect(self.quit)
         self.file_menu.addAction(exit_action)
