@@ -17,6 +17,7 @@ QLabel{
 }
 #fileName{
 	font-size: 16px;
+	max-width: 270px;
 }
 #fileSize{
 	color: #5d5d5d;
