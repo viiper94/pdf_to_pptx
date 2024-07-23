@@ -254,6 +254,31 @@ class QtApp(QMainWindow):
         dpi_action_300.triggered.connect(self.on_dpi_changed)
         self.settings_menu.addAction(dpi_action_300)
 
+        self.settings_menu.addSeparator()
+
+        # settings - aspect text menu item
+        aspect_action = QAction('&Співвіднршення сторін', self, disabled=True)
+        self.settings_menu.addAction(aspect_action)
+
+        aspect_group = QActionGroup(self)
+        # settings - auto aspect menu item
+        aspect_action_auto = QAction('&Автоматично', self, checkable=True, checked=True)
+        aspect_action_auto.setActionGroup(aspect_group)
+        aspect_action_auto.triggered.connect(self.on_aspect_changed)
+        self.settings_menu.addAction(aspect_action_auto)
+
+        # settings - 16x9 aspect menu item
+        aspect_action_16 = QAction('&16:9', self, checkable=True)
+        aspect_action_16.setActionGroup(aspect_group)
+        aspect_action_16.triggered.connect(self.on_aspect_changed)
+        self.settings_menu.addAction(aspect_action_16)
+
+        # settings - 4x3 aspect menu item
+        aspect_action_4 = QAction('&4:3', self, checkable=True)
+        aspect_action_4.setActionGroup(aspect_group)
+        aspect_action_4.triggered.connect(self.on_aspect_changed)
+        self.settings_menu.addAction(aspect_action_4)
+
         self.settings_changed.connect(self.thread[0].update_settings)
 
     def on_resolution_changed(self):
@@ -268,6 +293,13 @@ class QtApp(QMainWindow):
         if action.isChecked():
             text = action.text()
             self.settings.change_dpi(self.settings, text)
+            self.settings_changed.emit(self.settings)
+
+    def on_aspect_changed(self):
+        action = self.sender()
+        if action.isChecked():
+            text = action.text()
+            self.settings.change_aspect(self.settings, text)
             self.settings_changed.emit(self.settings)
 
     def clear_file_list(self):

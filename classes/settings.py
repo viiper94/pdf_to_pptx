@@ -12,6 +12,8 @@ class Settings:
 
     dpi = 300
 
+    aspect = 'auto'
+
     def __init__(self):
         super().__init__()
 
@@ -30,6 +32,14 @@ class Settings:
             self.dpi = 200
         if dpi == '&300 DPI':
             self.dpi = 300
+
+    def change_aspect(self, aspect):
+        if aspect == '&Автоматично':
+            self.aspect = 'auto'
+        if aspect == '&16:9':
+            self.aspect = '16x9'
+        if aspect == '&4:3':
+            self.aspect = '4x3'
 
     @staticmethod
     def get_poppler_path():

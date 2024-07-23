@@ -116,8 +116,13 @@ class Convertor:
         return file_path
 
     def get_height_multiplier(self):
-        matches = re.findall(r'(\d+\.?\d+)', self.page_size)
-        width = float(matches[0])
-        height = float(matches[1])
-        aspect = width / height
-        return 16 / aspect
+        if self.settings.aspect == 'auto':
+            matches = re.findall(r'(\d+\.?\d+)', self.page_size)
+            width = float(matches[0])
+            height = float(matches[1])
+            aspect = width / height
+            return 16 / aspect
+        if self.settings.aspect == '16x9':
+            return 9
+        if self.settings.aspect == '4x3':
+            return 12
