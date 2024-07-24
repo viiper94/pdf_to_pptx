@@ -13,7 +13,7 @@ QLabel{
 }
 #mainLabel{
 	font-size: 15px;
-	font-family: "Sergoe, sans-serif";
+	font-family: Helvetica, Sergoe;
 }
 #fileName{
 	background-color: transparent;
