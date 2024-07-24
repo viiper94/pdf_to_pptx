@@ -32,8 +32,7 @@ class QtApp(QMainWindow):
         self.init_thread()
 
         self.widget = QWidget()
-        self.layout = QVBoxLayout(self)
-        self.widget.setLayout(self.layout)
+        self.layout = QVBoxLayout(self.widget)
 
         # Scroll Area
         self.scroll = QScrollArea()
