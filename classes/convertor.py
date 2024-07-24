@@ -36,7 +36,7 @@ class Convertor:
             images = convert_from_path(
                 self.file,
                 dpi=self.settings.dpi,
-                fmt='jpeg',
+                fmt='png',
                 poppler_path=self.settings.get_poppler_path(),
                 output_folder=self.settings.get_tmp_folder_path(),
                 thread_count=self.cpu_threads,
