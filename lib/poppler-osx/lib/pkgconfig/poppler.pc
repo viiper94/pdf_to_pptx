@@ -1,10 +1,10 @@
-prefix=/opt/homebrew/Cellar/poppler/23.10.0
-libdir=/opt/homebrew/Cellar/poppler/23.10.0/lib
-includedir=/opt/homebrew/Cellar/poppler/23.10.0/include
+prefix=/opt/homebrew/Cellar/poppler/24.04.0
+libdir=/opt/homebrew/Cellar/poppler/24.04.0/lib
+includedir=/opt/homebrew/Cellar/poppler/24.04.0/include
 
 Name: poppler
 Description: PDF rendering library
-Version: 23.10.0
+Version: 24.04.0
 
 Libs: -L${libdir} -lpoppler
 Cflags: -I${includedir}/poppler
