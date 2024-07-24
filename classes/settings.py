@@ -24,6 +24,8 @@ class Settings:
             self.resolution = 1440
         if res == '&Ultra HD (2160px)':
             self.resolution = 2160
+        if res == '&Оригінальний розмір':
+            self.resolution = None
 
     def change_dpi(self, dpi):
         if dpi == '&100 DPI':
