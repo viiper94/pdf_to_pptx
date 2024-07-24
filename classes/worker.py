@@ -10,6 +10,7 @@ class WorkerThread(QThread):
     file_process_start = Signal(int)
     file_process_progress = Signal(int, int, int)
     file_process_end = Signal(int, int, str)
+    file_process_failed = Signal(int, str)
 
     def __init__(self):
         super().__init__()

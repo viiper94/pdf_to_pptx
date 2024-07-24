@@ -106,6 +106,7 @@ class QtApp(QMainWindow):
         self.thread[0].file_process_start.connect(self.update_gui_on_file_process)
         self.thread[0].file_process_progress.connect(self.update_gui_on_convertion)
         self.thread[0].file_process_end.connect(self.update_gui_on_file_process_end)
+        self.thread[0].file_process_failed.connect(self.update_gui_on_file_process_failed)
         self.file_added.connect(self.thread[0].update_file_list)
 
     def process_files(self, files):
@@ -175,6 +176,13 @@ class QtApp(QMainWindow):
         self.labels[index]['status'].hide()
         self.labels[index]['done'] = True
 
+    def update_gui_on_file_process_failed(self, index, message):
+        self.labels[index]['status'].setText(message)
+        self.labels[index]['status'].setObjectName('fileStatusFailed')
+        self.labels[index]['status'].style().unpolish(self.labels[index]['status'])
+        self.labels[index]['status'].style().polish(self.labels[index]['status'])
+        self.labels[index]['status'].update()
+
     def get_file_name(self, path):
         result = os.path.basename(path)
         return result
@@ -229,10 +237,16 @@ class QtApp(QMainWindow):
         uhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(uhd_action)
 
+        # settings - original resolution menu item
+        original_action = QAction('&Оригінальний розмір', self, checkable=True)
+        original_action.setActionGroup(resolution_group)
+        original_action.triggered.connect(self.on_resolution_changed)
+        self.settings_menu.addAction(original_action)
+
         self.settings_menu.addSeparator()
 
         # settings - dpi text menu item
-        dpi_action = QAction('&Оберіть DPI', self, disabled=True)
+        dpi_action = QAction('&DPI', self, disabled=True)
         self.settings_menu.addAction(dpi_action)
 
         dpi_group = QActionGroup(self)
@@ -257,7 +271,7 @@ class QtApp(QMainWindow):
         self.settings_menu.addSeparator()
 
         # settings - aspect text menu item
-        aspect_action = QAction('&Співвіднршення сторін', self, disabled=True)
+        aspect_action = QAction('&Співвідношення сторін', self, disabled=True)
         self.settings_menu.addAction(aspect_action)
 
         aspect_group = QActionGroup(self)

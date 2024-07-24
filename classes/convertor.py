@@ -31,24 +31,28 @@ class Convertor:
         # Saving start timestamp
         start = time.time()
 
-        # Convert PDF to images
-        images = convert_from_path(
-            self.file,
-            dpi=self.settings.dpi,
-            fmt='jpeg',
-            poppler_path=self.settings.get_poppler_path(),
-            output_folder=self.settings.get_tmp_folder_path(),
-            thread_count=self.cpu_threads,
-            size=(None, self.settings.resolution)
-        )
+        try:
+            # Convert PDF to images
+            images = convert_from_path(
+                self.file,
+                dpi=self.settings.dpi,
+                fmt='jpeg',
+                poppler_path=self.settings.get_poppler_path(),
+                output_folder=self.settings.get_tmp_folder_path(),
+                thread_count=self.cpu_threads,
+                size=(None, self.settings.resolution)
+            )
 
-        file_path = self.create_pptx_from_images(images)
+            file_path = self.create_pptx_from_images(images)
 
-        # Saving end timestamp
-        end = time.time()
-        time_spent = end - start
+            # Saving end timestamp
+            end = time.time()
+            time_spent = end - start
 
-        self.thread.file_process_end.emit(self.index, time_spent, file_path)
+            self.thread.file_process_end.emit(self.index, time_spent, file_path)
+
+        except Exception:
+            self.thread.file_process_failed.emit(self.index, "Виникла помилка =(")
 
         return True
 
