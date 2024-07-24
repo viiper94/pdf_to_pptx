@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>pdf_to_pptx</string>
+	<key>CFBundleExecutable</key>
+	<string>pdf_to_pptx</string>
+	<key>CFBundleIconFile</key>
+	<string>generated-999832b02ac420d7eae4e06d9fdcc1bcf6dc28d06c63230cc6ea06c7738b4c77.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>pdf_to_pptx</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>pdf_to_pptx</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.0.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+</dict>
+</plist>
