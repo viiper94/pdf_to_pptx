@@ -1,3 +1,0 @@
-([('pdf_to_pptx',
-   '/Users/eugenezaichuk/PycharmProjects/pdf_to_pptx/dist/pdf_to_pptx',
-   'EXECUTABLE')],)
