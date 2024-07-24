@@ -5,8 +5,8 @@ import subprocess
 from PySide6 import QtWidgets, QtCore
 from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout,
                                QVBoxLayout, QScrollArea, QMainWindow, QPushButton)
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QIcon, QAction, QActionGroup
+from PySide6.QtCore import Qt, Signal, QUrl
+from PySide6.QtGui import QIcon, QAction, QActionGroup, QDesktopServices
 from classes.worker import WorkerThread
 from classes.validator import Validator
 from classes.info_handler import InfoHandler
@@ -48,6 +48,7 @@ class QtApp(QMainWindow):
         self.menu_bar = self.menuBar()
         self.file_menu = self.menu_bar.addMenu('&Конвертор')
         self.settings_menu = self.menu_bar.addMenu('&Налаштування')
+        self.info_menu = self.menu_bar.addMenu('&Інфо')
         self.init_menu()
 
         # Load external style sheet
@@ -296,6 +297,17 @@ class QtApp(QMainWindow):
         aspect_action_4.triggered.connect(self.on_aspect_changed)
         self.settings_menu.addAction(aspect_action_4)
 
+        # info - version menu item
+        version_action = QAction('&v0.8', self, disabled=True)
+        self.info_menu.addAction(version_action)
+
+        # info - repo menu item
+        repo_action = QAction('&GitHub', self)
+        repo_action.triggered.connect(self.open_github)
+        self.info_menu.addAction(repo_action)
+
+        self.file_menu.addSeparator()
+
         self.settings_changed.connect(self.thread[0].update_settings)
 
     def on_resolution_changed(self):
@@ -323,6 +335,9 @@ class QtApp(QMainWindow):
         for i, item in enumerate(self.labels):
             if self.labels[i]['done']:
                 self.frames[i].hide()
+
+    def open_github(self):
+        QDesktopServices.openUrl(QUrl("https://github.com/viiper94/pdf_to_pptx"))
 
     def quit(self):
         self.destroy()
