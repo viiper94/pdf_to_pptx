@@ -223,25 +223,25 @@ class QtApp(QMainWindow):
 
         resolution_group = QActionGroup(self)
         # settings - fhd resolution menu item
-        fhd_action = QAction('&Full HD (1080px)', self, checkable=True, checked=True)
+        fhd_action = QAction('&Full HD (1080px)', self, checkable=True, checked=self.settings.resolution == 1080)
         fhd_action.setActionGroup(resolution_group)
         fhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(fhd_action)
 
         # settings - qhd resolution menu item
-        qhd_action = QAction('&Quad HD (1440px)', self, checkable=True)
+        qhd_action = QAction('&Quad HD (1440px)', self, checkable=True, checked=self.settings.resolution == 1440)
         qhd_action.setActionGroup(resolution_group)
         qhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(qhd_action)
 
         # settings - uhd resolution menu item
-        uhd_action = QAction('&Ultra HD (2160px)', self, checkable=True)
+        uhd_action = QAction('&Ultra HD (2160px)', self, checkable=True, checked=self.settings.resolution == 2160)
         uhd_action.setActionGroup(resolution_group)
         uhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(uhd_action)
 
         # settings - original resolution menu item
-        original_action = QAction('&Оригінальний розмір', self, checkable=True)
+        original_action = QAction('&Оригінальний розмір', self, checkable=True, checked=self.settings.resolution == None)
         original_action.setActionGroup(resolution_group)
         original_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(original_action)
@@ -254,19 +254,19 @@ class QtApp(QMainWindow):
 
         dpi_group = QActionGroup(self)
         # settings - 100 dpi menu item
-        dpi_action_100 = QAction('&100 DPI', self, checkable=True)
+        dpi_action_100 = QAction('&100 DPI', self, checkable=True, checked=self.settings.dpi == 100)
         dpi_action_100.setActionGroup(dpi_group)
         dpi_action_100.triggered.connect(self.on_dpi_changed)
         self.settings_menu.addAction(dpi_action_100)
 
         # settings - 200 dpi menu item
-        dpi_action_200 = QAction('&200 DPI', self, checkable=True)
+        dpi_action_200 = QAction('&200 DPI', self, checkable=True, checked=self.settings.dpi == 200)
         dpi_action_200.setActionGroup(dpi_group)
         dpi_action_200.triggered.connect(self.on_dpi_changed)
         self.settings_menu.addAction(dpi_action_200)
 
         # settings - 300 dpi menu item
-        dpi_action_300 = QAction('&300 DPI', self, checkable=True, checked=True)
+        dpi_action_300 = QAction('&300 DPI', self, checkable=True, checked=self.settings.dpi == 300)
         dpi_action_300.setActionGroup(dpi_group)
         dpi_action_300.triggered.connect(self.on_dpi_changed)
         self.settings_menu.addAction(dpi_action_300)
@@ -279,19 +279,19 @@ class QtApp(QMainWindow):
 
         aspect_group = QActionGroup(self)
         # settings - auto aspect menu item
-        aspect_action_auto = QAction('&Автоматично', self, checkable=True, checked=True)
+        aspect_action_auto = QAction('&Автоматично', self, checkable=True, checked=self.settings.aspect == 'auto')
         aspect_action_auto.setActionGroup(aspect_group)
         aspect_action_auto.triggered.connect(self.on_aspect_changed)
         self.settings_menu.addAction(aspect_action_auto)
 
         # settings - 16x9 aspect menu item
-        aspect_action_16 = QAction('&16:9', self, checkable=True)
+        aspect_action_16 = QAction('&16:9', self, checkable=True, checked=self.settings.aspect == '16x9')
         aspect_action_16.setActionGroup(aspect_group)
         aspect_action_16.triggered.connect(self.on_aspect_changed)
         self.settings_menu.addAction(aspect_action_16)
 
         # settings - 4x3 aspect menu item
-        aspect_action_4 = QAction('&4:3', self, checkable=True)
+        aspect_action_4 = QAction('&4:3', self, checkable=True, checked=self.settings.aspect == '4x3')
         aspect_action_4.setActionGroup(aspect_group)
         aspect_action_4.triggered.connect(self.on_aspect_changed)
         self.settings_menu.addAction(aspect_action_4)
