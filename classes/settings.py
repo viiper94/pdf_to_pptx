@@ -10,8 +10,8 @@ class Settings:
 
     resolution = 1920
     dpi = 300
-
     aspect = 'auto'
+    output = 'pptx'
 
     def __init__(self):
         super().__init__()
@@ -41,6 +41,12 @@ class Settings:
             self.aspect = '16x9'
         if aspect == '&4:3':
             self.aspect = '4x3'
+
+    def change_output(self, output):
+        if output == '&PPTX':
+            self.output = 'pptx'
+        if output == '&JPEG':
+            self.output = 'jpg'
 
     @staticmethod
     def get_poppler_path():

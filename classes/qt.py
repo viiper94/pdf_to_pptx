@@ -223,19 +223,19 @@ class QtApp(QMainWindow):
 
         resolution_group = QActionGroup(self)
         # settings - fhd resolution menu item
-        fhd_action = QAction('&Full HD (1080px)', self, checkable=True, checked=self.settings.resolution == 1080)
+        fhd_action = QAction('&Full HD (1080px)', self, checkable=True, checked=self.settings.resolution == 1920)
         fhd_action.setActionGroup(resolution_group)
         fhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(fhd_action)
 
         # settings - qhd resolution menu item
-        qhd_action = QAction('&Quad HD (1440px)', self, checkable=True, checked=self.settings.resolution == 1440)
+        qhd_action = QAction('&Quad HD (1440px)', self, checkable=True, checked=self.settings.resolution == 2560)
         qhd_action.setActionGroup(resolution_group)
         qhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(qhd_action)
 
         # settings - uhd resolution menu item
-        uhd_action = QAction('&Ultra HD (2160px)', self, checkable=True, checked=self.settings.resolution == 2160)
+        uhd_action = QAction('&Ultra HD (2160px)', self, checkable=True, checked=self.settings.resolution == 3840)
         uhd_action.setActionGroup(resolution_group)
         uhd_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(uhd_action)
@@ -296,6 +296,25 @@ class QtApp(QMainWindow):
         aspect_action_4.triggered.connect(self.on_aspect_changed)
         self.settings_menu.addAction(aspect_action_4)
 
+        self.settings_menu.addSeparator()
+
+        # settings - output text menu item
+        output_action = QAction('&Конвертувати в', self, disabled=True)
+        self.settings_menu.addAction(output_action)
+
+        output_group = QActionGroup(self)
+        # settings - pptx output menu item
+        output_action_pptx = QAction('&PPTX', self, checkable=True, checked=self.settings.output == 'pptx')
+        output_action_pptx.setActionGroup(output_group)
+        output_action_pptx.triggered.connect(self.on_output_changed)
+        self.settings_menu.addAction(output_action_pptx)
+
+        # settings - jpg output menu item
+        output_action_jpg = QAction('&JPEG', self, checkable=True, checked=self.settings.aspect == 'jpg')
+        output_action_jpg.setActionGroup(output_group)
+        output_action_jpg.triggered.connect(self.on_output_changed)
+        self.settings_menu.addAction(output_action_jpg)
+
         # info - version menu item
         version_action = QAction('&v0.8', self, disabled=True)
         self.info_menu.addAction(version_action)
@@ -328,6 +347,13 @@ class QtApp(QMainWindow):
         if action.isChecked():
             text = action.text()
             self.settings.change_aspect(self.settings, text)
+            self.settings_changed.emit(self.settings)
+
+    def on_output_changed(self):
+        action = self.sender()
+        if action.isChecked():
+            text = action.text()
+            self.settings.change_output(self.settings, text)
             self.settings_changed.emit(self.settings)
 
     def clear_file_list(self):
