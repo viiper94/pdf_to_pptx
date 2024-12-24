@@ -8,8 +8,7 @@ class Settings:
     tmp_path = 'tmp'
     template_path = 'template/default.pptx'
 
-    resolution = 1080
-
+    resolution = 1920
     dpi = 300
 
     aspect = 'auto'
@@ -19,11 +18,11 @@ class Settings:
 
     def change_resolution(self, res):
         if res == '&Full HD (1080px)':
-            self.resolution = 1080
+            self.resolution = 1920
         if res == '&Quad HD (1440px)':
-            self.resolution = 1440
+            self.resolution = 2560
         if res == '&Ultra HD (2160px)':
-            self.resolution = 2160
+            self.resolution = 3840
         if res == '&Оригінальний розмір':
             self.resolution = None
 
