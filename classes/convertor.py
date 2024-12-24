@@ -43,7 +43,10 @@ class Convertor:
                 size=(self.settings.resolution, None)
             )
 
-            file_path = self.create_pptx_from_images(images)
+            if self.settings.output == 'pptx':
+                file_path = self.create_pptx_from_images(images)
+            else:
+                file_path = self.save_images(images)
 
             # Saving end timestamp
             end = time.time()
@@ -118,6 +121,19 @@ class Convertor:
         file_path = self.file_name_without_ext + '.pptx'
         prs.save(file_path)
         return file_path
+
+    def save_images(self, images):
+        # creating dir with images
+        if not os.path.exists(self.file_name_without_ext):
+            os.mkdir(self.file_name_without_ext)
+
+        for i, image in enumerate(images, start=1):
+            self.thread.file_process_progress.emit(self.index, i, self.pages)
+            numbered_filename = f"{i:02d}.jpg"  # Pad with zeros for consistent numbering
+            output_path = os.path.join(self.file_name_without_ext, numbered_filename)
+            image.save(output_path, 'JPEG')
+
+        return output_path
 
     def get_height_multiplier(self):
         if self.settings.aspect == 'auto':
