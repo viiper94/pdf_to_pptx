@@ -315,14 +315,14 @@ class QtApp(QMainWindow):
         output_action_jpg.triggered.connect(self.on_output_changed)
         self.settings_menu.addAction(output_action_jpg)
 
-        # info - version menu item
-        version_action = QAction('&v0.8', self, disabled=True)
-        self.info_menu.addAction(version_action)
-
         # info - repo menu item
         repo_action = QAction('&GitHub', self)
         repo_action.triggered.connect(self.open_github)
         self.info_menu.addAction(repo_action)
+
+        # info - version menu item
+        version_action = QAction('&v0.8', self, disabled=True)
+        self.info_menu.addAction(version_action)
 
         self.file_menu.addSeparator()
 
