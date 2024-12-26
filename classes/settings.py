@@ -1,10 +1,14 @@
 import os
+import sys
+import subprocess
 
 
 class Settings:
 
     path_prefix = os.path.dirname(os.path.abspath(__file__))
-    poppler_path = 'lib/poppler/bin'
+    poppler_path_win = 'lib/poppler/bin'
+    poppler_path_osx = 'lib/poppler-osx/bin'
+
     tmp_path = 'tmp'
     template_path = 'template/default.pptx'
 
@@ -51,7 +55,11 @@ class Settings:
     @staticmethod
     def get_poppler_path():
         prefix = Settings.path_prefix.replace('classes', '')
-        return os.path.join(prefix, Settings.poppler_path)
+        if sys.platform.startswith('darwin'):  # macOS
+            poppler_path = Settings.poppler_path_osx
+        elif sys.platform.startswith('win'):  # Windows
+            poppler_path = Settings.poppler_path_win
+        return os.path.join(prefix, poppler_path)
 
     @staticmethod
     def get_template_path():
