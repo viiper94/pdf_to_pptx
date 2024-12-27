@@ -321,7 +321,7 @@ class QtApp(QMainWindow):
         self.info_menu.addAction(repo_action)
 
         # info - version menu item
-        version_action = QAction('&v0.8', self, disabled=True)
+        version_action = QAction('&v0.9', self, disabled=True)
         self.info_menu.addAction(version_action)
 
         self.file_menu.addSeparator()
