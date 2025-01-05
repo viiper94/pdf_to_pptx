@@ -19,7 +19,7 @@ class Convertor:
         self.file_name_without_ext = self.get_file_name_without_extension()
         self.cpu_threads = self.get_threads()
 
-        pdf_data = self.get_pdf_metadata(file)
+        pdf_data = InfoHandler.get_pdf_metadata(self.file, self.password)
         self.pages = pdf_data['Pages']
         self.page_size = pdf_data['Page size']
 
@@ -59,12 +59,6 @@ class Convertor:
             self.thread.file_process_failed.emit(self.index, "Виникла помилка =(")
 
         return True
-
-    def get_pdf_metadata(self, pdf_file):
-        return pdfinfo_from_path(
-            pdf_file,
-            poppler_path=self.settings.get_poppler_path()
-        )
 
     def get_threads(self):
         if os.cpu_count() > 1:
