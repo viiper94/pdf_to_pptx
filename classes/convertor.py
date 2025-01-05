@@ -7,6 +7,8 @@ from pdf2image import pdfinfo_from_path
 from pptx import Presentation
 from pptx.util import Inches
 
+from classes.info_handler import InfoHandler
+
 
 class Convertor:
 
