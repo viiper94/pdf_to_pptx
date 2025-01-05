@@ -12,9 +12,10 @@ from classes.info_handler import InfoHandler
 
 class Convertor:
 
-    def __init__(self, index, file, thread, settings):
+    def __init__(self, index, file, password, thread, settings):
         self.thread = thread
         self.file = file
+        self.password = password
         self.index = index
         self.settings = settings
 
@@ -43,6 +44,7 @@ class Convertor:
                 output_folder=self.settings.get_tmp_folder_path(),
                 thread_count=self.cpu_threads,
                 use_pdftocairo=True,
+                userpw=self.password,
                 size=(self.settings.resolution, None)
             )
 

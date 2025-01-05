@@ -23,6 +23,7 @@ class WorkerThread(QThread):
             item = self.files[index]
             if not item['done']:
                 convertor = Convertor(index, item['path'], self, settings=self.settings)
+                    password=item['password'],
                 convertor.convert()
                 self.files[index]['done'] = True
             index += 1
@@ -32,6 +33,7 @@ class WorkerThread(QThread):
             index = len(self.files)
             self.files[index] = {}
             self.files[index]['path'] = file
+            self.files[index]['password'] = file['password']
             self.files[index]['done'] = False
 
     def update_settings(self, settings):
