@@ -2,7 +2,7 @@ import os
 import sys
 import subprocess
 
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets
 from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout,
                                QVBoxLayout, QScrollArea, QMainWindow, QPushButton)
 from PySide6.QtCore import Qt, Signal, QUrl
