@@ -131,8 +131,15 @@ class QtApp(QMainWindow):
             self.thread[0].start()
 
     def update_gui_on_start(self, files):
-        for file_path in files:
+        for file in files:
+
+            try:
+                pdf = InfoHandler.get_pdf_metadata(file['path'], file['password'])
+            except PDFIncorrectPasswordError:
                 self.file_remove.emit(file['path'])
+                self.create_password_thread(file['path'])
+                continue
+
             index = len(self.frames)
             self.frames[index] = QWidget(self)
             self.frames[index].setObjectName('fileFrame')
