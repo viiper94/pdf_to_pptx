@@ -17,6 +17,7 @@ from classes.exceptions.incorrect_password_error import PDFIncorrectPasswordErro
 class QtApp(QMainWindow):
 
     file_added = Signal(list)
+    file_remove = Signal(str)
     settings_changed = Signal(Settings)
 
     def __init__(self, args):
@@ -109,6 +110,7 @@ class QtApp(QMainWindow):
         self.thread[0].file_process_end.connect(self.update_gui_on_file_process_end)
         self.thread[0].file_process_failed.connect(self.update_gui_on_file_process_failed)
         self.file_added.connect(self.thread[0].update_file_list)
+        self.file_remove.connect(self.thread[0].remove_file)
 
     def pack_validated_files(self, files):
         packed_files = []
@@ -124,6 +126,7 @@ class QtApp(QMainWindow):
 
     def update_gui_on_start(self, files):
         for file_path in files:
+                self.file_remove.emit(file['path'])
             index = len(self.frames)
             self.frames[index] = QWidget(self)
             self.frames[index].setObjectName('fileFrame')

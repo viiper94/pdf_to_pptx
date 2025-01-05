@@ -40,3 +40,14 @@ class WorkerThread(QThread):
 
     def update_settings(self, settings):
         self.settings = settings
+
+    def remove_file(self, path):
+        for index in self.files:
+            if (self.files[index]['path'] == path
+                    and not self.files[index]['done']
+                    and self.files[index]['password'] is None):
+                del self.files[index]
+                break
+
+        # reset indexes in self.files
+        self.files = {i: value for i, value in enumerate(self.files.values())}
