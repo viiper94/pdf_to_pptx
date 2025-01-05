@@ -1,5 +1,3 @@
-import time
-
 from PySide6.QtCore import Signal, QThread
 from classes.convertor import Convertor
 from classes.settings import Settings
