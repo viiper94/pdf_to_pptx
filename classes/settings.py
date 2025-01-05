@@ -1,6 +1,5 @@
 import os
 import sys
-import subprocess
 
 
 class Settings:
@@ -55,6 +54,7 @@ class Settings:
     @staticmethod
     def get_poppler_path():
         prefix = Settings.path_prefix.replace('classes', '')
+        poppler_path = ''
         if sys.platform.startswith('darwin'):  # macOS
             poppler_path = Settings.poppler_path_osx
         elif sys.platform.startswith('win'):  # Windows

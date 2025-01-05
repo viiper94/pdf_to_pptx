@@ -3,7 +3,6 @@ import re
 import time
 from io import BytesIO
 from pdf2image import convert_from_path
-from pdf2image import pdfinfo_from_path
 from pptx import Presentation
 from pptx.util import Inches
 
@@ -123,6 +122,7 @@ class Convertor:
 
     def save_images(self, images):
         # creating dir with images
+        output_path = ''
         if not os.path.exists(self.file_name_without_ext):
             os.mkdir(self.file_name_without_ext)
 

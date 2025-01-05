@@ -208,11 +208,13 @@ class QtApp(QMainWindow):
         self.labels[index]['status'].style().polish(self.labels[index]['status'])
         self.labels[index]['status'].update()
 
-    def get_file_name(self, path):
+    @staticmethod
+    def get_file_name(path):
         result = os.path.basename(path)
         return result
 
-    def on_file_open_click(self, path):
+    @staticmethod
+    def on_file_open_click(path):
         path = os.path.abspath(path)
         if sys.platform.startswith('darwin'):  # macOS
             subprocess.Popen(['open', '--reveal', path])
