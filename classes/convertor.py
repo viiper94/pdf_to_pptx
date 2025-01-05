@@ -40,6 +40,7 @@ class Convertor:
                 poppler_path=self.settings.get_poppler_path(),
                 output_folder=self.settings.get_tmp_folder_path(),
                 thread_count=self.cpu_threads,
+                use_pdftocairo=True,
                 size=(self.settings.resolution, None)
             )
 
