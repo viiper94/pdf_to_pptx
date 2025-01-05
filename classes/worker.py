@@ -22,8 +22,12 @@ class WorkerThread(QThread):
         while index < len(self.files):
             item = self.files[index]
             if not item['done']:
-                convertor = Convertor(index, item['path'], self, settings=self.settings)
+                convertor = Convertor(
+                    index=index,
+                    file=item['path'],
                     password=item['password'],
+                    thread=self,
+                    settings=self.settings)
                 convertor.convert()
                 self.files[index]['done'] = True
             index += 1
