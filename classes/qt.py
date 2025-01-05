@@ -11,6 +11,7 @@ from classes.worker import WorkerThread
 from classes.validator import Validator
 from classes.info_handler import InfoHandler
 from classes.settings import Settings
+from classes.exceptions.incorrect_password_error import PDFIncorrectPasswordError
 
 
 class QtApp(QMainWindow):
