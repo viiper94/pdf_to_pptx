@@ -71,7 +71,7 @@ class QtApp(QMainWindow):
         if len(args) > 1:
             validated_files = Validator.validate(args)
             if validated_files:
-                self.process_files(validated_files)
+                self.pack_validated_files(validated_files)
 
     def on_click(self, event):
         if event.button() == Qt.LeftButton:
@@ -87,7 +87,7 @@ class QtApp(QMainWindow):
             files = fd.selectedFiles()
             validated_files = Validator.validate(files)
             if validated_files:
-                self.process_files(validated_files)
+                self.pack_validated_files(validated_files)
 
     def dragEnterEvent(self, event):
         # Accept the event if it has a file or files
@@ -99,7 +99,7 @@ class QtApp(QMainWindow):
         files = [url.toLocalFile() for url in event.mimeData().urls()]
         validated_files = Validator.validate(files)
         if validated_files:
-            self.process_files(validated_files)
+            self.pack_validated_files(validated_files)
 
     def init_thread(self):
         self.thread[0] = WorkerThread()
@@ -108,6 +108,12 @@ class QtApp(QMainWindow):
         self.thread[0].file_process_end.connect(self.update_gui_on_file_process_end)
         self.thread[0].file_process_failed.connect(self.update_gui_on_file_process_failed)
         self.file_added.connect(self.thread[0].update_file_list)
+
+    def pack_validated_files(self, files):
+        packed_files = []
+        for file in files:
+            packed_files.append({'path': file, 'password': None})
+        return self.process_files(packed_files)
 
     def process_files(self, files):
         self.file_added.emit(files)
@@ -125,11 +131,10 @@ class QtApp(QMainWindow):
 
             self.labels[index] = {}
 
-            pdf = InfoHandler.get_pdf_metadata(file_path)
-            size = os.stat(file_path).st_size / (1024 * 1024)
+            size = os.stat(file['path']).st_size / (1024 * 1024)
             formatted_size = f"{size:.2f}"
 
-            self.labels[index]['name'] = QLabel(self.get_file_name(file_path))
+            self.labels[index]['name'] = QLabel(self.get_file_name(file['path']))
             self.labels[index]['name'].setObjectName('fileName')
 
             self.labels[index]['size'] = QLabel(f"Розмір файлу: {formatted_size} MB")

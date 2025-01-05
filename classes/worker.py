@@ -34,7 +34,7 @@ class WorkerThread(QThread):
         for file in new_files:
             index = len(self.files)
             self.files[index] = {}
-            self.files[index]['path'] = file
+            self.files[index]['path'] = file['path']
             self.files[index]['password'] = file['password']
             self.files[index]['done'] = False
 
