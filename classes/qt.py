@@ -7,6 +7,8 @@ from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGrid
                                QVBoxLayout, QScrollArea, QMainWindow, QPushButton)
 from PySide6.QtCore import Qt, Signal, QUrl
 from PySide6.QtGui import QIcon, QAction, QActionGroup, QDesktopServices
+
+from classes.request_password import RequestPasswordThread
 from classes.worker import WorkerThread
 from classes.validator import Validator
 from classes.info_handler import InfoHandler
@@ -16,6 +18,9 @@ from classes.exceptions.incorrect_password_error import PDFIncorrectPasswordErro
 
 class QtApp(QMainWindow):
 
+    encrypted_file_added = Signal(str)
+    encrypted_file_password = Signal(str, str)
+    terminate_password_thread = Signal()
     file_added = Signal(list)
     file_remove = Signal(str)
     settings_changed = Signal(Settings)
@@ -31,6 +36,7 @@ class QtApp(QMainWindow):
         self.progress = {}
         self.separators = {}
         self.thread = {}
+        self.request_password_thread = {}
         self.init_thread()
 
         self.widget = QWidget()
@@ -372,6 +378,31 @@ class QtApp(QMainWindow):
 
     def open_github(self):
         QDesktopServices.openUrl(QUrl("https://github.com/viiper94/pdf_to_pptx"))
+
+    def show_password_dialog(self, file_path):
+        dialog = QtWidgets.QInputDialog(self)
+        dialog.setInputMode(QtWidgets.QInputDialog.InputMode.TextInput)
+        filename = self.get_file_name(file_path)
+        dialog.setLabelText(f"Введіть пароль для файлу {filename}:")
+        dialog.setWindowTitle("Пароль для PDF")
+        dialog.resize(300, 100)
+        dialog.exec()
+        password = dialog.textValue()
+        self.encrypted_file_password.emit(file_path, password)
+
+    def create_password_thread(self, file_path):
+        self.request_password_thread = RequestPasswordThread()
+        self.request_password_thread.show_password_dialog.connect(self.show_password_dialog)
+        self.request_password_thread.process_encrypted_file.connect(self.process_encrypted_file)
+        self.terminate_password_thread.connect(self.request_password_thread.terminate_thread)
+        self.encrypted_file_added.connect(self.request_password_thread.added_encrypted_file)
+        self.encrypted_file_password.connect(self.request_password_thread.update_password)
+        self.encrypted_file_added.emit(file_path)
+        self.request_password_thread.start()
+
+    def process_encrypted_file(self, file_path, password):
+        self.process_files([{'path': file_path, 'password': password}])
+        self.terminate_password_thread.emit()
 
     def quit(self):
         self.destroy()
