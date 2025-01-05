@@ -220,6 +220,7 @@ class QtApp(QMainWindow):
     def show_password_dialog(self, file_path):
         dialog = QtWidgets.QInputDialog(self)
         dialog.setInputMode(QtWidgets.QInputDialog.InputMode.TextInput)
+        dialog.setTextEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         filename = self.get_file_name(file_path)
         dialog.setLabelText(f"Введіть пароль для файлу {filename}:")
         dialog.setWindowTitle("Пароль для PDF")
