@@ -92,13 +92,11 @@ class Convertor:
         for i, image in enumerate(images):
             self.thread.file_process_progress.emit(self.index, i + 1, self.pages)
             slide = prs.slides.add_slide(prs.slide_layouts[6])
-            image_binary = BytesIO()
-            image.save(image_binary, 'PNG')
             aspect_ratio = float(image.width) / float(image.height)
             if aspect_ratio >= slide_aspect:
                 height = int(slide_width / aspect_ratio)
                 slide.shapes.add_picture(
-                    image_binary,
+                    image.filename,
                     left=int(0),
                     top=int((slide_height - height) / 2),
                     height=height,
@@ -108,7 +106,7 @@ class Convertor:
             else:
                 width = int(Inches(page_height) * aspect_ratio)
                 slide.shapes.add_picture(
-                    image_binary,
+                    image.filename,
                     left=int((slide_width - width) / 2),
                     top=int(0),
                     height=slide_height,
