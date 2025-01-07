@@ -73,31 +73,6 @@ class MenuUI(QMenu):
 
         self.settings_menu.addSeparator()
 
-        # settings - dpi text menu item
-        dpi_action = QAction('&DPI', self.app, disabled=True)
-        self.settings_menu.addAction(dpi_action)
-
-        dpi_group = QActionGroup(self.app)
-        # settings - 100 dpi menu item
-        dpi_action_100 = QAction('&100 DPI', self.app, checkable=True, checked=self.settings.dpi == 100)
-        dpi_action_100.setActionGroup(dpi_group)
-        dpi_action_100.triggered.connect(self.on_dpi_changed)
-        self.settings_menu.addAction(dpi_action_100)
-
-        # settings - 200 dpi menu item
-        dpi_action_200 = QAction('&200 DPI', self.app, checkable=True, checked=self.settings.dpi == 200)
-        dpi_action_200.setActionGroup(dpi_group)
-        dpi_action_200.triggered.connect(self.on_dpi_changed)
-        self.settings_menu.addAction(dpi_action_200)
-
-        # settings - 300 dpi menu item
-        dpi_action_300 = QAction('&300 DPI', self.app, checkable=True, checked=self.settings.dpi == 300)
-        dpi_action_300.setActionGroup(dpi_group)
-        dpi_action_300.triggered.connect(self.on_dpi_changed)
-        self.settings_menu.addAction(dpi_action_300)
-
-        self.settings_menu.addSeparator()
-
         # settings - aspect text menu item
         aspect_action = QAction('&Співвідношення сторін', self.app, disabled=True)
         self.settings_menu.addAction(aspect_action)
@@ -156,13 +131,6 @@ class MenuUI(QMenu):
         action = self.sender()
         if action.isChecked():
             self.settings.change_resolution(action.text())
-            self.settings_changed.emit(self.settings)
-        return True
-
-    def on_dpi_changed(self):
-        action = self.sender()
-        if action.isChecked():
-            self.settings.change_dpi(action.text())
             self.settings_changed.emit(self.settings)
         return True
 

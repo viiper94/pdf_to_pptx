@@ -12,7 +12,6 @@ class Settings:
     template_path = 'template/default.pptx'
 
     resolution = 1920
-    dpi = 300
     aspect = 'auto'
     output = 'pptx'
 
@@ -28,14 +27,6 @@ class Settings:
             self.resolution = 3840
         if res == '&Оригінальний розмір':
             self.resolution = None
-
-    def change_dpi(self, dpi):
-        if dpi == '&100 DPI':
-            self.dpi = 100
-        if dpi == '&200 DPI':
-            self.dpi = 200
-        if dpi == '&300 DPI':
-            self.dpi = 300
 
     def change_aspect(self, aspect):
         if aspect == '&Автоматично':
