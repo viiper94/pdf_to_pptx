@@ -1,6 +1,6 @@
-from pdf2image import pdfinfo_from_path
-from pdf2image.exceptions import PDFPageCountError
-from classes.settings import Settings
+import pypdfium2 as pdfium
+from pypdfium2 import PdfiumError
+
 from classes.exceptions.incorrect_password_error import PDFIncorrectPasswordError
 
 
@@ -8,11 +8,16 @@ class InfoHandler:
 
     @staticmethod
     def get_pdf_metadata(file, password=None):
-        data = {}
+        pdf = None
+
         try:
-            data = pdfinfo_from_path(file, poppler_path=Settings.get_poppler_path(), userpw=password)
-        except PDFPageCountError as e:
+            pdf = pdfium.PdfDocument(file, password=password)
+            page = pdf[0]
+            width_pt, height_pt = page.get_size()
+            return {'Pages': len(pdf), 'Width': width_pt, 'Height': height_pt}
+
+        except PdfiumError as e:
             if 'Incorrect password' in str(e):
                 raise PDFIncorrectPasswordError
 
-        return data
+        return pdf

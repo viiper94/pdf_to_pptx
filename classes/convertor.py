@@ -2,7 +2,8 @@ import os
 import re
 import time
 from io import BytesIO
-from pdf2image import convert_from_path
+
+import pypdfium2 as pdfium
 from pptx import Presentation
 from pptx.util import Inches
 
@@ -33,19 +34,9 @@ class Convertor:
         # Saving start timestamp
         start = time.time()
 
-        try:
-            # Convert PDF to images
-            images = convert_from_path(
-                self.file,
-                dpi=self.settings.dpi,
-                fmt='png',
-                poppler_path=self.settings.get_poppler_path(),
-                output_folder=self.settings.get_tmp_folder_path(),
-                thread_count=self.cpu_threads,
-                use_pdftocairo=True,
-                userpw=self.password,
-                size=(self.settings.resolution, None)
-            )
+            # Convert PDF to images with pypdfium2
+            pdf = self.load_pdf()
+            file_path = None
 
             if self.settings.output == 'pptx':
                 file_path = self.create_pptx_from_images(images)
@@ -134,10 +125,7 @@ class Convertor:
 
     def get_height_multiplier(self):
         if self.settings.aspect == 'auto':
-            matches = re.findall(r'(\d+\.?\d+)', self.page_size)
-            width = float(matches[0])
-            height = float(matches[1])
-            aspect = width / height
+            aspect = self.page_width / self.page_height
             return 16 / aspect
         if self.settings.aspect == '16x9':
             return 9
