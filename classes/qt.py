@@ -190,7 +190,7 @@ class QtApp(QMainWindow):
         self.labels[index]['status'].setText("Конвертуємо слайди")
 
     def update_gui_on_file_process_end(self, index, time_spent, path):
-        self.buttons[index] = QPushButton(QIcon(Settings.get_app_path() + '/assets/folder-open-regular.png'), f"Завершено ({time_spent}с)")
+        self.buttons[index] = QPushButton(QIcon(Settings.get_app_path() + '/assets/folder-open-regular.png'), f"Завершено ({time_spent:.2f}с)")
         self.buttons[index].setObjectName('fileStatusFinished')
         self.buttons[index].clicked.connect(lambda: self.on_file_open_click(path))
         self.layouts[index].addWidget(self.buttons[index], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
