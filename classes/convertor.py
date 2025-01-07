@@ -23,7 +23,6 @@ class Convertor:
 
         pdf_data = InfoHandler.get_pdf_metadata(self.file, self.password)
         self.pages = pdf_data['Pages']
-        self.page_size = pdf_data['Page size']
         self.page_width = pdf_data['Width']
         self.page_height = pdf_data['Height']
 
