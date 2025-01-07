@@ -45,9 +45,28 @@ class Convertor:
             file_path = None
 
             if self.settings.output == 'pptx':
-                file_path = self.create_pptx_from_images(images)
+                prs = self.create_new_pptx_file()
+
+                # Add slides
+                for page_number in range(len(pdf)):
+                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.pages)
+                    page = pdf[page_number]
+                    pil_image = self.page_to_pil(page)
+                    slide = self.create_new_slide(prs)
+                    self.insert_image_to_slide(slide, pil_image)
+
+                file_path = self.save_pptx(prs)
             else:
-                file_path = self.save_images(images)
+                self.create_images_output_dir()
+
+                # Save images
+                for page_number in range(len(pdf)):
+                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.pages)
+
+                    page = pdf[page_number]
+                    pil = self.page_to_pil(page)
+                    file_path = f"{self.file_path_without_ext}/{page_number + 1}.png"
+                    pil.save(file_path, 'PNG')
 
             # Saving end timestamp
             end = time.time()
@@ -60,72 +79,82 @@ class Convertor:
 
         return True
 
-    def get_threads(self):
-        if os.cpu_count() > 1:
-            cpu_count = os.cpu_count() - 1
-        else:
-            cpu_count = os.cpu_count()
-        return cpu_count
+    def load_pdf(self):
+        pdf = pdfium.PdfDocument(self.file, password=self.password)
+        return pdf
 
-    def get_file_name_without_extension(self):
-        return os.path.splitext(self.file)[0]
+    def create_new_pptx_file(self):
+        prs = Presentation(self.settings.get_template_path())
+        prs.slide_width = self.slide_width
+        prs.slide_height = self.slide_height
+        return prs
+
+    def get_slide_scale(self):
+        # Calculate the scale factor for the desired resolution
+        if  self.settings.resolution:
+            scale_x = self.settings.resolution / self.page_width
+        else:
+            scale_x = 1
+        return scale_x
+
+    def page_to_pil(self, page):
+        bitmap = page.render(scale=self.get_slide_scale())
+        pil_image = bitmap.to_pil()
+        return pil_image
+
+    def pil_io_bytes(self, pil_image):
+        image_bytes = BytesIO()
+        pil_image.save(image_bytes, 'PNG')
+        return image_bytes
+
+    def page_to_file(self, page, file_path):
+        bitmap = page.render(scale=self.get_slide_scale())
+        bitmap.save(file_path)
+        return file_path
+
+    def create_new_slide(self, prs):
+        slide = prs.slides.add_slide(prs.slide_layouts[6])
+        return slide
+
+    def insert_image_to_slide(self, slide, pil_image):
+        aspect_ratio = float(pil_image.width) / float(pil_image.height)
+        image_bytes = self.pil_io_bytes(pil_image)
+        # if image is wider than slide
+        if aspect_ratio >= self.slide_aspect:
+            height = int(self.slide_width / aspect_ratio)
+            slide.shapes.add_picture(
+                image_bytes,
+                left=int(0),
+                top=int((self.slide_height - height) / 2),
+                height=height,
+                width=self.slide_width
+            )
+        # if image is higher than slide [ ->| |<- ]
+        else:
+            width = int(self.slide_height * aspect_ratio)
+            slide.shapes.add_picture(
+                image_bytes,
+                left=int((self.slide_width - width) / 2),
+                top=int(0),
+                height=self.slide_height,
+                width=width
+            )
+
+    def save_pptx(self, prs):
+        file_path = self.file_path_without_ext + '.pptx'
+        prs.save(file_path)
+        return file_path
+
+    def create_images_output_dir(self):
+        # creating dir with images
+        if not os.path.exists(self.file_path_without_ext):
+            os.mkdir(self.file_path_without_ext)
+        return self.file_path_without_ext
 
     def create_tmp_dir(self):
         # creating dir for processed pdf slides
         if not os.path.exists(self.settings.get_tmp_folder_path()):
             os.mkdir(self.settings.get_tmp_folder_path())
-
-    def create_pptx_from_images(self, images):
-        # Create a new PowerPoint presentation
-        prs = Presentation(self.settings.get_template_path())
-        page_height = self.get_height_multiplier()
-        slide_width = Inches(16)
-        slide_height = Inches(page_height)
-        slide_aspect = slide_width / slide_height
-        prs.slide_width = slide_width
-        prs.slide_height = slide_height
-
-        # Add slides
-        for i, image in enumerate(images):
-            self.thread.file_process_progress.emit(self.index, i + 1, self.pages)
-            slide = prs.slides.add_slide(prs.slide_layouts[6])
-            aspect_ratio = float(image.width) / float(image.height)
-            if aspect_ratio >= slide_aspect:
-                height = int(slide_width / aspect_ratio)
-                slide.shapes.add_picture(
-                    image.filename,
-                    left=int(0),
-                    top=int((slide_height - height) / 2),
-                    height=height,
-                    width=slide_width
-                )
-
-            else:
-                width = int(Inches(page_height) * aspect_ratio)
-                slide.shapes.add_picture(
-                    image.filename,
-                    left=int((slide_width - width) / 2),
-                    top=int(0),
-                    height=slide_height,
-                    width=width
-                )
-
-        # Save the PowerPoint presentation
-        file_path = self.file_name_without_ext + '.pptx'
-        prs.save(file_path)
-        return file_path
-
-    def save_images(self, images):
-        # creating dir with images
-        output_path = ''
-        if not os.path.exists(self.file_name_without_ext):
-            os.mkdir(self.file_name_without_ext)
-
-        for i, image in enumerate(images, start=1):
-            self.thread.file_process_progress.emit(self.index, i, self.pages)
-            numbered_filename = f"{i:02d}.jpg"  # Pad with zeros for consistent numbering
-            output_path = os.path.join(self.file_name_without_ext, numbered_filename)
-            image.save(output_path, 'JPEG')
 
     def get_file_path_without_extension(self):
         return os.path.splitext(self.file)[0]
