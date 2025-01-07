@@ -19,8 +19,7 @@ class Convertor:
         self.index = index
         self.settings = settings
 
-        self.file_name_without_ext = self.get_file_name_without_extension()
-        self.cpu_threads = self.get_threads()
+        self.file_path_without_ext = self.get_file_path_without_extension()
 
         pdf_data = InfoHandler.get_pdf_metadata(self.file, self.password)
         self.pages = pdf_data['Pages']
@@ -121,7 +120,8 @@ class Convertor:
             output_path = os.path.join(self.file_name_without_ext, numbered_filename)
             image.save(output_path, 'JPEG')
 
-        return output_path
+    def get_file_path_without_extension(self):
+        return os.path.splitext(self.file)[0]
 
     def get_height_multiplier(self):
         if self.settings.aspect == 'auto':
