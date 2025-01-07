@@ -14,6 +14,7 @@ class MenuUI(QMenu):
         self.app = app
         self.settings = Settings()
         self.settings_changed.connect(self.app.thread[0].update_settings)
+        self.version = '0.10'
 
         # Menu bar
         self.menu_bar = self.app.menuBar()
@@ -145,7 +146,7 @@ class MenuUI(QMenu):
         self.info_menu.addAction(repo_action)
 
         # info - version menu item
-        version_action = QAction('&v0.9', self.app, disabled=True)
+        version_action = QAction('&v'+self.version, self.app, disabled=True)
         self.info_menu.addAction(version_action)
 
         self.file_menu.addSeparator()
