@@ -24,6 +24,13 @@ class Convertor:
         pdf_data = InfoHandler.get_pdf_metadata(self.file, self.password)
         self.pages = pdf_data['Pages']
         self.page_size = pdf_data['Page size']
+        self.page_width = pdf_data['Width']
+        self.page_height = pdf_data['Height']
+
+        self.scale = self.get_slide_scale()
+        self.slide_width = Inches(16)
+        self.slide_height = Inches(self.get_height_multiplier())
+        self.slide_aspect = self.slide_width / self.slide_height
 
         self.thread.file_process_start.emit(index)
 
