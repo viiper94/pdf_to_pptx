@@ -5,7 +5,6 @@ import sys
 class Settings:
 
     path_prefix = os.path.dirname(os.path.abspath(__file__))
-    poppler_path_win = 'lib/poppler/bin'
     poppler_path_osx = 'lib/poppler-osx/bin'
 
     tmp_path = 'tmp'
@@ -48,8 +47,6 @@ class Settings:
         poppler_path = ''
         if sys.platform.startswith('darwin'):  # macOS
             poppler_path = Settings.poppler_path_osx
-        elif sys.platform.startswith('win'):  # Windows
-            poppler_path = Settings.poppler_path_win
         return os.path.join(prefix, poppler_path)
 
     @staticmethod
