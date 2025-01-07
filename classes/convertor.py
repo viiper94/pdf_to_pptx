@@ -36,8 +36,9 @@ class Convertor:
         self.create_tmp_dir()
 
     def convert(self):
-        # Saving start timestamp
-        start = time.time()
+        try:
+            # Saving start timestamp
+            start = time.time()
 
             # Convert PDF to images with pypdfium2
             pdf = self.load_pdf()
