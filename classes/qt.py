@@ -212,9 +212,9 @@ class QtApp(QMainWindow):
     @staticmethod
     def on_file_open_click(path):
         path = os.path.abspath(path)
-        if sys.platform.startswith('darwin'):  # macOS
+        if sys.platform == 'darwin':  # macOS
             subprocess.Popen(['open', '--reveal', path])
-        elif sys.platform.startswith('win'):  # Windows
+        elif sys.platform in ("win32", "cygwin", "msys"):  # Windows
             subprocess.Popen(['explorer', '/select,', path])
 
     def show_password_dialog(self, file_path):

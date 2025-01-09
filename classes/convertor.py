@@ -27,7 +27,7 @@ class Convertor:
 
         self.scale = self.get_slide_scale()
         self.slide_width = Inches(16)
-        self.slide_height = Inches(self.get_height_multiplier())
+        self.slide_height = Inches(self.get_height_multiplier(width=pdf_data['Width'], height=pdf_data['Height']))
         self.slide_aspect = self.slide_width / self.slide_height
 
         self.thread.file_process_start.emit(index)
@@ -158,9 +158,9 @@ class Convertor:
     def get_file_path_without_extension(self):
         return os.path.splitext(self.file)[0]
 
-    def get_height_multiplier(self):
+    def get_height_multiplier(self, width, height):
         if self.settings.aspect == 'auto':
-            aspect = self.page_width / self.page_height
+            aspect = width / height
             return 16 / aspect
         if self.settings.aspect == '16x9':
             return 9
