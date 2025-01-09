@@ -87,7 +87,7 @@ class Convertor:
 
     def get_slide_scale(self, page_width):
         # Calculate the scale factor for the desired resolution
-        if  self.settings.resolution:
+        if self.settings.resolution:
             scale_x = self.settings.resolution / page_width
         else:
             scale_x = 1
