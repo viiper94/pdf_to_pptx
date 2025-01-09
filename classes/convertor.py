@@ -22,10 +22,7 @@ class Convertor:
 
         pdf_data = InfoHandler.get_pdf_metadata(self.file, self.password)
         self.pages = pdf_data['Pages']
-        self.page_width = pdf_data['Width']
-        self.page_height = pdf_data['Height']
 
-        self.scale = self.get_slide_scale()
         self.slide_width = Inches(16)
         self.slide_height = Inches(self.get_height_multiplier(width=pdf_data['Width'], height=pdf_data['Height']))
         self.slide_aspect = self.slide_width / self.slide_height
@@ -88,16 +85,16 @@ class Convertor:
         prs.slide_height = self.slide_height
         return prs
 
-    def get_slide_scale(self):
+    def get_slide_scale(self, page_width):
         # Calculate the scale factor for the desired resolution
         if  self.settings.resolution:
-            scale_x = self.settings.resolution / self.page_width
+            scale_x = self.settings.resolution / page_width
         else:
             scale_x = 1
         return scale_x
 
     def page_to_pil(self, page):
-        bitmap = page.render(scale=self.get_slide_scale())
+        bitmap = page.render(scale=self.get_slide_scale(page.get_width()))
         pil_image = bitmap.to_pil()
         return pil_image
 
@@ -107,7 +104,7 @@ class Convertor:
         return image_bytes
 
     def page_to_file(self, page, file_path):
-        bitmap = page.render(scale=self.get_slide_scale())
+        bitmap = page.render(scale=self.get_slide_scale(page.get_width()))
         bitmap.save(file_path)
         return file_path
 
