@@ -159,8 +159,6 @@ class QtApp(QMainWindow):
             self.labels[index]['status'] = QLabel('В черзі')
             self.labels[index]['status'].setObjectName('fileStatus')
 
-            self.labels[index]['done'] = False
-
             self.progress[index] = QProgressBar(self)
 
             self.layouts[index].addWidget(self.labels[index]['name'], 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
@@ -195,7 +193,6 @@ class QtApp(QMainWindow):
         self.buttons[index].clicked.connect(lambda: self.on_file_open_click(path))
         self.layouts[index].addWidget(self.buttons[index], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
         self.labels[index]['status'].hide()
-        self.labels[index]['done'] = True
 
     def update_gui_on_file_process_failed(self, index, message):
         self.labels[index]['status'].setText(message)

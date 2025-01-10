@@ -35,5 +35,4 @@ class RequestPasswordThread(QThread):
                 break
 
     def terminate_thread(self):
-        print('Terminating password request thread')
         self.terminate()
