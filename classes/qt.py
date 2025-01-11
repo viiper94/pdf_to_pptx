@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGrid
                                QVBoxLayout, QScrollArea, QMainWindow, QPushButton)
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout, QMessageBox,
 
 from classes.threads.request_password import RequestPasswordThread
 from classes.threads.worker import WorkerThread
@@ -205,14 +206,9 @@ class QtApp(QMainWindow):
     def show_password_dialog(self, file):
         dialog = QtWidgets.QInputDialog(self)
         dialog.setInputMode(QtWidgets.QInputDialog.InputMode.TextInput)
-        dialog.setTextEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
-        filename = self.get_file_name(file_path)
-        dialog.setLabelText(f"Введіть пароль для файлу {filename}:")
-        dialog.setWindowTitle("Пароль для PDF")
         dialog.resize(300, 100)
-        dialog.exec()
-        password = dialog.textValue()
-        self.encrypted_file_password.emit(file_path, password)
+        file.password, ok = dialog.getText(self, "Пароль для PDF", f"Введіть пароль для файлу {file.name}:", QtWidgets.QLineEdit.EchoMode.Password)
+        self.process_encrypted_file(file, ok)
 
     def create_password_thread(self, file):
         self.request_password_thread = RequestPasswordThread()
@@ -222,8 +218,16 @@ class QtApp(QMainWindow):
         self.encrypted_file_added.emit(file)
         self.request_password_thread.start()
 
-    def process_encrypted_file(self, file_path, password):
-        self.process_files([{'path': file_path, 'password': password}])
+    def process_encrypted_file(self, file, ok):
+        if ok:
+            file.load_pdf()
+            if not file.encrypted:
+                self.filter_encrypted_files({file})
+            else:
+                QMessageBox.critical(self, "Документ захищений паролем", "Неправильний пароль!")
+
+        else:
+            print('Canceled')
         self.terminate_password_thread.emit()
 
     def quit(self):
