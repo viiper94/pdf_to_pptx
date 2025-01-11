@@ -2,11 +2,8 @@ import os
 import time
 from io import BytesIO
 
-import pypdfium2 as pdfium
 from pptx import Presentation
 from pptx.util import Inches
-
-from classes.info_handler import InfoHandler
 
 
 class Convertor:
@@ -139,9 +136,6 @@ class Convertor:
         # creating dir for processed pdf slides
         if not os.path.exists(self.settings.get_tmp_folder_path()):
             os.mkdir(self.settings.get_tmp_folder_path())
-
-    def get_file_path_without_extension(self):
-        return os.path.splitext(self.file)[0]
 
     def get_height_multiplier(self, width, height):
         if self.settings.aspect == 'auto':

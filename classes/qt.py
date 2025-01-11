@@ -11,7 +11,6 @@ from PySide6.QtGui import QIcon
 from classes.threads.request_password import RequestPasswordThread
 from classes.threads.worker import WorkerThread
 from classes.validator import Validator
-from classes.info_handler import InfoHandler
 from classes.settings import Settings
 from classes.ui.menu import MenuUI
 from classes.pdf_file import File
