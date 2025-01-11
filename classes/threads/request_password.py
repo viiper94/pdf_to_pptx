@@ -15,12 +15,6 @@ class RequestPasswordThread(QThread):
         for file in self.encrypted_files:
             self.show_password_dialog.emit(file)
 
-
-    def update_password(self, file_path, password):
-        for index in self.encrypted_files:
-            if self.encrypted_files[index]['path'] == file_path:
-                self.encrypted_files[index]['password'] = password
-                break
     def added_encrypted_file(self, file):
         self.encrypted_files.append(file)
 

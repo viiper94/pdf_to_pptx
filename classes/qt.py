@@ -218,7 +218,6 @@ class QtApp(QMainWindow):
     def create_password_thread(self, file):
         self.request_password_thread = RequestPasswordThread()
         self.request_password_thread.show_password_dialog.connect(self.show_password_dialog)
-        self.request_password_thread.process_encrypted_file.connect(self.process_encrypted_file)
         self.terminate_password_thread.connect(self.request_password_thread.terminate_thread)
         self.encrypted_file_added.connect(self.request_password_thread.added_encrypted_file)
         self.encrypted_file_added.emit(file)
