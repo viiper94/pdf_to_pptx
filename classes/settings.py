@@ -5,7 +5,6 @@ import sys
 class Settings:
 
     path_prefix = os.path.dirname(os.path.abspath(__file__))
-    poppler_path_osx = 'lib/poppler-osx/bin'
 
     tmp_path = 'tmp'
     template_path = 'template/default.pptx'
@@ -40,14 +39,6 @@ class Settings:
             self.output = 'pptx'
         if output == '&JPEG':
             self.output = 'jpg'
-
-    @staticmethod
-    def get_poppler_path():
-        prefix = Settings.path_prefix.replace('classes', '')
-        poppler_path = ''
-        if sys.platform.startswith('darwin'):  # macOS
-            poppler_path = Settings.poppler_path_osx
-        return os.path.join(prefix, poppler_path)
 
     @staticmethod
     def get_template_path():
