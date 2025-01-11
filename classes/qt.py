@@ -1,13 +1,10 @@
-import os
 import sys
-import subprocess
 
 from PySide6 import QtWidgets
-from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout,
-                               QVBoxLayout, QScrollArea, QMainWindow, QPushButton)
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (QFileDialog, QWidget, QLabel, QProgressBar, QGridLayout, QMessageBox,
+from PySide6.QtWidgets import QFileDialog, QWidget, QMessageBox, QVBoxLayout, QScrollArea, QMainWindow, QMenu
 
 from classes.threads.request_password import RequestPasswordThread
 from classes.threads.worker import WorkerThread
