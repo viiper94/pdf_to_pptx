@@ -22,7 +22,6 @@ class QtApp(QMainWindow):
     encrypted_file_added = Signal(File)
     terminate_password_thread = Signal()
     file_added = Signal(list)
-    file_remove = Signal(str)
 
     def __init__(self, args):
         super().__init__()
