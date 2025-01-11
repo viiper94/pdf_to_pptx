@@ -59,7 +59,8 @@ class Convertor:
 
             self.thread.file_process_end.emit(self.index, time_spent, file_path)
 
-        except Exception:
+        except Exception as e:
+            print(e)
             self.thread.file_process_failed.emit(self.index, "Виникла помилка =(")
 
         return True
