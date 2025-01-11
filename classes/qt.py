@@ -15,6 +15,7 @@ from classes.validator import Validator
 from classes.settings import Settings
 from classes.ui.menu import MenuUI
 from classes.pdf_file import File
+from classes.ui.fileframe import FileFrame
 
 
 class QtApp(QMainWindow):
@@ -27,11 +28,6 @@ class QtApp(QMainWindow):
         super().__init__()
 
         self.frames = {}
-        self.layouts = {}
-        self.labels = {}
-        self.buttons = {}
-        self.progress = {}
-        self.separators = {}
         self.thread = {}
         self.request_password_thread = {}
         self.init_thread()
@@ -127,81 +123,22 @@ class QtApp(QMainWindow):
 
     def update_gui_on_start(self, files):
         for file in files:
-
             index = len(self.frames)
-            self.frames[index] = QWidget(self)
-            self.frames[index].setObjectName('fileFrame')
-            self.layouts[index] = QGridLayout(self.frames[index])
-            self.frames[index].setLayout(self.layouts[index])
-
-            self.labels[index] = {}
-
-            self.labels[index]['name'] = QLabel(file.name)
-            self.labels[index]['name'].setObjectName('fileName')
-
-            self.labels[index]['size'] = QLabel(f"Розмір файлу: {file.size} MB")
-            self.labels[index]['size'].setObjectName('fileSize')
-
-            self.labels[index]['slides'] = QLabel(f"Слайдів: {file.slides}")
-            self.labels[index]['slides'].setObjectName('fileSlides')
-
-            self.labels[index]['status'] = QLabel('В черзі')
-            self.labels[index]['status'].setObjectName('fileStatus')
-
-            self.progress[index] = QProgressBar(self)
-
-            self.layouts[index].addWidget(self.labels[index]['name'], 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
-            self.layouts[index].addWidget(self.progress[index], 0, 1, 2, 1, alignment=Qt.AlignmentFlag.AlignVCenter)
-            self.layouts[index].addWidget(self.labels[index]['size'], 1, 0, alignment=Qt.AlignmentFlag.AlignLeft)
-            self.layouts[index].addWidget(self.labels[index]['slides'], 2, 0, alignment=Qt.AlignmentFlag.AlignLeft)
-            self.layouts[index].addWidget(self.labels[index]['status'], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
-
-            self.layout.insertWidget(self.layout.count() - 1, self.frames[index])
-            self.layout.setStretchFactor(self.frames[index], 0)
+            self.frames[index] = FileFrame(self, index, file)
+            self.layout.insertWidget(self.layout.count() - 1, self.frames[index].frame)
+            self.layout.setStretchFactor(self.frames[index].frame, 0)
 
     def update_gui_on_file_process(self, index):
-        self.labels[index]['status'].setText("Триває обробка файлу...")
-        self.labels[index]['status'].setObjectName('fileStatusProcessing')
-        self.labels[index]['status'].style().unpolish(self.labels[index]['status'])
-        self.labels[index]['status'].style().polish(self.labels[index]['status'])
-        self.labels[index]['status'].update()
+        self.frames[index].on_file_processing()
 
-    def update_gui_on_convertion(self, index, current, total):
-        self.progress[index].setMaximum(total)
-        self.progress[index].setFormat('%v/%m')
-        self.progress[index].setValue(current)
-        self.labels[index]['status'].setObjectName('fileStatusConverting')
-        self.labels[index]['status'].style().unpolish(self.labels[index]['status'])
-        self.labels[index]['status'].style().polish(self.labels[index]['status'])
-        self.labels[index]['status'].update()
-        self.labels[index]['status'].setText("Конвертуємо слайди")
+    def update_gui_on_convertion(self, index, current):
+        self.frames[index].on_converting(current)
 
     def update_gui_on_file_process_end(self, index, time_spent, path):
-        self.buttons[index] = QPushButton(QIcon(Settings.get_app_path() + '/assets/folder-open-regular.png'), f"Завершено ({time_spent:.2f}с)")
-        self.buttons[index].setObjectName('fileStatusFinished')
-        self.buttons[index].clicked.connect(lambda: self.on_file_open_click(path))
-        self.layouts[index].addWidget(self.buttons[index], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.labels[index]['status'].hide()
+        self.frames[index].on_finished(time_spent, path)
 
-    def update_gui_on_file_process_failed(self, index, message):
-        self.labels[index]['status'].setText(message)
-        self.labels[index]['status'].setObjectName('fileStatusFailed')
-        self.labels[index]['status'].style().unpolish(self.labels[index]['status'])
-        self.labels[index]['status'].style().polish(self.labels[index]['status'])
-        self.labels[index]['status'].update()
-
-    @staticmethod
-    def get_file_name(path):
-        result = os.path.basename(path)
-        return result
-
-    @staticmethod
-    def on_file_open_click(path):
-        path = os.path.abspath(path)
-        if sys.platform == 'darwin':  # macOS
-            subprocess.Popen(['open', '--reveal', path])
-        elif sys.platform in ("win32", "cygwin", "msys"):  # Windows
-            subprocess.Popen(['explorer', '/select,', path])
+    def update_gui_on_file_process_failed(self, index):
+        self.frames[index].on_failed()
 
     def show_password_dialog(self, file):
         dialog = QtWidgets.QInputDialog(self)
