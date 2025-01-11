@@ -50,7 +50,7 @@ class Convertor:
 
                     page = self.file.doc[page_number]
                     pil = self.page_to_pil(page)
-                    file_path = f"{self.file.name_no_ext}/{page_number + 1}.png"
+                    file_path = f"{self.file.path_no_ext}/{page_number + 1}.png"
                     pil.save(file_path, 'PNG')
 
             # Saving end timestamp
