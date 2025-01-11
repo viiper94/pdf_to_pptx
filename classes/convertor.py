@@ -11,20 +11,14 @@ from classes.info_handler import InfoHandler
 
 class Convertor:
 
-    def __init__(self, index, file, password, thread, settings):
+    def __init__(self, index, file, thread, settings):
         self.thread = thread
         self.file = file
-        self.password = password
         self.index = index
         self.settings = settings
 
-        self.file_path_without_ext = self.get_file_path_without_extension()
-
-        pdf_data = InfoHandler.get_pdf_metadata(self.file, self.password)
-        self.pages = pdf_data['Pages']
-
         self.slide_width = Inches(16)
-        self.slide_height = Inches(self.get_height_multiplier(width=pdf_data['Width'], height=pdf_data['Height']))
+        self.slide_height = Inches(self.get_height_multiplier(width=file.width, height=file.height))
         self.slide_aspect = self.slide_width / self.slide_height
 
         self.thread.file_process_start.emit(index)
@@ -36,17 +30,15 @@ class Convertor:
             # Saving start timestamp
             start = time.time()
 
-            # Convert PDF to images with pypdfium2
-            pdf = self.load_pdf()
             file_path = None
 
             if self.settings.output == 'pptx':
                 prs = self.create_new_pptx_file()
 
                 # Add slides
-                for page_number in range(len(pdf)):
-                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.pages)
-                    page = pdf[page_number]
+                for page_number in range(self.file.slides):
+                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
+                    page = self.file.doc[page_number]
                     pil_image = self.page_to_pil(page)
                     slide = self.create_new_slide(prs)
                     self.insert_image_to_slide(slide, pil_image)
@@ -56,12 +48,12 @@ class Convertor:
                 self.create_images_output_dir()
 
                 # Save images
-                for page_number in range(len(pdf)):
-                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.pages)
+                for page_number in range(self.file.slides):
+                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
 
-                    page = pdf[page_number]
+                    page = self.file.doc[page_number]
                     pil = self.page_to_pil(page)
-                    file_path = f"{self.file_path_without_ext}/{page_number + 1}.png"
+                    file_path = f"{self.file.name_no_ext}/{page_number + 1}.png"
                     pil.save(file_path, 'PNG')
 
             # Saving end timestamp
@@ -74,10 +66,6 @@ class Convertor:
             self.thread.file_process_failed.emit(self.index, "Виникла помилка =(")
 
         return True
-
-    def load_pdf(self):
-        pdf = pdfium.PdfDocument(self.file, password=self.password)
-        return pdf
 
     def create_new_pptx_file(self):
         prs = Presentation(self.settings.get_template_path())
@@ -137,15 +125,15 @@ class Convertor:
             )
 
     def save_pptx(self, prs):
-        file_path = self.file_path_without_ext + '.pptx'
+        file_path = self.file.path_no_ext + '.pptx'
         prs.save(file_path)
         return file_path
 
     def create_images_output_dir(self):
         # creating dir with images
-        if not os.path.exists(self.file_path_without_ext):
-            os.mkdir(self.file_path_without_ext)
-        return self.file_path_without_ext
+        if not os.path.exists(self.file.path_no_ext):
+            os.mkdir(self.file.path_no_ext)
+        return self.file.path_no_ext
 
     def create_tmp_dir(self):
         # creating dir for processed pdf slides

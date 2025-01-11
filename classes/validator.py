@@ -1,4 +1,5 @@
 import os
+from classes.pdf_file import File
 
 
 class Validator:
@@ -8,8 +9,8 @@ class Validator:
         validated_files = list()
         for file in files:
             if Validator.is_pdf_file(file):
-                validated_files.append(file)
-        return tuple(validated_files)
+                validated_files.append(File(file))
+        return validated_files
 
     @staticmethod
     def is_pdf_file(file):

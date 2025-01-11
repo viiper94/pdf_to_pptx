@@ -14,13 +14,12 @@ from classes.validator import Validator
 from classes.info_handler import InfoHandler
 from classes.settings import Settings
 from classes.ui.menu import MenuUI
-from classes.exceptions.incorrect_password_error import PDFIncorrectPasswordError
+from classes.pdf_file import File
 
 
 class QtApp(QMainWindow):
 
-    encrypted_file_added = Signal(str)
-    encrypted_file_password = Signal(str, str)
+    encrypted_file_added = Signal(File)
     terminate_password_thread = Signal()
     file_added = Signal(list)
     file_remove = Signal(str)
@@ -129,13 +128,6 @@ class QtApp(QMainWindow):
     def update_gui_on_start(self, files):
         for file in files:
 
-            try:
-                pdf = InfoHandler.get_pdf_metadata(file['path'], file['password'])
-            except PDFIncorrectPasswordError:
-                self.file_remove.emit(file['path'])
-                self.create_password_thread(file['path'])
-                continue
-
             index = len(self.frames)
             self.frames[index] = QWidget(self)
             self.frames[index].setObjectName('fileFrame')
@@ -144,16 +136,13 @@ class QtApp(QMainWindow):
 
             self.labels[index] = {}
 
-            size = os.stat(file['path']).st_size / (1024 * 1024)
-            formatted_size = f"{size:.2f}"
-
-            self.labels[index]['name'] = QLabel(self.get_file_name(file['path']))
+            self.labels[index]['name'] = QLabel(file.name)
             self.labels[index]['name'].setObjectName('fileName')
 
-            self.labels[index]['size'] = QLabel(f"Розмір файлу: {formatted_size} MB")
+            self.labels[index]['size'] = QLabel(f"Розмір файлу: {file.size} MB")
             self.labels[index]['size'].setObjectName('fileSize')
 
-            self.labels[index]['slides'] = QLabel(f"Слайдів: {pdf['Pages']}")
+            self.labels[index]['slides'] = QLabel(f"Слайдів: {file.slides}")
             self.labels[index]['slides'].setObjectName('fileSlides')
 
             self.labels[index]['status'] = QLabel('В черзі')
@@ -214,7 +203,7 @@ class QtApp(QMainWindow):
         elif sys.platform in ("win32", "cygwin", "msys"):  # Windows
             subprocess.Popen(['explorer', '/select,', path])
 
-    def show_password_dialog(self, file_path):
+    def show_password_dialog(self, file):
         dialog = QtWidgets.QInputDialog(self)
         dialog.setInputMode(QtWidgets.QInputDialog.InputMode.TextInput)
         dialog.setTextEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
@@ -226,14 +215,13 @@ class QtApp(QMainWindow):
         password = dialog.textValue()
         self.encrypted_file_password.emit(file_path, password)
 
-    def create_password_thread(self, file_path):
+    def create_password_thread(self, file):
         self.request_password_thread = RequestPasswordThread()
         self.request_password_thread.show_password_dialog.connect(self.show_password_dialog)
         self.request_password_thread.process_encrypted_file.connect(self.process_encrypted_file)
         self.terminate_password_thread.connect(self.request_password_thread.terminate_thread)
         self.encrypted_file_added.connect(self.request_password_thread.added_encrypted_file)
-        self.encrypted_file_password.connect(self.request_password_thread.update_password)
-        self.encrypted_file_added.emit(file_path)
+        self.encrypted_file_added.emit(file)
         self.request_password_thread.start()
 
     def process_encrypted_file(self, file_path, password):

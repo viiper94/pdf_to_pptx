@@ -19,24 +19,20 @@ class WorkerThread(QThread):
         index = 0
         while index < len(self.files):
             item = self.files[index]
-            if not item['done']:
+            if not item.status == 2:
                 convertor = Convertor(
                     index=index,
-                    file=item['path'],
-                    password=item['password'],
+                    file=item,
                     thread=self,
                     settings=self.settings)
                 convertor.convert()
-                self.files[index]['done'] = True
+                item.status = 2
             index += 1
 
     def update_file_list(self, new_files):
         for file in new_files:
             index = len(self.files)
-            self.files[index] = {}
-            self.files[index]['path'] = file['path']
-            self.files[index]['password'] = file['password']
-            self.files[index]['done'] = False
+            self.files[index] = file
 
     def update_settings(self, settings):
         self.settings = settings
