@@ -70,9 +70,7 @@ class QtApp(QMainWindow):
         self.show()
 
         if len(args) > 1:
-            validated_files = Validator.validate(args)
-            if validated_files:
-                self.pack_validated_files(validated_files)
+            self.validate_files(args)
 
     def on_click(self, event):
         if event.button() == Qt.LeftButton:
@@ -86,9 +84,7 @@ class QtApp(QMainWindow):
         fd.setViewMode(QFileDialog.ViewMode.List)
         if fd.exec():
             files = fd.selectedFiles()
-            validated_files = Validator.validate(files)
-            if validated_files:
-                self.pack_validated_files(validated_files)
+            self.validate_files(files)
 
     def dragEnterEvent(self, event):
         # Accept the event if it has a file or files
@@ -98,9 +94,7 @@ class QtApp(QMainWindow):
     def dropEvent(self, event):
         # Handle the dropped files
         files = [url.toLocalFile() for url in event.mimeData().urls()]
-        validated_files = Validator.validate(files)
-        if validated_files:
-            self.pack_validated_files(validated_files)
+        self.validate_files(files)
 
     def init_thread(self):
         self.thread[0] = WorkerThread()
@@ -109,13 +103,20 @@ class QtApp(QMainWindow):
         self.thread[0].file_process_end.connect(self.update_gui_on_file_process_end)
         self.thread[0].file_process_failed.connect(self.update_gui_on_file_process_failed)
         self.file_added.connect(self.thread[0].update_file_list)
-        self.file_remove.connect(self.thread[0].remove_file)
 
-    def pack_validated_files(self, files):
-        packed_files = []
+    def validate_files(self, files):
+        validated_files = Validator.validate(files)
+        if validated_files:
+            self.filter_encrypted_files(validated_files)
+
+    def filter_encrypted_files(self, files):
+        not_encrypted_files = list()
         for file in files:
-            packed_files.append({'path': file, 'password': None})
-        return self.process_files(packed_files)
+            if not file.encrypted or file.password:
+                not_encrypted_files.append(file)
+            else:
+                self.create_password_thread(file)
+        self.process_files(not_encrypted_files)
 
     def process_files(self, files):
         self.file_added.emit(files)
