@@ -13,6 +13,8 @@ class FileFrame:
     def __init__(self, app, index, file):
         self.app = app
         self.index = index
+        self.path = None
+        self.file = file
 
         self.frame = QWidget(app)
         self.frame.setObjectName('fileFrame')
