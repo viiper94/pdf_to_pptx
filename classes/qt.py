@@ -57,7 +57,7 @@ class QtApp(QMainWindow):
         self.layout.setStretchFactor(self.text, 1)
 
         self.setAcceptDrops(True)
-        self.mousePressEvent = self.on_click
+        self.text.mousePressEvent = self.on_click
 
         self.resize(500, 600)
         self.show()
