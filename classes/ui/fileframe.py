@@ -12,30 +12,21 @@ from classes.settings import Settings
 
 class FileFrame:
 
-    app = None
-    frame = QWidget
-    frame_class = 'fileFrame'
-    index = 0
-    layout = QGridLayout
-    # context_menu = ContextMenu()
-
-    file_name = {'text': '', 'class': 'fileName'}
-    size = {'text': '', 'class': 'fileSize'}
-    slides = {'text': '', 'class': 'fileSlides'}
-    status = {'text': 'В черзі', 'class': 'fileStatus'}
-    progress = {'current': 0, 'total': 0}
-    button = {'text': '', 'class': 'fileStatusFinished'}
-
     def __init__(self, app, index, file):
         self.app = app
         self.index = index
 
         self.frame = QWidget(app)
-        self.frame.setObjectName(self.frame_class)
+        self.frame.setObjectName('fileFrame')
         self.layout = QGridLayout(self.frame)
         self.frame.setLayout(self.layout)
-        # self.frame.setContextMenuPolicy(Qt.CustomContextMenu)
-        # self.frame.customContextMenuRequested.connect(self.context_menu.show)
+
+        self.file_name = {'text': '', 'class': 'fileName'}
+        self.size = {'text': '', 'class': 'fileSize'}
+        self.slides = {'text': '', 'class': 'fileSlides'}
+        self.status = {'text': 'В черзі', 'class': 'fileStatus'}
+        self.progress = {'current': 0, 'total': 0}
+        self.button = {'text': '', 'class': 'fileStatusFinished'}
 
         self.file_name['text'] = file.name
         self.file_name['widget'] = QLabel(self.file_name['text'])
