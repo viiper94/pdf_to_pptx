@@ -7,6 +7,25 @@ QWidget{
 	margin: 0;
 	padding: 0;
 }
+#fileFrameConverting{
+    border: 1px solid #e9a222;
+	background-color: #333;
+	border-radius: 10px;
+	margin: 0;
+	padding: 0;
+}
+#fileFrameFinished{
+	background-color: #334733;
+	border-radius: 10px;
+	margin: 0;
+	padding: 0;
+}
+#fileFrameFailed{
+	background-color: #4A3333;
+	border-radius: 10px;
+	margin: 0;
+	padding: 0;
+}
 QLabel{
 	color: #eee;
 	border-bottom: none;

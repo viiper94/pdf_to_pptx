@@ -63,20 +63,24 @@ class FileFrame:
         self.progress['widget'].setValue(current)
         self.status['class'] = 'fileStatusConverting'
         self.status['text'] = self.status_to_text(2)
+        self.frame.setObjectName('fileFrameConverting')
         self.update_status_label_widgets()
 
     def on_finished(self, time_spent, path):
         icon = QIcon(Settings.get_app_path() + '/assets/folder-open-regular.png')
         text = f"{self.status_to_text(3)} ({time_spent:.2f}с)"
+        self.frame.setObjectName('fileFrameFinished')
         self.button['widget'] = QPushButton(icon, text)
         self.button['widget'].setObjectName('fileStatusFinished')
         self.button['widget'].clicked.connect(lambda: self.on_file_open_click(path))
         self.layout.addWidget(self.button['widget'], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
         self.status['widget'].hide()
+        self.update_status_label_widgets()
 
     def on_failed(self):
         self.status['text'] = self.status_to_text(4)
         self.status['class'] = "fileStatusFailed"
+        self.frame.setObjectName('fileFrameFailed')
         self.update_status_label_widgets()
 
     @staticmethod
@@ -95,6 +99,8 @@ class FileFrame:
     def update_status_label_widgets(self):
         self.status['widget'].setText(self.status['text'])
         self.status['widget'].setObjectName(self.status['class'])
+        self.frame.style().unpolish(self.frame)
+        self.frame.style().polish(self.frame)
         self.status['widget'].style().unpolish(self.status['widget'])
         self.status['widget'].style().polish(self.status['widget'])
 
