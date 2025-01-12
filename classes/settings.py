@@ -7,7 +7,7 @@ class Settings:
     path_prefix = os.path.dirname(os.path.abspath(__file__))
 
     tmp_path = 'tmp'
-    template_path = 'template/default.pptx'
+    template_path = 'assets/default.pptx'
 
     resolution = 1920
     aspect = 'auto'
