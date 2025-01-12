@@ -53,6 +53,10 @@ class FileFrame:
         self.layout.addWidget(self.slides['widget'], 2, 0, alignment=Qt.AlignmentFlag.AlignLeft)
         self.layout.addWidget(self.status['widget'], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
 
+        self.context_menu = ContextMenu(self)
+        self.frame.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.frame.customContextMenuRequested.connect(self.context_menu.show_menu)
+
     def on_file_processing(self):
         self.status['text'] = self.status_to_text(1)
         self.update_status_label_widgets()
@@ -70,12 +74,16 @@ class FileFrame:
         self.status['text'] = f"{self.status_to_text(3)} ({time_spent:.2f}с)"
         self.frame.setObjectName('fileFrameFinished')
         self.update_status_label_widgets()
+        self.context_menu.add_open_option()
+        self.context_menu.remove_cancel_option()
 
     def on_failed(self):
         self.status['text'] = self.status_to_text(4)
         self.status['class'] = "fileStatusFailed"
         self.frame.setObjectName('fileFrameFailed')
         self.update_status_label_widgets()
+        self.context_menu.remove_cancel_option()
+
 
     @staticmethod
     def status_to_text(status):
