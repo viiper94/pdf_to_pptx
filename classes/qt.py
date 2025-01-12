@@ -168,6 +168,10 @@ class QtApp(QMainWindow):
             print('Canceled')
         self.terminate_password_thread.emit()
 
+    def closeEvent(self, event):
+        self.quit()
+
     def quit(self):
+        self.thread[0].terminate()
         self.destroy()
         return sys.exit()
