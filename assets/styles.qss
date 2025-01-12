@@ -37,7 +37,7 @@ QLabel{
 #fileName{
 	background-color: transparent;
 	font-size: 16px;
-	max-width: 270px;
+	max-width: 260px;
 }
 #fileSize{
 	background-color: transparent;
