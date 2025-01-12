@@ -19,6 +19,7 @@ class QtApp(QMainWindow):
     encrypted_file_added = Signal(File)
     terminate_password_thread = Signal()
     file_added = Signal(list)
+    cancel_conversion = Signal(int)
 
     def __init__(self, args):
         super().__init__()
@@ -95,7 +96,9 @@ class QtApp(QMainWindow):
         self.thread[0].file_process_progress.connect(self.update_gui_on_convertion)
         self.thread[0].file_process_end.connect(self.update_gui_on_file_process_end)
         self.thread[0].file_process_failed.connect(self.update_gui_on_file_process_failed)
+        self.thread[0].file_process_canceled.connect(self.update_gui_on_file_process_canceled)
         self.file_added.connect(self.thread[0].update_file_list)
+        self.cancel_conversion.connect(self.thread[0].cancel_conversion)
 
     def validate_files(self, files):
         validated_files = Validator.validate(files)
@@ -136,6 +139,9 @@ class QtApp(QMainWindow):
     def update_gui_on_file_process_failed(self, index):
         self.frames[index].on_failed()
 
+    def update_gui_on_file_process_canceled(self, index):
+        self.frames[index].on_canceled()
+
     def show_password_dialog(self, file):
         dialog = QtWidgets.QInputDialog(self)
         dialog.setInputMode(QtWidgets.QInputDialog.InputMode.TextInput)
@@ -158,7 +164,6 @@ class QtApp(QMainWindow):
                 self.filter_encrypted_files({file})
             else:
                 QMessageBox.critical(self, "Документ захищений паролем", "Неправильний пароль!")
-
         else:
             print('Canceled')
         self.terminate_password_thread.emit()

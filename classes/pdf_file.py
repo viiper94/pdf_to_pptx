@@ -14,7 +14,7 @@ class File:
     height = None
     aspect_ratio = None
     # index = 0
-    status = 0                  # 0 - in queue, 1 - processing, 2 - converting, 3- finished, 4 - failed
+    status = 0                  # 0 - in queue, 1 - processing, 2 - converting, 3- finished, 4 - failed, 5 -canceled
     doc = None
     encrypted = False
     password = None

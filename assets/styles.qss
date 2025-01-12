@@ -59,7 +59,11 @@ QLabel{
 	background-color: transparent;
 	color: #da1039;
 }
-QLabel#fileStatusConverting{
+#fileStatusCanceled{
+	background-color: transparent;
+	color: #da1039;
+}
+#fileStatusConverting{
 	background-color: transparent;
 	color: #da1039;
 }

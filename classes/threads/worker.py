@@ -9,6 +9,7 @@ class WorkerThread(QThread):
     file_process_progress = Signal(int, int, int)
     file_process_end = Signal(int, float, str)
     file_process_failed = Signal(int, str)
+    file_process_canceled = Signal(int)
 
     def __init__(self):
         super().__init__()
@@ -26,7 +27,6 @@ class WorkerThread(QThread):
                     thread=self,
                     settings=self.settings)
                 convertor.convert()
-                item.status = 2
             index += 1
 
     def update_file_list(self, new_files):
@@ -36,3 +36,8 @@ class WorkerThread(QThread):
 
     def update_settings(self, settings):
         self.settings = settings
+
+    def cancel_conversion(self, index):
+        if self.files[index].status == 0:
+            self.file_process_canceled.emit(index)
+        self.files[index].status = 5

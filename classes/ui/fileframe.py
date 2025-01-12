@@ -86,27 +86,31 @@ class FileFrame:
         self.update_status_label_widgets()
         self.context_menu.remove_cancel_option()
 
+    def on_canceled(self):
+        self.status['text'] = self.status_to_text(5)
+        self.status['class'] = "fileStatusCanceled"
+        self.frame.setObjectName('fileFrameFailed')
+        self.update_status_label_widgets()
+        self.context_menu.remove_cancel_option()
 
     @staticmethod
     def status_to_text(status):
-        if status == 1:
-            return 'Триває обробка файлу...'
-        elif status == 2:
-            return 'Конвертуємо слайди'
-        elif status == 3:
-            return 'Завершено'
-        elif status == 4:
-            return 'Виникла помилка =('
-        else:
-            return 'В черзі'
+        return {
+            0: 'В черзі',
+            1: 'Триває обробка файлу...',
+            2: 'Конвертуємо слайди',
+            3: 'Завершено',
+            4: 'Виникла помилка =(',
+            5: 'Конвертація скасована'
+        }.get(status, 'В черзі')
 
     def update_status_label_widgets(self):
         self.status['widget'].setText(self.status['text'])
         self.status['widget'].setObjectName(self.status['class'])
-        self.frame.style().unpolish(self.frame)
-        self.frame.style().polish(self.frame)
         self.status['widget'].style().unpolish(self.status['widget'])
         self.status['widget'].style().polish(self.status['widget'])
+        self.frame.style().unpolish(self.frame)
+        self.frame.style().polish(self.frame)
 
     def on_file_open_click(self):
         path = os.path.abspath(self.path)
@@ -114,3 +118,8 @@ class FileFrame:
             subprocess.Popen(['open', '--reveal', path])
         elif sys.platform in ("win32", "cygwin", "msys"):  # Windows
             subprocess.Popen(['explorer', '/select,', path])
+
+    def cancel_conversion(self):
+        self.app.cancel_conversion.emit(self.index)
+        self.frame.customContextMenuRequested.disconnect(self.context_menu.show_menu)
+        self.frame.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
