@@ -3,11 +3,9 @@ import subprocess
 import sys
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QWidget, QProgressBar, QGridLayout, QLabel, QPushButton
+from PySide6.QtWidgets import QWidget, QProgressBar, QGridLayout, QLabel
 
-from classes.settings import Settings
-# from classes.ui.context_menu import ContextMenu
+from classes.ui.context_menu import ContextMenu
 
 
 class FileFrame:
@@ -67,14 +65,10 @@ class FileFrame:
         self.update_status_label_widgets()
 
     def on_finished(self, time_spent, path):
-        icon = QIcon(Settings.get_app_path() + '/assets/folder-open-regular.png')
-        text = f"{self.status_to_text(3)} ({time_spent:.2f}с)"
+        self.path = path
+        self.status['class'] = 'fileStatusFinished'
+        self.status['text'] = f"{self.status_to_text(3)} ({time_spent:.2f}с)"
         self.frame.setObjectName('fileFrameFinished')
-        self.button['widget'] = QPushButton(icon, text)
-        self.button['widget'].setObjectName('fileStatusFinished')
-        self.button['widget'].clicked.connect(lambda: self.on_file_open_click(path))
-        self.layout.addWidget(self.button['widget'], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.status['widget'].hide()
         self.update_status_label_widgets()
 
     def on_failed(self):
@@ -104,9 +98,8 @@ class FileFrame:
         self.status['widget'].style().unpolish(self.status['widget'])
         self.status['widget'].style().polish(self.status['widget'])
 
-    @staticmethod
-    def on_file_open_click(path):
-        path = os.path.abspath(path)
+    def on_file_open_click(self):
+        path = os.path.abspath(self.path)
         if sys.platform == 'darwin':  # macOS
             subprocess.Popen(['open', '--reveal', path])
         elif sys.platform in ("win32", "cygwin", "msys"):  # Windows

@@ -68,9 +68,6 @@ QLabel#fileStatusConverting{
 	border: none;
 	color: #00bb00;
 }
-#fileStatusFinished:hover{
-	color: #008800;
-}
 QProgressBar{
 	background-color: #424242;
 	border-bottom: none;
