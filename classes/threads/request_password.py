@@ -19,4 +19,5 @@ class RequestPasswordThread(QThread):
         self.encrypted_files.append(file)
 
     def terminate_thread(self):
+        self.encrypted_files.clear()
         self.terminate()
