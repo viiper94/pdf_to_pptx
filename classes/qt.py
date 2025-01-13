@@ -25,8 +25,8 @@ class QtApp(QMainWindow):
         super().__init__()
 
         self.frames = {}
-        self.request_password_thread = {}
         self.worker_thread = None
+        self.request_password_thread = None
         self.init_thread()
 
         self.widget = QWidget()
@@ -112,7 +112,7 @@ class QtApp(QMainWindow):
                 not_encrypted_files.append(file)
             else:
                 if not self.request_password_thread:
-                    self.create_password_thread(file)
+                    self.create_password_thread()
                 self.encrypted_file_added.emit(file)
         self.process_files(not_encrypted_files)
 
@@ -153,7 +153,7 @@ class QtApp(QMainWindow):
         file.password, ok = dialog.getText(self, "Пароль для PDF", f"Введіть пароль для файлу {file.name}:", QtWidgets.QLineEdit.EchoMode.Password)
         self.process_encrypted_file(file, ok)
 
-    def create_password_thread(self, file):
+    def create_password_thread(self):
         self.request_password_thread = RequestPasswordThread()
         self.request_password_thread.show_password_dialog.connect(self.show_password_dialog)
         self.terminate_password_thread.connect(self.request_password_thread.terminate_thread)
