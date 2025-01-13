@@ -1,4 +1,3 @@
-import time
 from PySide6.QtCore import Signal, QThread
 from classes.pdf_file import File
 
