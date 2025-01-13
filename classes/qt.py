@@ -165,7 +165,12 @@ class QtApp(QMainWindow):
             if not file.encrypted:
                 self.filter_encrypted_files({file})
             else:
-                QMessageBox.critical(self, "Документ захищений паролем", "Неправильний пароль!")
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Icon.Critical)
+                msg.setText("Неправильний пароль!")
+                msg.setWindowTitle("Документ захищений паролем")
+                msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                msg.exec()
         else:
             print('Canceled')
         self.terminate_password_thread.emit()
