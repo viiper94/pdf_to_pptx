@@ -111,7 +111,9 @@ class QtApp(QMainWindow):
             if not file.encrypted or file.password:
                 not_encrypted_files.append(file)
             else:
-                self.create_password_thread(file)
+                if not self.request_password_thread:
+                    self.create_password_thread(file)
+                self.encrypted_file_added.emit(file)
         self.process_files(not_encrypted_files)
 
     def process_files(self, files):
@@ -119,6 +121,8 @@ class QtApp(QMainWindow):
         self.update_gui_on_start(files)
         if not self.thread[0].isRunning():
             self.thread[0].start()
+        if self.request_password_thread:
+            self.request_password_thread.start()
 
     def update_gui_on_start(self, files):
         for file in files:
@@ -154,8 +158,6 @@ class QtApp(QMainWindow):
         self.request_password_thread.show_password_dialog.connect(self.show_password_dialog)
         self.terminate_password_thread.connect(self.request_password_thread.terminate_thread)
         self.encrypted_file_added.connect(self.request_password_thread.added_encrypted_file)
-        self.encrypted_file_added.emit(file)
-        self.request_password_thread.start()
 
     def process_encrypted_file(self, file, ok):
         if ok:
