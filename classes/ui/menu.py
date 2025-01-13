@@ -13,7 +13,7 @@ class MenuUI(QMenu):
         super().__init__()
         self.app = app
         self.settings = Settings()
-        self.settings_changed.connect(self.app.thread[0].update_settings)
+        self.settings_changed.connect(self.app.worker_thread.update_settings)
         self.version = '0.10'
 
         # Menu bar

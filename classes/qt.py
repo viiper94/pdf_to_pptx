@@ -25,8 +25,8 @@ class QtApp(QMainWindow):
         super().__init__()
 
         self.frames = {}
-        self.thread = {}
         self.request_password_thread = {}
+        self.worker_thread = None
         self.init_thread()
 
         self.widget = QWidget()
@@ -91,14 +91,14 @@ class QtApp(QMainWindow):
         self.validate_files(files)
 
     def init_thread(self):
-        self.thread[0] = WorkerThread()
-        self.thread[0].file_process_start.connect(self.update_gui_on_file_process)
-        self.thread[0].file_process_progress.connect(self.update_gui_on_convertion)
-        self.thread[0].file_process_end.connect(self.update_gui_on_file_process_end)
-        self.thread[0].file_process_failed.connect(self.update_gui_on_file_process_failed)
-        self.thread[0].file_process_canceled.connect(self.update_gui_on_file_process_canceled)
-        self.file_added.connect(self.thread[0].update_file_list)
-        self.cancel_conversion.connect(self.thread[0].cancel_conversion)
+        self.worker_thread = WorkerThread()
+        self.worker_thread.file_process_start.connect(self.update_gui_on_file_process)
+        self.worker_thread.file_process_progress.connect(self.update_gui_on_convertion)
+        self.worker_thread.file_process_end.connect(self.update_gui_on_file_process_end)
+        self.worker_thread.file_process_failed.connect(self.update_gui_on_file_process_failed)
+        self.worker_thread.file_process_canceled.connect(self.update_gui_on_file_process_canceled)
+        self.file_added.connect(self.worker_thread.update_file_list)
+        self.cancel_conversion.connect(self.worker_thread.cancel_conversion)
 
     def validate_files(self, files):
         validated_files = Validator.validate(files)
@@ -119,8 +119,8 @@ class QtApp(QMainWindow):
     def process_files(self, files):
         self.file_added.emit(files)
         self.update_gui_on_start(files)
-        if not self.thread[0].isRunning():
-            self.thread[0].start()
+        if not self.worker_thread.isRunning():
+            self.worker_thread.start()
         if self.request_password_thread:
             self.request_password_thread.start()
 
@@ -174,6 +174,6 @@ class QtApp(QMainWindow):
         self.quit()
 
     def quit(self):
-        self.thread[0].terminate()
+        self.worker_thread.terminate()
         self.destroy()
         return sys.exit()
