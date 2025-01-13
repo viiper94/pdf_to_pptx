@@ -60,34 +60,39 @@ class FileFrame:
         self.frame.customContextMenuRequested.connect(self.context_menu.show_menu)
 
     def on_file_processing(self):
-        self.status['text'] = self.status_to_text(1)
+        self.file.status = 1
+        self.status['text'] = self.status_to_text(self.file.status)
         self.update_status_label_widgets()
 
     def on_converting(self, current):
+        self.file.status = 2
         self.progress['widget'].setValue(current)
         self.status['class'] = 'fileStatusConverting'
-        self.status['text'] = self.status_to_text(2)
+        self.status['text'] = self.status_to_text(self.file.status)
         self.frame.setObjectName('fileFrameConverting')
         self.update_status_label_widgets()
 
     def on_finished(self, time_spent, path):
+        self.file.status = 3
         self.path = path
         self.status['class'] = 'fileStatusFinished'
-        self.status['text'] = f"{self.status_to_text(3)} ({time_spent:.2f}с)"
+        self.status['text'] = f"{self.status_to_text(self.file.status)} ({time_spent:.2f}с)"
         self.frame.setObjectName('fileFrameFinished')
         self.update_status_label_widgets()
         self.context_menu.add_open_option()
         self.context_menu.remove_cancel_option()
 
     def on_failed(self):
-        self.status['text'] = self.status_to_text(4)
+        self.file.status = 4
+        self.status['text'] = self.status_to_text(self.file.status)
         self.status['class'] = "fileStatusFailed"
         self.frame.setObjectName('fileFrameFailed')
         self.update_status_label_widgets()
         self.context_menu.remove_cancel_option()
 
     def on_canceled(self):
-        self.status['text'] = self.status_to_text(5)
+        self.file.status = 5
+        self.status['text'] = self.status_to_text(self.file.status)
         self.status['class'] = "fileStatusCanceled"
         self.frame.setObjectName('fileFrameFailed')
         self.update_status_label_widgets()

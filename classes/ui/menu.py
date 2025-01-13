@@ -149,9 +149,9 @@ class MenuUI(QMenu):
         return True
 
     def clear_file_list(self):
-        for i, item in enumerate(self.app.labels):
-            if self.app.labels[i]['done']:
-                self.app.frames[i].hide()
+        for i in self.app.frames:
+            if self.app.frames[i].file.status in [3, 4, 5]:
+                self.app.frames[i].frame.hide()
         return True
 
     @staticmethod

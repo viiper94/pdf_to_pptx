@@ -4,29 +4,21 @@ import pypdfium2 as pdfium
 
 class File:
 
-    path = ''
-    path_no_ext = ''
-    name = ''
-    name_no_ext = ''
-    size = 0                   # in MB
-    slides = None
-    width = None
-    height = None
-    aspect_ratio = None
-    # index = 0
-    status = 0                  # 0 - in queue, 1 - processing, 2 - converting, 3- finished, 4 - failed, 5 -canceled
-    doc = None
-    encrypted = False
-    password = None
-    converted_path = ''
-
     def __init__(self, path, password=None):
+
         self.path = path
         self.path_no_ext = os.path.splitext(path)[0]
         self.password = password
         self.name = os.path.basename(path)
         self.name_no_ext = os.path.splitext(self.name)[0]
-        self.size = self.get_file_size()
+        self.size = self.get_file_size()                    # in MB
+        self.status = 0                                     # 0 - in queue, 1 - processing, 2 - converting, 3 - finished, 4 - failed, 5 - canceled
+        self.doc = None
+        self.slides = 0
+        self.width = 0
+        self.height = 0
+        self.aspect_ratio = 0
+        self.encrypted = False
         self.load_pdf()
 
     def load_pdf(self):
