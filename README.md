@@ -23,3 +23,12 @@ Simple python app to convert PDF presentations to PowerPoint.
    - open console and use command `path/to/exe <pdf_file> [, <pdf_file>]`
 3. Wait, while conversion finished
 4. PROFIT!
+
+
+#### macOS startup issue
+On macOS, you can get error message `App is damaged and can't be opened....`. 
+In this case you should do following: 
+1. Open Terminal
+2. Type command `xattr -c path/to/app`. It should remove quarantine flag from the app.
+3. Run the app, startup may take some time.
+4. Enjoy
