@@ -25,7 +25,7 @@ Simple python app to convert PDF presentations to PowerPoint.
 4. PROFIT!
 
 
-#### macOS startup issue
+### macOS startup issue
 On macOS, you can get error message `App is damaged and can't be opened....`. 
 In this case you should do following: 
 1. Open Terminal
