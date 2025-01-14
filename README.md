@@ -16,7 +16,7 @@ Simple python app to convert PDF presentations to PowerPoint.
 
 
 ### Usage:
-1. Download [latest package](https://github.com/viiper94/pdf_to_pptx/releases)
+1. Download [latest package](https://github.com/viiper94/pdf_to_pptx/releases/latest)
 2. You can start conversion by:
    - open app and select files or drag them into the window
    - drag and dropping .pdf file or files over app icon
