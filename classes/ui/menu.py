@@ -110,7 +110,7 @@ class MenuUI(QMenu):
         self.settings_menu.addAction(output_action_pptx)
 
         # settings - jpg output menu item
-        output_action_jpg = QAction('&JPEG', self.app, checkable=True, checked=self.settings.aspect == 'jpg')
+        output_action_jpg = QAction('&PNG', self.app, checkable=True, checked=self.settings.output == 'png')
         output_action_jpg.setActionGroup(output_group)
         output_action_jpg.triggered.connect(self.on_output_changed)
         self.settings_menu.addAction(output_action_jpg)

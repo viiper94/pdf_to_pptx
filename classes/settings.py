@@ -37,8 +37,8 @@ class Settings:
     def change_output(self, output):
         if output == '&PPTX':
             self.output = 'pptx'
-        if output == '&JPEG':
-            self.output = 'jpg'
+        if output == '&PNG':
+            self.output = 'png'
 
     @staticmethod
     def get_template_path():
