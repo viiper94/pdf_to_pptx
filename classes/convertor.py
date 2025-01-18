@@ -20,54 +20,54 @@ class Convertor:
 
     def convert(self):
         try:
-            if self.file.status == 0:
+            if self.file.status != 0:
+                return True
 
-                self.thread.file_process_start.emit(self.index)
-                self.file.status = 1
+            self.thread.file_process_start.emit(self.index)
+            self.file.status = 1
 
-                # Saving start timestamp
-                start = time.time()
+            # Saving start timestamp
+            start = time.time()
 
-                file_path = None
+            file_path = None
 
-                if self.settings.output == 'pptx':
-                    prs = self.create_new_pptx_file()
+            if self.settings.output == 'pptx':
+                prs = self.create_new_pptx_file()
 
-                    # Add slides
-                    for page_number in range(self.file.slides):
-                        # Check if the process was canceled
-                        if self.file.status == 5:
-                            self.thread.file_process_canceled.emit(self.index)
-                            return False
-                        self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
-                        page = self.file.doc[page_number]
-                        pil_image = self.page_to_pil(page)
-                        slide = self.create_new_slide(prs)
-                        self.insert_image_to_slide(slide, pil_image)
+                # Add slides
+                for page_number in range(self.file.slides):
+                    # Check if the process was canceled
+                    if self.file.status == 5:
+                        self.thread.file_process_canceled.emit(self.index)
+                        return False
+                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
+                    page = self.file.doc[page_number]
+                    pil_image = self.page_to_pil(page)
+                    slide = self.create_new_slide(prs)
+                    self.insert_image_to_slide(slide, pil_image)
 
-                    file_path = self.save_pptx(prs)
-                else:
-                    self.create_images_output_dir()
+                file_path = self.save_pptx(prs)
+            else:
+                self.create_images_output_dir()
 
-                    # Save images
-                    for page_number in range(self.file.slides):
-                        # Check if the process was canceled
-                        if self.file.status == 5:
-                            self.thread.file_process_canceled.emit(self.index)
-                            return False
-                        self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
-                        page = self.file.doc[page_number]
-                        pil = self.page_to_pil(page)
-                        file_path = f"{self.file.path_no_ext}/{page_number + 1}.png"
-                        pil.save(file_path, 'PNG')
+                # Save images
+                for page_number in range(self.file.slides):
+                    # Check if the process was canceled
+                    if self.file.status == 5:
+                        self.thread.file_process_canceled.emit(self.index)
+                        return False
+                    self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
+                    page = self.file.doc[page_number]
+                    pil = self.page_to_pil(page)
+                    file_path = f"{self.file.path_no_ext}/{page_number + 1}.png"
+                    pil.save(file_path, 'PNG')
 
-                self.file.status = 3
+            self.file.status = 3
 
-                # Saving end timestamp
-                end = time.time()
-                time_spent = end - start
+            # Saving end timestamp
+            time_spent = time.time() - start
 
-                self.thread.file_process_end.emit(self.index, time_spent, file_path)
+            self.thread.file_process_end.emit(self.index, time_spent, file_path)
 
         except Exception as e:
             print(e)

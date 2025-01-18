@@ -44,12 +44,7 @@ class QtApp(QMainWindow):
         # Menu
         self.menu = MenuUI(self)
         self.menu.init_menu()
-
-        # Load external style sheet
-        style_sheet_path = Settings.get_app_path() + "/assets/styles.qss"
-        with open(style_sheet_path, "r") as f:
-            style_sheet = f.read()
-            self.widget.setStyleSheet(style_sheet)
+        self.set_stylesheet()
 
         self.text = QtWidgets.QLabel("Перетягніть файл(и) сюди\nабо натисніть щоб обрати")
         self.text.setAlignment(Qt.AlignCenter)
@@ -89,6 +84,10 @@ class QtApp(QMainWindow):
         # Handle the dropped files
         files = [url.toLocalFile() for url in event.mimeData().urls()]
         self.validate_files(files)
+
+    def set_stylesheet(self):
+        with open(Settings.get_app_path() + '/assets/styles.qss', 'r') as file:
+            self.setStyleSheet(file.read())
 
     def init_thread(self):
         self.worker_thread = WorkerThread()

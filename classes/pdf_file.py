@@ -29,8 +29,7 @@ class File:
             self.aspect_ratio = self.width / self.height
             self.encrypted = False
         except pdfium.PdfiumError as e:
-            if 'Incorrect password' in str(e):
-                self.encrypted = True
+            self.encrypted = 'Incorrect password' in str(e)
 
     def get_file_size(self):
         size = os.stat(self.path).st_size / (1024 * 1024)
