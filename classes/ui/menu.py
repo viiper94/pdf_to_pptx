@@ -14,7 +14,7 @@ class MenuUI(QMenu):
         self.app = app
         self.settings = Settings()
         self.settings_changed.connect(self.app.worker_thread.update_settings)
-        self.version = '0.10'
+        self.version = '0.11'
 
         # Menu bar
         self.menu_bar = self.app.menuBar()
