@@ -48,7 +48,8 @@ class Convertor:
 
                 file_path = self.save_pptx(prs)
             else:
-                self.create_images_output_dir()
+                if self.file.slides > 1:
+                    self.create_images_output_dir()
 
                 # Save images
                 for page_number in range(self.file.slides):
@@ -59,7 +60,10 @@ class Convertor:
                     self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
                     page = self.file.doc[page_number]
                     pil = self.page_to_pil(page)
-                    file_path = f"{self.file.path_no_ext}/{page_number + 1}.png"
+                    if self.file.slides > 1:
+                        file_path = f"{self.file.path_no_ext}/{page_number + 1}.png"
+                    else:
+                        file_path = f"{self.file.dir}/{self.file.name_no_ext}.png"
                     pil.save(file_path, 'PNG')
 
             self.file.status = 3

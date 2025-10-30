@@ -11,6 +11,7 @@ class File:
         self.password = password
         self.name = os.path.basename(path)
         self.name_no_ext = os.path.splitext(self.name)[0]
+        self.dir = os.path.dirname(path)
         self.size = self.get_file_size()                    # in MB
         self.status = 0                                     # 0 - in queue, 1 - processing, 2 - converting, 3 - finished, 4 - failed, 5 - canceled
         self.doc = None
