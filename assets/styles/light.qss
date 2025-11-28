@@ -1,38 +1,31 @@
-QWidget{
-	background-color: #2a2a2a;
-}
 #fileFrame{
-	background-color: #333;
+	background-color: rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	margin: 0;
 	padding: 0;
 }
 #fileFrameConverting{
     border: 1px solid #e9a222;
-	background-color: #333;
+	background-color: rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	margin: 0;
 	padding: 0;
 }
 #fileFrameFinished{
-	background-color: #334733;
+	background-color: rgba(0, 187, 0, 0.4);
 	border-radius: 10px;
 	margin: 0;
 	padding: 0;
 }
 #fileFrameFailed{
-	background-color: #4A3333;
+	background-color: rgba(218, 16, 57, 0.4);
 	border-radius: 10px;
 	margin: 0;
 	padding: 0;
 }
-QLabel{
-	color: #eee;
-	border-bottom: none;
-}
 #mainLabel{
 	font-size: 15px;
-	font-family: Helvetica, Sergoe;
+	font-family: Helvetica, "Segoe UI", sans-serif;
 }
 #fileName{
 	background-color: transparent;
@@ -70,15 +63,14 @@ QLabel{
 #fileStatusFinished{
 	background-color: transparent;
 	border: none;
-	color: #00bb00;
+	color: #005500;
 }
 QProgressBar{
-	background-color: #424242;
+	background-color: rgba(0, 0, 0, 0.2);
 	border-bottom: none;
 	max-width: 170px;
 	min-width: 170px;
 	text-align: center;
-	color: #eee;
 	border-radius: 5px;
 	height: 25px;
 }

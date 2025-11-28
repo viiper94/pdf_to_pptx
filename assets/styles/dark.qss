@@ -1,0 +1,106 @@
+/* =================================================================== */
+/* General & Base Styles
+/* =================================================================== */
+QWidget {
+	background-color: #2a2a2a;
+}
+
+QLabel {
+	color: #E6E6E6;
+	background-color: transparent; /* Set transparency once for all labels */
+	border: none;
+}
+
+#mainLabel {
+	font-size: 15px;
+	font-family: Helvetica, "Segoe UI", Arial, sans-serif; /* Corrected typo and added fallbacks */
+}
+
+/* =================================================================== */
+/* File Frame Styles
+/* =================================================================== */
+
+/* --- Base properties for ALL file frames --- */
+#fileFrame,
+#fileFrameConverting,
+#fileFrameFinished,
+#fileFrameFailed {
+	border-radius: 10px;
+	margin: 0;
+	padding: 0;
+}
+
+/* --- Specific background/border colors for each frame state --- */
+#fileFrame {
+	background-color: #333;
+}
+
+#fileFrameConverting {
+    border: 1px solid #e9a222;
+	background-color: #3A3A3A;
+}
+
+#fileFrameFinished {
+	background-color: #334733;
+}
+
+#fileFrameFailed {
+	background-color: #4A3333;
+}
+
+/* =================================================================== */
+/* Labels within File Frame
+/* =================================================================== */
+#fileName {
+	font-size: 16px;
+	max-width: 270px;
+}
+
+#fileSize,
+#fileSlides {
+	color: #707070;
+}
+
+#fileStatus {
+	color: #89898b;
+}
+
+#fileStatusProcessing {
+	color: #e9a222;
+}
+
+/* --- Grouped selectors for labels with the same color --- */
+#fileStatusFailed,
+#fileStatusCanceled,
+#fileStatusConverting {
+	color: #da1039;
+}
+
+#fileStatusFinished {
+	color: #00bb00;
+}
+
+/* =================================================================== */
+/* Progress Bar
+/* =================================================================== */
+QProgressBar {
+	background-color: #424242;
+	border: none;
+	max-width: 170px;
+	min-width: 170px;
+	text-align: center;
+	color: #eee;
+	border-radius: 5px;
+	height: 25px;
+}
+
+QProgressBar::chunk {
+	background-color: #007700; /* Using a consistent hex code for green */
+	border-radius: 5px;
+}
+
+#menu{
+    margin-left: 5px;
+    background-color: #333;
+	border-radius: 4px;
+}

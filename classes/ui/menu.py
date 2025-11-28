@@ -14,13 +14,16 @@ class MenuUI(QMenu):
         self.app = app
         self.settings = Settings()
         self.settings_changed.connect(self.app.worker_thread.update_settings)
-        self.version = '0.11'
+        self.version = '0.12'
 
         # Menu bar
         self.menu_bar = self.app.menuBar()
         self.file_menu = self.menu_bar.addMenu('&Конвертор')
         self.settings_menu = self.menu_bar.addMenu('&Налаштування')
         self.info_menu = self.menu_bar.addMenu('&Інфо')
+        self.file_menu.setObjectName('menu')
+        self.settings_menu.setObjectName('menu')
+        self.info_menu.setObjectName('menu')
 
     def init_menu(self):
         # file - open menu item

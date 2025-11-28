@@ -12,6 +12,7 @@ from classes.settings import Settings
 from classes.ui.menu import MenuUI
 from classes.pdf_file import File
 from classes.ui.fileframe import FileFrame
+from classes.theme import get_system_theme
 
 
 class QtApp(QMainWindow):
@@ -41,10 +42,12 @@ class QtApp(QMainWindow):
         self.setWindowTitle('PDF to PPTX Converter')
         self.setWindowIcon(QIcon(Settings.get_app_path() + '/assets/icon.png'))
 
+        self.theme = get_system_theme()
+
         # Menu
         self.menu = MenuUI(self)
         self.menu.init_menu()
-        self.set_stylesheet()
+        self.load_stylesheet(self.theme)
 
         self.text = QtWidgets.QLabel("Перетягніть файл(и) сюди\nабо натисніть щоб обрати")
         self.text.setAlignment(Qt.AlignCenter)
@@ -60,6 +63,16 @@ class QtApp(QMainWindow):
 
         if len(args) > 1:
             self.validate_files(args)
+
+    def load_stylesheet(self, theme_name: str):
+        """Loads a stylesheet based on the theme name ('dark' or 'light')."""
+        self.current_theme = theme_name
+        path = f"{Settings.get_app_path()}/assets/styles/{theme_name}.qss"
+        try:
+            with open(path, 'r') as file:
+                self.setStyleSheet(file.read())
+        except FileNotFoundError:
+            print(f"Warning: Stylesheet not found at {path}")
 
     def on_click(self, event):
         if event.button() == Qt.LeftButton:
@@ -84,10 +97,6 @@ class QtApp(QMainWindow):
         # Handle the dropped files
         files = [url.toLocalFile() for url in event.mimeData().urls()]
         self.validate_files(files)
-
-    def set_stylesheet(self):
-        with open(Settings.get_app_path() + '/assets/styles.qss', 'r') as file:
-            self.setStyleSheet(file.read())
 
     def init_thread(self):
         self.worker_thread = WorkerThread()
