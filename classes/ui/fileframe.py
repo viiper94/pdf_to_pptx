@@ -55,7 +55,7 @@ class FileFrame:
         self.layout.addWidget(self.slides['widget'], 2, 0, alignment=Qt.AlignmentFlag.AlignLeft)
         self.layout.addWidget(self.status['widget'], 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        self.context_menu = ContextMenu(self)
+        self.context_menu = ContextMenu(self, self.app.theme)
         self.frame.setContextMenuPolicy(Qt.CustomContextMenu)
         self.frame.customContextMenuRequested.connect(self.context_menu.show_menu)
 

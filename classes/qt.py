@@ -65,8 +65,6 @@ class QtApp(QMainWindow):
             self.validate_files(args)
 
     def load_stylesheet(self, theme_name: str):
-        """Loads a stylesheet based on the theme name ('dark' or 'light')."""
-        self.current_theme = theme_name
         path = f"{Settings.get_app_path()}/assets/styles/{theme_name}.qss"
         try:
             with open(path, 'r') as file:

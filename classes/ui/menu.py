@@ -1,4 +1,4 @@
-from PySide6.QtCore import Signal, QUrl
+from PySide6.QtCore import Signal, QUrl, Qt
 from PySide6.QtGui import QAction, QActionGroup, QDesktopServices
 from PySide6.QtWidgets import QMenu
 
@@ -21,9 +21,11 @@ class MenuUI(QMenu):
         self.file_menu = self.menu_bar.addMenu('&Конвертор')
         self.settings_menu = self.menu_bar.addMenu('&Налаштування')
         self.info_menu = self.menu_bar.addMenu('&Інфо')
-        self.file_menu.setObjectName('menu')
-        self.settings_menu.setObjectName('menu')
-        self.info_menu.setObjectName('menu')
+
+        # Apply flags to take full control of menu rendering and fix background issues.
+        for menu in [self.file_menu, self.settings_menu, self.info_menu]:
+            menu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
+            menu.setAttribute(Qt.WA_TranslucentBackground)
 
     def init_menu(self):
         # file - open menu item

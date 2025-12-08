@@ -1,0 +1,36 @@
+
+/* Style for the QMenu container itself */
+QMenu {
+    background-color: #333;
+    border: 1px solid #424242; /* A subtle border helps it stand out */
+	border-radius: 2px;
+}
+
+/* Style for a normal menu item */
+QMenu::item {
+    color: #e6e6e6;
+    background-color: transparent;
+    padding: 3px 10px;
+    margin: 3px 2px;
+}
+
+/* Style for a normal menu item when it's selected or hovered */
+QMenu::item:selected {
+    background-color: #4a4a4a;
+    border-radius: 3px;
+}
+
+/* Style for the menu headers (which are disabled QActions) */
+QMenu::item:disabled {
+    color: #888; /* Use a distinct color for headers */
+    background-color: transparent; /* Ensure it can't be selected */
+    font-weight: bold;
+    padding: 0px 10px 3px 10px;
+}
+
+/* Add a separator line style */
+QMenu::separator {
+    height: 1px;
+    background-color: #424242;
+    margin: 5px 5px;
+}

@@ -1,4 +1,4 @@
-from PySide6.QtGui import QAction, QIcon
+from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QMenu
 
 from classes.settings import Settings
@@ -6,13 +6,23 @@ from classes.settings import Settings
 
 class ContextMenu(QMenu):
 
-    def __init__(self, file_frame):
+    def __init__(self, file_frame, theme):
         super().__init__()
 
         self.file_frame = file_frame
         self.open_action = None
         self.cancel_action = None
+        self.theme = theme
+        self.load_stylesheet()
         self.add_cancel_option()
+
+    def load_stylesheet(self):
+        path = f"{Settings.get_app_path()}/assets/styles/context-{self.theme}.qss"
+        try:
+            with open(path, 'r') as file:
+                self.setStyleSheet(file.read())
+        except FileNotFoundError:
+            print(f"Warning: Stylesheet not found at {path}")
 
     def show_menu(self, position):
         self.exec(self.file_frame.frame.mapToGlobal(position))
