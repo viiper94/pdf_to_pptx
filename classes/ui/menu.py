@@ -1,5 +1,5 @@
 from PySide6.QtCore import Signal, QUrl
-from PySide6.QtGui import QIcon, QAction, QActionGroup, QDesktopServices
+from PySide6.QtGui import QAction, QActionGroup, QDesktopServices
 from PySide6.QtWidgets import QMenu
 
 from classes.settings import Settings
@@ -27,20 +27,20 @@ class MenuUI(QMenu):
 
     def init_menu(self):
         # file - open menu item
-        open_action = QAction(QIcon(Settings.get_app_path() + '/assets/file-pdf-regular.svg'), '&Додати файл(и)', self.app)
+        open_action = QAction('&Додати файл(и)', self.app)
         open_action.triggered.connect(self.app.open_file)
         open_action.setShortcut('Ctrl+O')
         self.file_menu.addAction(open_action)
 
         # file - clear menu item
-        clear_action = QAction(QIcon(Settings.get_app_path() + '/assets/minus-solid.svg'), '&Очистити список', self.app)
+        clear_action = QAction('&Очистити список', self.app)
         clear_action.triggered.connect(self.clear_file_list)
         self.file_menu.addAction(clear_action)
 
         self.file_menu.addSeparator()
 
         # file - exit menu item
-        exit_action = QAction(QIcon(Settings.get_app_path() + '/assets/xmark-solid.svg'), '&Вийти', self.app)
+        exit_action = QAction('&Вийти', self.app)
         exit_action.setShortcut('Alt+F4')
         exit_action.triggered.connect(self.app.quit)
         self.file_menu.addAction(exit_action)

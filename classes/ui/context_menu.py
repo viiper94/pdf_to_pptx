@@ -22,17 +22,15 @@ class ContextMenu(QMenu):
 
     def add_cancel_option(self):
         text = f'Скасувати конвертацію файлу'
-        icon = Settings.get_app_path() + '/assets/xmark-solid.svg'
 
-        self.cancel_action = QAction(QIcon(icon), text, self.file_frame.frame)
+        self.cancel_action = QAction(text, self.file_frame.frame)
         self.cancel_action.triggered.connect(self.file_frame.cancel_conversion)
         self.addAction(self.cancel_action)
 
     def add_open_option(self):
         text = f'Показати файл в папці'
-        icon = Settings.get_app_path() + '/assets/folder-open-regular.svg'
 
-        self.open_action = QAction(QIcon(icon), text, self.file_frame.frame)
+        self.open_action = QAction(text, self.file_frame.frame)
         self.open_action.triggered.connect(self.file_frame.on_file_open_click)
         self.addAction(self.open_action)
         pass
