@@ -100,7 +100,8 @@ class Convertor:
         pil_image = bitmap.to_pil()
         return pil_image
 
-    def pil_io_bytes(self, pil_image):
+    @staticmethod
+    def pil_io_bytes(pil_image):
         image_bytes = BytesIO()
         pil_image.save(image_bytes, 'PNG')
         return image_bytes
@@ -110,7 +111,8 @@ class Convertor:
         bitmap.save(file_path)
         return file_path
 
-    def create_new_slide(self, prs):
+    @staticmethod
+    def create_new_slide(prs):
         slide = prs.slides.add_slide(prs.slide_layouts[6])
         background = slide.background
         fill = background.fill
@@ -154,7 +156,7 @@ class Convertor:
         return self.file.path_no_ext
 
     def create_tmp_dir(self):
-        # creating dir for processed pdf slides
+        # creating dir for processed PDF slides
         if not os.path.exists(self.settings.get_tmp_folder_path()):
             os.mkdir(self.settings.get_tmp_folder_path())
 
@@ -166,3 +168,4 @@ class Convertor:
             return 9
         if self.settings.aspect == '4x3':
             return 12
+        return None
