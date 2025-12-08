@@ -3,6 +3,7 @@ import time
 from io import BytesIO
 
 from pptx import Presentation
+from pptx.dml.color import RGBColor
 from pptx.util import Inches
 
 
@@ -111,6 +112,10 @@ class Convertor:
 
     def create_new_slide(self, prs):
         slide = prs.slides.add_slide(prs.slide_layouts[6])
+        background = slide.background
+        fill = background.fill
+        fill.solid()
+        fill.fore_color.rgb = RGBColor(0, 0, 0)
         return slide
 
     def insert_image_to_slide(self, slide, pil_image):
