@@ -22,6 +22,9 @@ class QtApp(QMainWindow):
     file_added = Signal(list)
     cancel_conversion = Signal(int)
 
+    width = 500
+    height = 600
+
     def __init__(self, args):
         super().__init__()
 
@@ -58,7 +61,10 @@ class QtApp(QMainWindow):
         self.setAcceptDrops(True)
         self.text.mousePressEvent = self.on_click
 
-        self.resize(500, 600)
+        self.resize(self.width, self.height)
+        self.move(
+            self.screen().availableGeometry().right() - 20 - self.width,
+            self.screen().availableGeometry().bottom() - 50 - self.height)
         self.show()
 
         if len(args) > 1:
