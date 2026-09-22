@@ -2,6 +2,7 @@
 /* General & Base Styles
 /* =================================================================== */
 QWidget {
+	font-family: "Consolas", Arial, sans-serif;
 	background-color: #2a2a2a;
 }
 
@@ -21,8 +22,8 @@ QScrollArea{
 
 #mainLabel {
 	font-size: 15px;
-	font-family: Helvetica, "Segoe UI", Arial, sans-serif; /* Corrected typo and added fallbacks */
 }
+
 
 /* =================================================================== */
 /* File Frame Styles
@@ -32,80 +33,111 @@ QScrollArea{
 #fileFrame,
 #fileFrameConverting,
 #fileFrameFinished,
-#fileFrameFailed {
-	border-radius: 10px;
+#fileFrameFailed,
+#fileFrameProcessing,
+#fileFrameCanceled {
 	margin: 0;
 	padding: 0;
 }
 
 /* --- Specific background/border colors for each frame state --- */
-#fileFrame {
-	background-color: #333;
+#fileFrame,
+#fileFrameCanceled{
+	border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-#fileFrameConverting {
-    border: 1px solid #e9a222;
-	background-color: #3A3A3A;
+#fileFrameConverting,
+#FileFrameProcessing {
+    border: 1px solid rgba(55, 138, 221, 0.35);
 }
 
 #fileFrameFinished {
-	background-color: #334733;
+    border: 1px solid rgba(99, 153, 34, 0.5);
 }
 
-#fileFrameFailed {
-	background-color: #4A3333;
+fileFrameFailed {
+    border: 1px solid rgba(226, 75, 74, 0.4);
 }
+
 
 /* =================================================================== */
 /* Labels within File Frame
 /* =================================================================== */
 #fileName {
-	font-size: 16px;
-	max-width: 270px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #f0f0f0;
 }
 
-#fileSize,
-#fileSlides {
-	color: #707070;
+#fileSize{
+	font-size: 12px;
+	color: #8a8a8e;
 }
 
-#fileStatus {
-	color: #89898b;
+#fileStatus,
+#fileStatusCanceled {
+	color: #8a8a8e;
 }
 
-#fileStatusProcessing {
-	color: #e9a222;
-}
-
-/* --- Grouped selectors for labels with the same color --- */
-#fileStatusFailed,
-#fileStatusCanceled,
+#fileStatusProcessing,
 #fileStatusConverting {
-	color: #da1039;
+	color: #378add;
+}
+
+#fileStatusFailed {
+	color: #e24b4a;
 }
 
 #fileStatusFinished {
-	color: #00bb00;
+	color: #639922;
 }
+
+
+/* =================================================================== */
+/* Badge
+/* =================================================================== */
+#fileBadge,
+#fileBadgeCanceled {
+	background-color: rgba(255, 255, 255, 0.05);
+	border: none;
+}
+
+#fileBadgeProcessing,
+#fileBadgeConverting{
+    background: rgba(55, 138, 221, 0.08);
+}
+
+#fileBadgeFinished {
+    background: rgba(99, 153, 34, 0.08);
+}
+
+#fileBadgeFailed {
+    background: rgba(226, 75, 74, 0.08);
+}
+
 
 /* =================================================================== */
 /* Progress Bar
 /* =================================================================== */
-QProgressBar {
-	background-color: #424242;
+QProgressBar,
+QProgressBar#fileProgressCanceled::chunk {
+	background-color: rgba(255, 255, 255, 0.08);
 	border: none;
-	max-width: 170px;
-	min-width: 170px;
-	text-align: center;
-	color: #eee;
-	border-radius: 5px;
-	height: 25px;
 }
 
-QProgressBar::chunk {
-	background-color: #007700; /* Using a consistent hex code for green */
-	border-radius: 5px;
+QProgressBar#fileProgressProcessing::chunk,
+QProgressBar#fileProgressConverting::chunk{
+    background: #378add;
 }
+
+QProgressBar#fileProgressFinished::chunk {
+    background: #639922;
+}
+
+QProgressBar#fileProgressFailed::chunk {
+    background: #e24b4a;
+}
+
 
 /* =================================================================== */
 /* Menu Styles
@@ -115,7 +147,7 @@ QProgressBar::chunk {
 QMenuBar {
     background-color: #2a2a2a; /* Match the main window background */
     border-bottom: 1px solid #424242; /* Adds a subtle separator line */
-    padding: 3px;
+    padding-left: 3px;
 }
 
 /* Style for the top-level menu names */
@@ -128,15 +160,18 @@ QMenuBar::item {
 /* Style for a top-level menu name when it's hovered or clicked */
 QMenuBar::item:selected {
     background-color: #333;
-    border-radius: 4px;
+    border-radius: 0px;
+    border: 1px solid #424242;
+    border-bottom: none;
+    border-top: none;
 }
 
 /* Style for the QMenu container itself */
 QMenu {
     background-color: #333;
     border: 1px solid #424242; /* A subtle border helps it stand out */
-	border-radius: 5px;
-    margin-top: 3px;
+	border-radius: 0px;
+    margin-top: 0px;
     padding-top: 3px;
 }
 
@@ -144,14 +179,14 @@ QMenu {
 QMenu::item {
     color: #e6e6e6;
     background-color: transparent;
-    padding: 3px 10px;
-    margin: 3px 2px;
+    padding: 5px 10px;
+    margin: 0px 0px;
 }
 
 /* Style for a normal menu item when it's selected or hovered */
 QMenu::item:selected {
     background-color: #4a4a4a;
-    border-radius: 4px;
+    border-radius: 0px;
 }
 
 /* Style for the menu headers (which are disabled QActions) */
@@ -159,12 +194,21 @@ QMenu::item:disabled {
     color: #888; /* Use a distinct color for headers */
     background-color: transparent; /* Ensure it can't be selected */
     font-weight: bold;
-    padding: 0px 10px 3px 10px;
+    padding: 5px 10px 3px 10px;
 }
 
 /* Add a separator line style */
 QMenu::separator {
     height: 1px;
     background-color: #424242;
-    margin: 5px 5px;
+    margin: 0;
+}
+
+/* =================================================================== */
+/* ToolButton Styles
+/* =================================================================== */
+QToolButton:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0px;
 }
