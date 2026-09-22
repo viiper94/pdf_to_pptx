@@ -3,6 +3,8 @@
 /* =================================================================== */
 QWidget {
 	background-color: #f0f0f0;
+#widgetDrag{
+    background-color: rgba(31, 111, 184, 0.06);
 }
 
 QLabel {

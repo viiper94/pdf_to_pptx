@@ -93,11 +93,22 @@ class QtApp(QMainWindow):
             self.validate_files(files)
 
     def dragEnterEvent(self, event):
+        self.widget.setObjectName('widgetDrag')
+        self.widget.style().unpolish(self.widget)
+        self.widget.style().polish(self.widget)
         # Accept the event if it has a file or files
         if event.mimeData().hasUrls():
             event.acceptProposedAction()
 
+    def dragLeaveEvent(self, event):
+        self.widget.setObjectName('')
+        self.widget.style().unpolish(self.widget)
+        self.widget.style().polish(self.widget)
+
     def dropEvent(self, event):
+        self.widget.setObjectName('')
+        self.widget.style().unpolish(self.widget)
+        self.widget.style().polish(self.widget)
         # Handle the dropped files
         files = [url.toLocalFile() for url in event.mimeData().urls()]
         self.validate_files(files)

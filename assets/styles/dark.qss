@@ -5,6 +5,10 @@ QWidget {
 	background-color: #2a2a2a;
 }
 
+#widgetDrag{
+    background-color: #3A3A3A;
+}
+
 QLabel {
 	color: #E6E6E6;
 	background-color: transparent; /* Set transparency once for all labels */
