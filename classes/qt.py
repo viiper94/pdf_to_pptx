@@ -52,14 +52,14 @@ class QtApp(QMainWindow):
         self.menu.init_menu()
         self.load_stylesheet(self.theme)
 
-        self.text = QtWidgets.QLabel("Перетягніть файл(и) сюди\nабо натисніть щоб обрати")
+        self.text = QtWidgets.QLabel("Перетягніть файл(и) сюди\nщоб почати конвертацію")
         self.text.setAlignment(Qt.AlignCenter)
         self.text.setObjectName('mainLabel')
         self.layout.addWidget(self.text)
         self.layout.setStretchFactor(self.text, 1)
 
         self.setAcceptDrops(True)
-        self.text.mousePressEvent = self.on_click
+        # self.text.mousePressEvent = self.on_click
 
         self.resize(self.width, self.height)
         self.move(
@@ -78,9 +78,9 @@ class QtApp(QMainWindow):
         except FileNotFoundError:
             print(f"Warning: Stylesheet not found at {path}")
 
-    def on_click(self, event):
-        if event.button() == Qt.LeftButton:
-            self.open_file()
+    # def on_click(self, event):
+    #     if event.button() == Qt.LeftButton:
+    #         self.open_file()
 
     def open_file(self):
         fd = QFileDialog(self)
