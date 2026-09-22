@@ -113,7 +113,7 @@ class QtApp(QMainWindow):
         self.cancel_conversion.connect(self.worker_thread.cancel_conversion)
 
     def validate_files(self, files):
-        validated_files = Validator.validate(files)
+        validated_files = Validator.validate(files, settings=self.worker_thread.settings)
         if validated_files:
             self.filter_encrypted_files(validated_files)
 

@@ -5,11 +5,11 @@ from classes.pdf_file import File
 class Validator:
 
     @staticmethod
-    def validate(files):
+    def validate(files, settings=None):
         validated_files = list()
         for file in files:
             if Validator.is_pdf_file(file):
-                validated_files.append(File(file))
+                validated_files.append(File(file, settings=settings))
         return validated_files
 
     @staticmethod

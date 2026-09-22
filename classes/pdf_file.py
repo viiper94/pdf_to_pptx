@@ -4,7 +4,7 @@ import pypdfium2 as pdfium
 
 class File:
 
-    def __init__(self, path, password=None):
+    def __init__(self, path, password=None, settings=None):
 
         self.path = path
         self.path_no_ext = os.path.splitext(path)[0]
@@ -20,6 +20,9 @@ class File:
         self.height = 0
         self.aspect_ratio = 0
         self.encrypted = False
+        self.target_format = settings.output if settings else 'pptx'
+        self.target_resolution = settings.resolution if settings else None
+        self.target_aspect = settings.aspect if settings else 'auto'
         self.load_pdf()
 
     def load_pdf(self):

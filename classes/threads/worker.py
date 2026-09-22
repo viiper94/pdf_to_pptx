@@ -24,8 +24,7 @@ class WorkerThread(QThread):
                 convertor = Convertor(
                     index=index,
                     file=item,
-                    thread=self,
-                    settings=self.settings)
+                    thread=self)
                 convertor.convert()
             index += 1
 

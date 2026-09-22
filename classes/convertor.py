@@ -5,15 +5,15 @@ from io import BytesIO
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.util import Inches
+from classes.settings import Settings
 
 
 class Convertor:
 
-    def __init__(self, index, file, thread, settings):
+    def __init__(self, index, file, thread):
         self.thread = thread
         self.file = file
         self.index = index
-        self.settings = settings
 
         self.slide_width = Inches(16)
         self.slide_height = Inches(self.get_height_multiplier(width=file.width, height=file.height))
@@ -32,7 +32,7 @@ class Convertor:
 
             file_path = None
 
-            if self.settings.output == 'pptx':
+            if self.file.target_format == 'pptx':
                 prs = self.create_new_pptx_file()
 
                 # Add slides
@@ -82,15 +82,15 @@ class Convertor:
         return True
 
     def create_new_pptx_file(self):
-        prs = Presentation(self.settings.get_template_path())
+        prs = Presentation(Settings.get_template_path())
         prs.slide_width = self.slide_width
         prs.slide_height = self.slide_height
         return prs
 
     def get_slide_scale(self, page_width):
         # Calculate the scale factor for the desired resolution
-        if self.settings.resolution:
-            scale_x = self.settings.resolution / page_width
+        if self.file.target_resolution:
+            scale_x = self.file.target_resolution / page_width
         else:
             scale_x = 1
         return scale_x
@@ -157,15 +157,15 @@ class Convertor:
 
     def create_tmp_dir(self):
         # creating dir for processed PDF slides
-        if not os.path.exists(self.settings.get_tmp_folder_path()):
-            os.mkdir(self.settings.get_tmp_folder_path())
+        if not os.path.exists(Settings.get_tmp_folder_path()):
+            os.mkdir(Settings.get_tmp_folder_path())
 
     def get_height_multiplier(self, width, height):
-        if self.settings.aspect == 'auto':
+        if self.file.target_aspect == 'auto':
             aspect = width / height
             return 16 / aspect
-        if self.settings.aspect == '16x9':
+        if self.file.target_aspect == '16x9':
             return 9
-        if self.settings.aspect == '4x3':
+        if self.file.target_aspect == '4x3':
             return 12
         return None
