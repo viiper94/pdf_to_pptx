@@ -127,9 +127,17 @@ class QtApp(QMainWindow):
         self.cancel_conversion.connect(self.worker_thread.cancel_conversion)
 
     def validate_files(self, files):
-        validated_files = Validator.validate(files, settings=self.worker_thread.settings)
+        validated_files, failed_files = Validator.validate(files, settings=self.worker_thread.settings)
         if validated_files:
             self.filter_encrypted_files(validated_files)
+            msg = QMessageBox(self)
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.setText("Файли не є PDF або пошкоджені:")
+            msg.setInformativeText("\n".join(failed_files))
+            msg.setWindowIcon(QIcon(Settings.get_app_path() + '/assets/icon.png'))
+            msg.setWindowTitle("Помилка")
+            msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+            msg.exec()
 
     def filter_encrypted_files(self, files):
         not_encrypted_files = list()

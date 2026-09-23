@@ -7,10 +7,13 @@ class Validator:
     @staticmethod
     def validate(files, settings=None):
         validated_files = list()
+        failed_files = list()
         for file in files:
             if Validator.is_pdf_file(file):
                 validated_files.append(File(file, settings=settings))
-        return validated_files
+            else:
+                failed_files.append(file)
+        return validated_files, failed_files
 
     @staticmethod
     def is_pdf_file(file_path):

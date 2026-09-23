@@ -230,3 +230,30 @@ QPlainTextEdit {
     color: #1a1a1e;
     border: none
 }
+
+
+/* =================================================================== */
+/* Dialog Styles
+/* =================================================================== */
+QMessageBox {
+    background-color: #fafafa;
+    color: #1a1a1e;
+    border: none;
+}
+
+QMessageBox QPushButton {
+    background-color: #fafafa;
+    color: #1a1a1e;
+    border: 1px solid #cccccc;
+    padding: 6px 16px;
+    min-width: 80px;
+    border-radius: 0px;
+}
+
+QMessageBox QPushButton:hover {
+    background-color: #e6e6e8;
+}
+
+QMessageBox QPushButton:pressed {
+    background-color: #cccccc;
+}
