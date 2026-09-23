@@ -73,6 +73,8 @@ class QtApp(QMainWindow):
         if len(args) > 1:
             self.validate_files(args)
 
+        self.logger.log("Application started.")
+
     def load_stylesheet(self, theme_name: str):
         path = f"{Settings.get_app_path()}/assets/styles/{theme_name}.qss"
         try:
@@ -130,6 +132,9 @@ class QtApp(QMainWindow):
         validated_files, failed_files = Validator.validate(files, settings=self.worker_thread.settings)
         if validated_files:
             self.filter_encrypted_files(validated_files)
+            self.logger.log(f"{len(validated_files)} validated files 🗸")
+        if failed_files:
+            self.logger.log(f"{len(failed_files)} failed files ✖")
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Icon.Warning)
             msg.setText("Файли не є PDF або пошкоджені:")
@@ -155,8 +160,10 @@ class QtApp(QMainWindow):
         self.update_gui_on_start(files)
         if not self.worker_thread.isRunning():
             self.worker_thread.start()
+            self.logger.log("Worker thread started.")
         if self.request_password_thread:
             self.request_password_thread.start()
+            self.logger.log("Request password thread started.")
 
     def update_gui_on_start(self, files):
         for file in files:

@@ -19,13 +19,20 @@ class Convertor:
         self.slide_height = Inches(self.get_height_multiplier(width=file.width, height=file.height))
         self.slide_aspect = self.slide_width / self.slide_height
 
+        self.thread.app.logger.log(f"Initialized Convertor for file: {self.file.name}, "
+                                    f"target format: {self.file.target_format}, "
+                                    f"target resolution: {self.file.target_resolution}, "
+                                    f"target aspect: {self.file.target_aspect}")
+
     def convert(self):
         try:
             if self.file.status != 0:
+                self.thread.app.logger.log(f"File {self.file.name} is not in queue. Skipping.")
                 return True
 
             self.thread.file_process_start.emit(self.index)
             self.file.status = 1
+            self.thread.app.logger.log(f"Started processing file: {self.file.name}")
 
             # Saving start timestamp
             start = time.time()
@@ -40,14 +47,17 @@ class Convertor:
                     # Check if the process was canceled
                     if self.file.status == 5:
                         self.thread.file_process_canceled.emit(self.index)
+                        self.thread.app.logger.log(f"Processing of file {self.file.name} was canceled.")
                         return False
                     self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
+                    self.thread.app.logger.log(f"Processing page {page_number + 1}/{self.file.slides} of file: {self.file.name}")
                     page = self.file.doc[page_number]
                     pil_image = self.page_to_pil(page)
                     slide = self.create_new_slide(prs)
                     self.insert_image_to_slide(slide, pil_image)
 
                 file_path = self.save_pptx(prs)
+                self.thread.app.logger.log(f"Saved PPTX file: {file_path}")
             else:
                 if self.file.slides > 1:
                     self.create_images_output_dir()
@@ -57,8 +67,10 @@ class Convertor:
                     # Check if the process was canceled
                     if self.file.status == 5:
                         self.thread.file_process_canceled.emit(self.index)
+                        self.thread.app.logger.log(f"Processing of file {self.file.name} was canceled.")
                         return False
                     self.thread.file_process_progress.emit(self.index, page_number + 1, self.file.slides)
+                    self.thread.app.logger.log(f"Processing page {page_number + 1}/{self.file.slides} of file: {self.file.name}")
                     page = self.file.doc[page_number]
                     pil = self.page_to_pil(page)
                     if self.file.slides > 1:
@@ -67,7 +79,11 @@ class Convertor:
                         file_path = f"{self.file.dir}/{self.file.name_no_ext}.png"
                     pil.save(file_path, 'PNG')
 
+                self.thread.app.logger.log(f"Saved images for file: {self.file.name} in directory: {self.file.path_no_ext}")
+
             self.file.status = 3
+            self.thread.app.logger.log(f"Finished processing file: {self.file.name}, output path: {file_path}")
+            self.thread.app.logger.log("" + "-" * 50)
 
             # Saving end timestamp
             time_spent = time.time() - start
@@ -77,7 +93,9 @@ class Convertor:
         except Exception as e:
             print(e)
             self.file.status = 4
-            self.thread.file_process_failed.emit(self.index, "Виникла помилка =(")
+            self.thread.file_process_failed.emit(self.index)
+            self.thread.app.logger.log(f"Failed processing file: {self.file.name}, error: {str(e)}")
+            self.thread.app.logger.log("" + "-" * 50)
 
         return True
 

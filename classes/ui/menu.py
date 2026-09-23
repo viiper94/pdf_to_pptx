@@ -142,6 +142,7 @@ class MenuUI(QMenu):
         if action.isChecked():
             self.settings.change_resolution(action.text())
             self.settings_changed.emit(self.settings)
+            self.app.logger.log(f"Resolution changed to {self.settings.resolution}")
         return True
 
     def on_aspect_changed(self):
@@ -149,6 +150,7 @@ class MenuUI(QMenu):
         if action.isChecked():
             self.settings.change_aspect(action.text())
             self.settings_changed.emit(self.settings)
+            self.app.logger.log(f"Aspect ratio changed to {self.settings.aspect}")
         return True
 
     def on_output_changed(self):
@@ -156,6 +158,7 @@ class MenuUI(QMenu):
         if action.isChecked():
             self.settings.change_output(action.text())
             self.settings_changed.emit(self.settings)
+            self.app.logger.log(f"Output format changed to {self.settings.output}")
         return True
 
     def clear_file_list(self):

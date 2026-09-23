@@ -195,6 +195,7 @@ class FileFrame:
 
     def cancel_conversion(self):
         self.app.cancel_conversion.emit(self.index)
+        self.app.logger.log(f"Conversion canceled for file: {self.file.name} (Index: {self.index})")
 
     @staticmethod
     def _tabler_icon(name: OutlineIcon, color: str, size: int = 18) -> QIcon:
