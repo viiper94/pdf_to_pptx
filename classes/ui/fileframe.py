@@ -3,17 +3,15 @@ import subprocess
 import sys
 
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon, QFontMetrics
+from PySide6.QtGui import QIcon, QPixmap, QFontMetrics
+from PySide6.QtSvg import QSvgRenderer
+from PySide6.QtCore import QByteArray
+from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget, QProgressBar, QGridLayout, QHBoxLayout, QLabel, QToolButton
-from pytablericons import TablerIcons, OutlineIcon
+from classes.settings import Settings
 
 
 class FileFrame:
-
-    FORMAT_ICON = {
-        'pptx': OutlineIcon.PRESENTATION,
-        'png': OutlineIcon.PHOTO,
-    }
 
     def __init__(self, app, index, file):
         self.app = app
@@ -40,8 +38,7 @@ class FileFrame:
         self.cancel_button = {'text': '', 'class': 'fileCancelAction'}
 
         self.badge['widget'] = QLabel(self.frame)
-        self.badge['icon'] = self.FORMAT_ICON.get(self.file.target_format, OutlineIcon.PRESENTATION)
-        self.badge['widget'].setPixmap(self._tabler_icon(self.badge['icon'], 'GRAY', 18).pixmap(18, 18))
+        self.badge['widget'].setPixmap(self._colored_icon(Settings.get_app_path() + f"/assets/{self.file.target_format}.svg", 'GRAY').pixmap(18, 18))
         self.badge['widget'].setObjectName(self.badge['class'])
         self.badge['widget'].setFixedSize(34, 58)
         self.badge['widget'].setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -72,7 +69,7 @@ class FileFrame:
         self.progress['widget'].setFixedHeight(3)
 
         self.button['widget'] = QToolButton(self.frame)
-        self.button['widget'].setIcon(self._tabler_icon(OutlineIcon.FOLDER, '#8a8a8e', 16))
+        self.button['widget'].setIcon(self._colored_icon(Settings.get_app_path() + f"/assets/folder.svg", 'GRAY'))
         self.button['widget'].setObjectName(self.button['class'])
         self.button['widget'].setAutoRaise(True)
         self.button['widget'].setIconSize(QSize(16, 16))
@@ -80,7 +77,7 @@ class FileFrame:
         self.button['widget'].clicked.connect(self.on_file_open_click)
 
         self.cancel_button['widget'] = QToolButton(self.frame)
-        self.cancel_button['widget'].setIcon(self._tabler_icon(OutlineIcon.BAN, '#8a8a8e', 16))
+        self.cancel_button['widget'].setIcon(self._colored_icon(Settings.get_app_path() + f"/assets/cancel.svg", 'GRAY'))
         self.cancel_button['widget'].setObjectName(self.cancel_button['class'])
         self.cancel_button['widget'].setAutoRaise(True)
         self.cancel_button['widget'].setIconSize(QSize(16, 16))
@@ -101,8 +98,7 @@ class FileFrame:
     def on_file_processing(self):
         self.file.status = 1
         self.badge['class'] = 'fileBadgeProcessing'
-        self.badge['icon'] = self.FORMAT_ICON.get(self.file.target_format, OutlineIcon.PRESENTATION)
-        self.badge['widget'].setPixmap(self._tabler_icon(self.badge['icon'], '#378add', 18).pixmap(18, 18))
+        self.badge['widget'].setPixmap(self._colored_icon(Settings.get_app_path() + f"/assets/{self.file.target_format}.svg", '#378add').pixmap(18, 18))
         self.progress['class'] = 'fileProgressProcessing'
         self.status['class'] = 'fileStatusProcessing'
         self.status['text'] = f"{self.status_to_text(self.file.status)} · {self.progress['total']} слайдів"
@@ -112,8 +108,6 @@ class FileFrame:
     def on_converting(self, current):
         self.file.status = 2
         self.badge['class'] = 'fileBadgeConverting'
-        self.badge['icon'] = self.FORMAT_ICON.get(self.file.target_format, OutlineIcon.PRESENTATION)
-        self.badge['widget'].setPixmap(self._tabler_icon(self.badge['icon'], '#378add', 18).pixmap(18, 18))
         self.progress['class'] = 'fileProgressConverting'
         self.progress['current'] = current
         self.progress['widget'].setValue(self.progress['current'])
@@ -126,8 +120,7 @@ class FileFrame:
         self.file.status = 3
         self.path = path
         self.badge['class'] = 'fileBadgeFinished'
-        self.badge['icon'] = self.FORMAT_ICON.get(self.file.target_format, OutlineIcon.PRESENTATION)
-        self.badge['widget'].setPixmap(self._tabler_icon(self.badge['icon'], '#639922', 18).pixmap(18, 18))
+        self.badge['widget'].setPixmap(self._colored_icon(Settings.get_app_path() + f"/assets/{self.file.target_format}.svg", '#639922').pixmap(18, 18))
         self.progress['class'] = 'fileProgressFinished'
         self.status['class'] = 'fileStatusFinished'
         self.status['text'] = f"{self.status_to_text(self.file.status)} · {self.progress['current']}/{self.progress['total']}"
@@ -139,8 +132,7 @@ class FileFrame:
     def on_failed(self):
         self.file.status = 4
         self.badge['class'] = 'fileBadgeFailed'
-        self.badge['icon'] = self.FORMAT_ICON.get(self.file.target_format, OutlineIcon.PRESENTATION)
-        self.badge['widget'].setPixmap(self._tabler_icon(self.badge['icon'], '#e24b4a', 18).pixmap(18, 18))
+        self.badge['widget'].setPixmap(self._colored_icon(Settings.get_app_path() + f"/assets/{self.file.target_format}.svg", '#e24b4a').pixmap(18, 18))
         self.progress['class'] = 'fileProgressFailed'
         self.status['text'] = f"{self.status_to_text(self.file.status)} · {self.progress['current']}/{self.progress['total']}"
         self.status['class'] = "fileStatusFailed"
@@ -151,8 +143,7 @@ class FileFrame:
         self.file.status = 5
         self.status['text'] = f"{self.status_to_text(self.file.status)} · {self.progress['current']}/{self.progress['total']}"
         self.badge['class'] = 'fileBadgeCanceled'
-        self.badge['icon'] = self.FORMAT_ICON.get(self.file.target_format, OutlineIcon.PRESENTATION)
-        self.badge['widget'].setPixmap(self._tabler_icon(self.badge['icon'], '#8a8a8e', 18).pixmap(18, 18))
+        self.badge['widget'].setPixmap(self._colored_icon(Settings.get_app_path() + f"/assets/{self.file.target_format}.svg", '#8a8a8e').pixmap(18, 18))
         self.status['class'] = "fileStatusCanceled"
         self.progress['class'] = 'fileProgressCanceled'
         self.frame.setObjectName('fileFrameCanceled')
@@ -198,7 +189,13 @@ class FileFrame:
         self.app.logger.log(f"Conversion canceled for file: {self.file.name} (Index: {self.index})")
 
     @staticmethod
-    def _tabler_icon(name: OutlineIcon, color: str, size: int = 18) -> QIcon:
-        """Cached so the same (icon, color) pair is only rasterized once."""
-        img = TablerIcons.load(name, size=size, color=color, stroke_width=2.0)
-        return QIcon(img.toqpixmap())
+    def _colored_icon(path: str, color: str, size: int = 18) -> QIcon:
+        with open(path, "r", encoding="utf-8") as f:
+            svg_data = f.read().replace('stroke="currentColor"', f'stroke="{color}"')
+        renderer = QSvgRenderer(QByteArray(svg_data.encode()))
+        pixmap = QPixmap(size, size)
+        pixmap.fill(Qt.transparent)
+        painter = QPainter(pixmap)
+        renderer.render(painter)
+        painter.end()
+        return QIcon(pixmap)
