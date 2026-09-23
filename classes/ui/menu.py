@@ -121,6 +121,11 @@ class MenuUI(QMenu):
         self.settings_menu.addAction(output_action_jpg)
 
         # info - repo menu item
+        logger_action = QAction('&Логи', self.app)
+        logger_action.triggered.connect(self.open_logger)
+        self.info_menu.addAction(logger_action)
+
+        # logger - repo menu item
         repo_action = QAction('&GitHub', self.app)
         repo_action.triggered.connect(self.open_github)
         self.info_menu.addAction(repo_action)
@@ -163,3 +168,6 @@ class MenuUI(QMenu):
     def open_github():
         QDesktopServices.openUrl(QUrl("https://github.com/viiper94/pdf_to_pptx"))
         return True
+
+    def open_logger(self):
+        self.app.logger.show()

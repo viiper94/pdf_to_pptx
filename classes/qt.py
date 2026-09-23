@@ -13,6 +13,7 @@ from classes.ui.menu import MenuUI
 from classes.pdf_file import File
 from classes.ui.fileframe import FileFrame
 from classes.theme import get_system_theme
+from classes.logger import LoggerWindow
 
 
 class QtApp(QMainWindow):
@@ -32,6 +33,8 @@ class QtApp(QMainWindow):
         self.worker_thread = None
         self.request_password_thread = None
         self.init_thread()
+
+        self.logger = LoggerWindow(self)
 
         self.widget = QWidget()
         self.layout = QVBoxLayout(self.widget)
@@ -114,7 +117,7 @@ class QtApp(QMainWindow):
         self.validate_files(files)
 
     def init_thread(self):
-        self.worker_thread = WorkerThread()
+        self.worker_thread = WorkerThread(self)
         self.worker_thread.file_process_start.connect(self.update_gui_on_file_process)
         self.worker_thread.file_process_progress.connect(self.update_gui_on_convertion)
         self.worker_thread.file_process_end.connect(self.update_gui_on_file_process_end)

@@ -11,8 +11,9 @@ class WorkerThread(QThread):
     file_process_failed = Signal(int, str)
     file_process_canceled = Signal(int)
 
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
+        self.app = app
         self.files = {}
         self.settings = Settings()
 
