@@ -1,17 +1,18 @@
 # PDF to PPTX Converter
 
-Simple python app to convert PDF presentations to PowerPoint.  
+Simple python app to convert PDF presentations to PowerPoint.
 
-![Screenshot 2025-01-19 130047 (1)](https://github.com/user-attachments/assets/9142eb57-fd67-4905-90cd-50a6c907899e)
+![Screenshot 2026-09-23 141932](https://github.com/user-attachments/assets/5efe959e-03bb-4bb5-bff6-1ff893c03872)
 
 ### Key Features:
 - **Free and Open-Source**: No accounts or subscriptions required.
-- **Portable and Easy to Use**: A single executable file with no installation or dependencies needed.
-- **Fast Offline Conversion**: No need to upload files to the cloud.
+- **Fast Offline Conversion**: No need to upload files to any servers.
+- **Secure**: All processing is done locally on your machine.
 - **Flexible Output Options**: Converts PDFs to PowerPoint (.pptx) or PNG images.
 - **Preserves Fonts and Styles**: Output slides are saved as images, ensuring fonts and styles remain unchanged.
 - **Batch Processing**: Handles multiple files in a queue.
 - **Supports Various Page Ratios**: Compatible with different aspect ratios.
+- **Portable and Easy to Use**: A single executable file with no installation or dependencies needed.
 - **Improved Performance**: Uncompressed PDFs are automatically compressed, enhancing output efficiency and performance.
 - **Dual Functionality**: Use as a drag-and-drop app or a command-line tool.
 - **Cross-Platform**: Works on both Windows and macOS (arm64, x86_64).
