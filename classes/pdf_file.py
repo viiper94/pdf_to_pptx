@@ -7,7 +7,7 @@ class File:
     def __init__(self, path, password=None, settings=None):
 
         self.path = path
-        self.path_no_ext = os.path.splitext(path)[0]
+        self.path_no_ext = os.path.splitext(path)[0].strip()
         self.password = password
         self.name = os.path.basename(path)
         self.name_no_ext = os.path.splitext(self.name)[0]
