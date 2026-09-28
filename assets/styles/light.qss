@@ -2,7 +2,7 @@
 /* General & Base Styles (Light Theme)
 /* =================================================================== */
 QWidget {
-	font-family: "Consolas", Arial, sans-serif;
+	font-family: "Consolas", "Menlo", sans-serif;
 	background-color: #eeeef0;
 }
 
