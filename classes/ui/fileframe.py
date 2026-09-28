@@ -157,7 +157,7 @@ class FileFrame:
             0: f"⋯ {i18n.t('In queue')}",
             1: f"⇢ {i18n.t('Processing file...')}",
             2: f"↻ {i18n.t('Converting slides')}",
-            3: f"🗸 {i18n.t('Done')}",
+            3: f"✓ {i18n.t('Done')}",
             4: f"⚠ {i18n.t('An error occurred')}",
             5: f"✖ {i18n.t('Canceled')}"
         }.get(status, f"⋯ {i18n.t('In queue')}")
