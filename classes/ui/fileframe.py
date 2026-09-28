@@ -8,7 +8,9 @@ from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtCore import QByteArray
 from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget, QProgressBar, QGridLayout, QHBoxLayout, QLabel, QToolButton
+
 from classes.settings import Settings
+from classes.i18n import i18n
 
 
 class FileFrame:
@@ -32,7 +34,7 @@ class FileFrame:
         self.badge = {'text': '', 'class': 'fileBadge'}
         self.file_name = {'text': '', 'class': 'fileName'}
         self.size = {'text': '', 'class': 'fileSize'}
-        self.status = {'text': 'В черзі', 'class': 'fileStatus'}
+        self.status = {'text': i18n.t('In queue'), 'class': 'fileStatus'}
         self.progress = {'current': 0, 'total': 0, 'class': 'fileProgress'}
         self.button = {'text': '', 'class': 'fileAction'}
         self.cancel_button = {'text': '', 'class': 'fileCancelAction'}
@@ -101,7 +103,7 @@ class FileFrame:
         self.badge['widget'].setPixmap(self._colored_icon(Settings.get_app_path() + f"/assets/{self.file.target_format}.svg", '#378add').pixmap(18, 18))
         self.progress['class'] = 'fileProgressProcessing'
         self.status['class'] = 'fileStatusProcessing'
-        self.status['text'] = f"{self.status_to_text(self.file.status)} · {self.progress['total']} слайдів"
+        self.status['text'] = f"{self.status_to_text(self.file.status)} · {self.progress['total']} {i18n.t('slides')}"
         self.frame.setObjectName('fileFrameProcessing')
         self.update_widgets_styles()
 
@@ -152,13 +154,13 @@ class FileFrame:
     @staticmethod
     def status_to_text(status):
         return {
-            0: '⋯ В черзі',
-            1: '⇢ Триває обробка файлу...',
-            2: '↻ Конвертуємо слайди',
-            3: '🗸 Завершено',
-            4: '⚠ Виникла помилка',
-            5: '✖ Конвертація скасована'
-        }.get(status, '⋯ В черзі')
+            0: f"⋯ {i18n.t('In queue')}",
+            1: f"⇢ {i18n.t('Processing file...')}",
+            2: f"↻ {i18n.t('Converting slides')}",
+            3: f"🗸 {i18n.t('Done')}",
+            4: f"⚠ {i18n.t('An error occurred')}",
+            5: f"✖ {i18n.t('Canceled')}"
+        }.get(status, f"⋯ {i18n.t('In queue')}")
 
     def update_widgets_styles(self):
         self.status['widget'].setText(self.status['text'])
@@ -199,3 +201,11 @@ class FileFrame:
         renderer.render(painter)
         painter.end()
         return QIcon(pixmap)
+
+    def translate_frame(self):
+        match self.file.status:
+            case 1: self.on_file_processing()
+            case 2: self.on_converting(self.progress['current'])
+            case 3: self.on_finished(time_spent=0, path=self.path)
+            case 4: self.on_failed()
+            case 5: self.on_canceled()

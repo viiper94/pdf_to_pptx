@@ -12,6 +12,8 @@ class Settings:
     aspect = 'auto'
     output = 'pptx'
 
+    language = 'en'
+
     def __init__(self):
         super().__init__()
 
@@ -39,6 +41,12 @@ class Settings:
         if output == '&PNG':
             self.output = 'png'
 
+    def change_language(self, language):
+        if language == '&Українська':
+            self.language = 'ua'
+        if language == '&English':
+            self.language = 'en'
+
     @staticmethod
     def get_template_path():
         prefix = Settings.path_prefix.replace('classes', '')
@@ -53,3 +61,7 @@ class Settings:
     def get_app_path():
         prefix = Settings.path_prefix.replace('classes', '')
         return prefix
+
+    @staticmethod
+    def get_language():
+        return Settings.language

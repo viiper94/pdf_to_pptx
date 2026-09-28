@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QPlainTextEdit
+from classes.i18n import i18n
 
 
 class LoggerWindow(QMainWindow):
@@ -7,7 +8,7 @@ class LoggerWindow(QMainWindow):
         super().__init__(parent)
 
         self.resize(450, 400)
-        self.setWindowTitle("Convertion Logs")
+        self.setWindowTitle(i18n.t("Logs"))
 
         self.text_edit = QPlainTextEdit()
         self.text_edit.setReadOnly(True)

@@ -14,6 +14,7 @@ from classes.pdf_file import File
 from classes.ui.fileframe import FileFrame
 from classes.theme import get_system_theme
 from classes.logger import LoggerWindow
+from classes.i18n import i18n
 
 
 class QtApp(QMainWindow):
@@ -45,7 +46,7 @@ class QtApp(QMainWindow):
         self.scroll.setWidget(self.widget)
         self.setCentralWidget(self.scroll)
 
-        self.setWindowTitle('PDF to PPTX Converter')
+        self.setWindowTitle(i18n.t('PDF to PPTX Converter'))
         self.setWindowIcon(QIcon(Settings.get_app_path() + '/assets/icon.png'))
 
         self.theme = get_system_theme()
@@ -55,7 +56,7 @@ class QtApp(QMainWindow):
         self.menu.init_menu()
         self.load_stylesheet(self.theme)
 
-        self.text = QtWidgets.QLabel("Перетягніть файл(и) сюди\nщоб почати конвертацію")
+        self.text = QtWidgets.QLabel(i18n.t("Drag files here \n to start conversion"))
         self.text.setAlignment(Qt.AlignCenter)
         self.text.setObjectName('mainLabel')
         self.layout.addWidget(self.text)
@@ -81,7 +82,7 @@ class QtApp(QMainWindow):
             with open(path, 'r') as file:
                 self.setStyleSheet(file.read())
         except FileNotFoundError:
-            print(f"Warning: Stylesheet not found at {path}")
+            self.logger.log(f"Stylesheet not found!")
 
     # def on_click(self, event):
     #     if event.button() == Qt.LeftButton:
@@ -90,8 +91,8 @@ class QtApp(QMainWindow):
     def open_file(self):
         fd = QFileDialog(self)
         fd.setFileMode(fd.FileMode.ExistingFiles)
-        fd.setWindowTitle('Оберіть PDF файл(и)')
-        fd.setNameFilter("PDF файл(и) (*.pdf)")
+        fd.setWindowTitle(i18n.t('Choose PDF file(s)'))
+        fd.setNameFilter(i18n.t("PDF file(s) (*.pdf)"))
         fd.setViewMode(QFileDialog.ViewMode.List)
         if fd.exec():
             files = fd.selectedFiles()
@@ -137,10 +138,10 @@ class QtApp(QMainWindow):
             self.logger.log(f"{len(failed_files)} failed files ✖")
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Icon.Warning)
-            msg.setText("Файли не є PDF або пошкоджені:")
+            msg.setText(i18n.t("Not a PDF or corrupted file:"))
             msg.setInformativeText("\n".join(failed_files))
             msg.setWindowIcon(QIcon(Settings.get_app_path() + '/assets/icon.png'))
-            msg.setWindowTitle("Помилка")
+            msg.setWindowTitle(i18n.t("Error"))
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.exec()
 
@@ -190,7 +191,7 @@ class QtApp(QMainWindow):
     def show_password_dialog(self, file):
         dialog = QtWidgets.QInputDialog(self)
         dialog.setInputMode(QtWidgets.QInputDialog.InputMode.TextInput)
-        file.password, ok = dialog.getText(self, "Пароль для PDF", f"Введіть пароль для файлу {file.name}:", QtWidgets.QLineEdit.EchoMode.Password)
+        file.password, ok = dialog.getText(self, i18n.t("Password for PDF"), f"{i18n.t('Enter password for file')} {file.name}:", QtWidgets.QLineEdit.EchoMode.Password)
         self.process_encrypted_file(file, ok)
 
     def create_password_thread(self):
@@ -203,17 +204,36 @@ class QtApp(QMainWindow):
         if ok:
             file.load_pdf()
             if not file.encrypted:
+                self.logger.log(f"Password correct for file {file.name} ✓")
                 self.filter_encrypted_files({file})
             else:
-                msg = QMessageBox()
+                self.logger.log(f"Incorrect password for file {file.name} ✖")
+                msg = QMessageBox(self)
                 msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setText("Неправильний пароль!")
-                msg.setWindowTitle("Документ захищений паролем")
+                msg.setText(i18n.t("Wrong password!"))
+                msg.setWindowTitle(i18n.t("Document is encrypted"))
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok)
                 msg.exec()
         else:
-            print('Canceled')
+            self.logger.log(f"Password request canceled for file {file.name}")
         self.terminate_password_thread.emit()
+
+    def update_language(self, lang):
+        i18n.set_language(lang)
+        self.translate_ui()
+
+    def translate_ui(self):
+        # QtApp
+        self.setWindowTitle(i18n.t('PDF to PPTX Converter'))
+        self.text.setText(i18n.t("Drag files here \n to start conversion"))
+        # MenuUi
+        self.menu.destroy_menu()
+        self.menu.init_menu()
+        # FileFrames
+        for i, frame in self.frames.items():
+            frame.translate_frame()
+        # Logger
+        self.logger.setWindowTitle(i18n.t("Logs"))
 
     def closeEvent(self, event):
         self.quit()

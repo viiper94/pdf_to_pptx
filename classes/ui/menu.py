@@ -3,52 +3,61 @@ from PySide6.QtGui import QAction, QActionGroup, QDesktopServices
 from PySide6.QtWidgets import QMenu
 
 from classes.settings import Settings
+from classes.i18n import i18n
 
 
 class MenuUI(QMenu):
 
     settings_changed = Signal(Settings)
+    language_changed = Signal(str)
 
     def __init__(self, app):
         super().__init__()
         self.app = app
         self.settings = Settings()
         self.settings_changed.connect(self.app.worker_thread.update_settings)
+        self.language_changed.connect(self.app.update_language)
         self.version = '0.13'
 
         # Menu bar
         self.menu_bar = self.app.menuBar()
-        self.file_menu = self.menu_bar.addMenu('&Конвертор')
-        self.settings_menu = self.menu_bar.addMenu('&Налаштування')
-        self.info_menu = self.menu_bar.addMenu('&Інфо')
+        self.file_menu = None
+        self.settings_menu = None
+        self.lang_menu = None
+        self.info_menu = None
+
+    def init_menu(self):
+        self.file_menu = self.menu_bar.addMenu(i18n.t('&Convertor'))
+        self.settings_menu = self.menu_bar.addMenu(i18n.t('&Settings'))
+        self.lang_menu = self.menu_bar.addMenu(i18n.t('&Lang'))
+        self.info_menu = self.menu_bar.addMenu(i18n.t('&Info'))
 
         # Apply flags to take full control of menu rendering and fix background issues.
-        for menu in [self.file_menu, self.settings_menu, self.info_menu]:
+        for menu in [self.file_menu, self.settings_menu, self.info_menu, self.lang_menu]:
             menu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint | Qt.NoDropShadowWindowHint)
             menu.setAttribute(Qt.WA_TranslucentBackground)
 
-    def init_menu(self):
         # file - open menu item
-        open_action = QAction('&Додати файл(и)', self.app)
+        open_action = QAction(i18n.t('&Add file(s)'), self.app)
         open_action.triggered.connect(self.app.open_file)
         open_action.setShortcut('Ctrl+O')
         self.file_menu.addAction(open_action)
 
         # file - clear menu item
-        clear_action = QAction('&Очистити список', self.app)
+        clear_action = QAction(i18n.t('&Clear List'), self.app)
         clear_action.triggered.connect(self.clear_file_list)
         self.file_menu.addAction(clear_action)
 
         self.file_menu.addSeparator()
 
         # file - exit menu item
-        exit_action = QAction('&Вийти', self.app)
+        exit_action = QAction(i18n.t('&Exit'), self.app)
         exit_action.setShortcut('Alt+F4')
         exit_action.triggered.connect(self.app.quit)
         self.file_menu.addAction(exit_action)
 
         # settings - dpi text menu item
-        res_action = QAction('&Роздільна здатність', self.app, disabled=True)
+        res_action = QAction(i18n.t('&Resolution'), self.app, disabled=True)
         self.settings_menu.addAction(res_action)
 
         resolution_group = QActionGroup(self.app)
@@ -71,7 +80,7 @@ class MenuUI(QMenu):
         self.settings_menu.addAction(uhd_action)
 
         # settings - original resolution menu item
-        original_action = QAction('&Оригінальний розмір', self.app, checkable=True, checked=self.settings.resolution is None)
+        original_action = QAction(i18n.t('&Original'), self.app, checkable=True, checked=self.settings.resolution is None)
         original_action.setActionGroup(resolution_group)
         original_action.triggered.connect(self.on_resolution_changed)
         self.settings_menu.addAction(original_action)
@@ -79,12 +88,12 @@ class MenuUI(QMenu):
         self.settings_menu.addSeparator()
 
         # settings - aspect text menu item
-        aspect_action = QAction('&Співвідношення сторін', self.app, disabled=True)
+        aspect_action = QAction(i18n.t('&Aspect Ratio'), self.app, disabled=True)
         self.settings_menu.addAction(aspect_action)
 
         aspect_group = QActionGroup(self.app)
         # settings - auto aspect menu item
-        aspect_action_auto = QAction('&Автоматично', self.app, checkable=True, checked=self.settings.aspect == 'auto')
+        aspect_action_auto = QAction(i18n.t('&Auto'), self.app, checkable=True, checked=self.settings.aspect == 'auto')
         aspect_action_auto.setActionGroup(aspect_group)
         aspect_action_auto.triggered.connect(self.on_aspect_changed)
         self.settings_menu.addAction(aspect_action_auto)
@@ -104,7 +113,7 @@ class MenuUI(QMenu):
         self.settings_menu.addSeparator()
 
         # settings - output text menu item
-        output_action = QAction('&Конвертувати в', self.app, disabled=True)
+        output_action = QAction(i18n.t('&Format'), self.app, disabled=True)
         self.settings_menu.addAction(output_action)
 
         output_group = QActionGroup(self.app)
@@ -120,8 +129,23 @@ class MenuUI(QMenu):
         output_action_jpg.triggered.connect(self.on_output_changed)
         self.settings_menu.addAction(output_action_jpg)
 
+        # lang menu
+        lang_group = QActionGroup(self.app)
+
+        # lang - ua menu item
+        ua_lang_action = QAction('&Українська', self.app, checkable=True, checked=self.settings.language == 'ua')
+        ua_lang_action.triggered.connect(self.on_language_changed)
+        ua_lang_action.setActionGroup(lang_group)
+        self.lang_menu.addAction(ua_lang_action)
+
+        # lang - en menu item
+        en_lang_action = QAction('&English', self.app, checkable=True, checked=self.settings.language == 'en')
+        en_lang_action.triggered.connect(self.on_language_changed)
+        en_lang_action.setActionGroup(lang_group)
+        self.lang_menu.addAction(en_lang_action)
+
         # info - repo menu item
-        logger_action = QAction('&Логи', self.app)
+        logger_action = QAction(i18n.t('&Logs'), self.app)
         logger_action.triggered.connect(self.open_logger)
         self.info_menu.addAction(logger_action)
 
@@ -161,6 +185,14 @@ class MenuUI(QMenu):
             self.app.logger.log(f"Output format changed to {self.settings.output}")
         return True
 
+    def on_language_changed(self):
+        action = self.sender()
+        if action.isChecked():
+            self.settings.change_language(action.text())
+            self.language_changed.emit(self.settings.language)
+            self.app.logger.log(f"Language changed to {self.settings.language}")
+        return True
+
     def clear_file_list(self):
         for i in self.app.frames:
             if self.app.frames[i].file.status in [3, 4, 5]:
@@ -174,3 +206,8 @@ class MenuUI(QMenu):
 
     def open_logger(self):
         self.app.logger.show()
+
+    def destroy_menu(self):
+        for menu in [self.file_menu, self.settings_menu, self.info_menu, self.lang_menu]:
+            menu.clear()
+        self.menu_bar.clear()
