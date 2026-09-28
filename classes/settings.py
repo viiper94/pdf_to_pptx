@@ -7,6 +7,7 @@ class Settings:
 
     tmp_path = 'tmp'
     template_path = 'assets/default.pptx'
+    i18n_path = 'i18n'
 
     resolution = 1920
     aspect = 'auto'
@@ -61,6 +62,11 @@ class Settings:
     def get_app_path():
         prefix = Settings.path_prefix.replace('classes', '')
         return prefix
+
+    @staticmethod
+    def get_i18n_path():
+        prefix = Settings.path_prefix.replace('classes', '')
+        return os.path.join(prefix, Settings.i18n_path)
 
     @staticmethod
     def get_language():
